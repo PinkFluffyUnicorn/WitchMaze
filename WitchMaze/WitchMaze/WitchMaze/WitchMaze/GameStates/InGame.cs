@@ -38,7 +38,7 @@ namespace WitchMaze.GameStates
             return EGameState.InGame;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Graphics.GraphicsDevice graphicsDevice)
         {
             throw new NotImplementedException();
         }
