@@ -28,7 +28,9 @@ namespace WitchMaze.MapStuff.Blocks
 
         public override void draw(GameTime gameTime, GraphicsDeviceManager graphics)
         {
+            Console.WriteLine("kjhgdfghjkhgf, Wiesooooo niiiiicht :((( ");
             graphics.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
+            Console.WriteLine("lalalala ich sollte zeichnen");
         }
     }
 }

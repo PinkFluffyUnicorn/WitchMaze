@@ -51,7 +51,10 @@ namespace WitchMaze.GameStates
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
         {
+            
             inGameState.Draw(gameTime, graphics);
+
+            
         }
 
         /// <summary>
