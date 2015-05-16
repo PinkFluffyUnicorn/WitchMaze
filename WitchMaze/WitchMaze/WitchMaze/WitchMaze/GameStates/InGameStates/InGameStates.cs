@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WitchMaze
+namespace WitchMaze.GameStates
 {
-    public interface GameState
+    public interface InGameState
     {
         void initialize();
 
@@ -14,17 +14,18 @@ namespace WitchMaze
 
         void unloadContent();
 
-        EGameState update(GameTime gameTime);
+        EInGameState update(GameTime gameTime);
 
         void Draw(GameTime gameTime, GraphicsDeviceManager graphics);
     }
 
-    public enum EGameState
+    public enum EInGameState
     {
-        MainMenu,
-        InGame,
-        Credits,
-        Options,
-        Exit,
+        CharacterSelection,
+        SingleTime,
+        MultiTime,
+        MultiNotTime, //dunno good name
+        ExitInGame,
+        ExitGame,
     }
 }
