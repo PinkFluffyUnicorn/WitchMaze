@@ -15,33 +15,42 @@ using Microsoft.Xna.Framework.Media;
 namespace WitchMaze.GameStates
 {
     class MainMenu : GameState
-    {   
-        
+    {
+        ContentManager Content;
         GraphicsDeviceManager graphics;
-        
+        GraphicsDevice GraphicsDevice;
+                
         int count = 0;
         bool isPressed = false;
 
         KeyboardState keyboard = Keyboard.GetState();
 
+        Vector2 startPosition = new Vector2(400,50);
+        
         Texture2D startGameIsNotPressed;
         SpriteBatch StartGameIsNotPressed;
         
         Texture2D startGameIsPressed;
         SpriteBatch StartGameIsPressed;
-        
+
+        Vector2 optionsPosition = new Vector2(400,200);
+
         Texture2D optionsIsNotPressed;
         SpriteBatch OptionsIsNotPressed;
         
         Texture2D optionsIsPressed;
         SpriteBatch OptionsIsPressed;
-        
+
+        Vector2 creditsPosition = new Vector2(400,300);
+
         Texture2D creditsIsNotPressed;
         SpriteBatch CreditsIsNotPressed;
         
         Texture2D creditsIsPressed;
         SpriteBatch CreditsIsPressed;
-        
+
+        Vector2 exitPosition = new Vector2(400,500);
+
         Texture2D exitIsNotPressed;
         SpriteBatch ExitIsNotPressed;
         
@@ -51,15 +60,14 @@ namespace WitchMaze.GameStates
       
         public void initialize()
         {
-    
-        
+            
         }
 
         public void loadContent()
         {
             OptionsIsNotPressed = new SpriteBatch(GraphicsDevice);
             optionsIsNotPressed = Content.Load<Texture2D>("options");
-
+            
             OptionsIsPressed = new SpriteBatch(GraphicsDevice);
             optionsIsPressed = Content.Load<Texture2D>("optionsIsPressed");
 
@@ -70,7 +78,7 @@ namespace WitchMaze.GameStates
             exitIsPressed = Content.Load<Texture2D>("exitIsPressed");
 
             CreditsIsNotPressed = new SpriteBatch(GraphicsDevice);
-            creditsIsNotPressed = Microsoft.Xna.Framework.Content.Load<Texture2D>("credits");
+            creditsIsNotPressed = Content.Load<Texture2D>("credits");
 
             CreditsIsPressed = new SpriteBatch(GraphicsDevice);
             creditsIsPressed = Content.Load<Texture2D>("creditsIsPressed");
@@ -87,6 +95,7 @@ namespace WitchMaze.GameStates
 
         public void unloadContent()
         {
+            
         }
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
@@ -104,11 +113,13 @@ namespace WitchMaze.GameStates
                 isPressed = true;
             }
             //switch the GameState
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 3 == 0)
+            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 0)
                 return EGameState.InGame;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 3 == 1)
+            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 1)
                 return EGameState.Options;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 3 == 2)
+            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 2)
+                return EGameState.Credits;
+            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 3)
                 return EGameState.Exit;
             else
                 return EGameState.MainMenu;
@@ -118,7 +129,58 @@ namespace WitchMaze.GameStates
         {
             graphics.GraphicsDevice.Clear(Color.Black);
 
-
+            // Draw the sprite.
+            //spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            //spriteBatch.Draw(myTexture, spritePosition, Color.White);
+            //spriteBatch.End(); 
+            if (count % 4 == 0)
+            {
+                StartGameIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                StartGameIsPressed.Draw(startGameIsPressed, startPosition, Color.White);
+                StartGameIsPressed.End();
+            }
+            else
+            {
+                StartGameIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                StartGameIsNotPressed.Draw(startGameIsNotPressed, startPosition, Color.White);
+                StartGameIsNotPressed.End();
+            }
+            if (count % 4 == 1)
+            {
+                OptionsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                OptionsIsPressed.Draw(optionsIsPressed, optionsPosition, Color.White);
+                OptionsIsPressed.End();
+            }
+            else
+            {
+                OptionsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                OptionsIsNotPressed.Draw(optionsIsNotPressed, optionsPosition, Color.White);
+                OptionsIsNotPressed.End();
+            }
+            if (count % 4 == 2)
+            {
+                CreditsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                CreditsIsPressed.Draw(creditsIsPressed, creditsPosition, Color.White);
+                CreditsIsPressed.End();
+            }
+            else
+            {
+                CreditsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                CreditsIsNotPressed.Draw(creditsIsNotPressed, creditsPosition, Color.White);
+                CreditsIsNotPressed.End();
+            }
+            if (count % 4 == 3)
+            {
+                ExitIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                ExitIsPressed.Draw(exitIsPressed, exitPosition, Color.White);
+                ExitIsPressed.End();
+            }
+            else
+            {
+                ExitIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                ExitIsNotPressed.Draw(exitIsNotPressed, exitPosition, Color.White);
+                ExitIsNotPressed.End();
+            }
             
             if (!keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
                 isPressed = false;
