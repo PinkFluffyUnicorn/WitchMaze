@@ -17,7 +17,6 @@ namespace WitchMaze.GameStates
     class MainMenu : GameState
     {
         ContentManager Content;
-        //GraphicsDeviceManager graphics;
         GraphicsDevice GraphicsDevice;
                 
         int count = 0;
@@ -73,7 +72,7 @@ namespace WitchMaze.GameStates
 
             ExitIsNotPressed = new SpriteBatch(GraphicsDevice);
             exitIsNotPressed = Content.Load<Texture2D>("exit");
-
+            
             ExitIsPressed = new SpriteBatch(GraphicsDevice);
             exitIsPressed = Content.Load<Texture2D>("exitIsPressed");
 
@@ -184,6 +183,8 @@ namespace WitchMaze.GameStates
             
             if (!keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
                 isPressed = false;
+
+           
         }
     }
 }
