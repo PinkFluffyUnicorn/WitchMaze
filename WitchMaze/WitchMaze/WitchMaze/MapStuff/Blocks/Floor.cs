@@ -26,9 +26,9 @@ namespace WitchMaze.MapStuff.Blocks
         }
 
 
-        public override void draw(GameTime gameTime, GraphicsDevice graphicsDevice)
+        public override void draw(GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
+            graphics.GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
         }
     }
 }
