@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WitchMaze.MapStuff;
+using WitchMaze.Items;
 
 namespace WitchMaze.GameStates.InGameStates
 {
     class SinlgeTime : InGameState
     {
+        MapCreator mapCreator;
+        MapStuff.Map map;
         public void initialize()
         {
+            mapCreator = new MapCreator();
+            //map = new Map();
             throw new NotImplementedException();
         }
 

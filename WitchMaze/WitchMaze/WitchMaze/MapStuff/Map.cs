@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using WitchMaze.Map.Blocks;
+using WitchMaze.MapStuff.Blocks;
 
-namespace WitchMaze.Map
+namespace WitchMaze.MapStuff
 {
     class Map
     {
@@ -20,6 +20,7 @@ namespace WitchMaze.Map
         {
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
         }
+
 
 
         public void draw(GameTime gameTime, GraphicsDevice graphicsDevice)

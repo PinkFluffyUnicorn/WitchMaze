@@ -8,10 +8,10 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using WitchMaze.Map.Blocks;
+using WitchMaze.MapStuff.Blocks;
 
 
-namespace WitchMaze.Map
+namespace WitchMaze.MapStuff
 {
     class MapCreator
     {
@@ -23,10 +23,22 @@ namespace WitchMaze.Map
         public MapCreator()
         {
             mapType = new int[Settings.mapSizeX, Settings.mapSizeZ];
+            map = new Map();
         }
 
+        public void initialize()
+        {
+            //some funny Random stuff which fills the array with useful numbers 
+            for (int i = 0; i < Settings.mapSizeX; i++)
+            {
+                for (int j = 0; i < Settings.mapSizeZ; j++)
+                {
+                    mapType[i, j] = 0;
+                }
+            }
+        }
 
-        public Map generateMap()
+        public Map mapGenerator()
         {
             for (int i = 0; i < Settings.mapSizeX; i++)
             {

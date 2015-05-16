@@ -7,7 +7,7 @@ namespace WitchMaze.GameStates
 {
     class InGame : GameState
     {
-        EInGameState currentInGameState;
+        EInGameState currentInGameState = EInGameState.SingleTime; //change back to character selection
         EInGameState prevInGameState;
 
         InGameState inGameState;
@@ -29,7 +29,10 @@ namespace WitchMaze.GameStates
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            prevInGameState = currentInGameState;
             currentInGameState = inGameState.update(gameTime);
+            if(currentInGameState != prevInGameState)
+
 
             if (currentInGameState == EInGameState.ExitInGame)
                 return EGameState.MainMenu;
@@ -43,6 +46,35 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Handles the GameStateChange, pretty basic
+        /// </summary>
+        public void handleGameState()
+        {
+            Console.Out.Write("GameState change! \n");
+
+            switch (currentInGameState)
+            {
+                case EInGameState.CharacterSelection:
+                    inGameState = new InGameStates.CharacterSelection();
+                    break;
+                case EInGameState.SingleTime:
+                    inGameState = new InGameStates.SinlgeTime();
+                    break;
+                case EInGameState.MultiTime:
+                    throw new NotImplementedException();
+                case EInGameState.ExitInGame:
+                    throw new NotImplementedException();
+                case EInGameState.ExitGame:
+                    throw new NotImplementedException();
+            }
+
+            inGameState.loadContent();
+
+            inGameState.initialize();
+
+            prevInGameState = currentInGameState;
+        }
 
     }
 }
