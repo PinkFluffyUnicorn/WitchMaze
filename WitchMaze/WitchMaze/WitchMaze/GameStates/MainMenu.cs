@@ -17,7 +17,7 @@ namespace WitchMaze.GameStates
     class MainMenu : GameState
     {
         ContentManager Content;
-        GraphicsDeviceManager graphics;
+        //GraphicsDeviceManager graphics;
         GraphicsDevice GraphicsDevice;
                 
         int count = 0;
