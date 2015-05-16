@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using WitchMaze.MapStuff;
 using WitchMaze.Items;
 
@@ -34,9 +41,9 @@ namespace WitchMaze.GameStates.InGameStates
             return EInGameState.SingleTime;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Graphics.GraphicsDevice graphicsDevice)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
         {
-            map.draw(gameTime, graphicsDevice);
+            map.draw(gameTime, graphics);
         }
     }
 }
