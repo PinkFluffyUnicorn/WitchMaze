@@ -25,6 +25,8 @@ namespace WitchMaze
         EGameState currentGameState;
         EGameState prevGameState;
 
+        GraphicsDevice graphicsDevice;
+
 
         public Game1()
         {
@@ -101,7 +103,7 @@ namespace WitchMaze
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            gameState.Draw(gameTime, graphics);
+            gameState.Draw(gameTime, graphicsDevice);
 
             base.Draw(gameTime);
         }

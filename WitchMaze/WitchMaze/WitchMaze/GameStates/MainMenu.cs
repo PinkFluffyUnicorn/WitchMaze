@@ -65,7 +65,7 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
         {
 
            /* graphics.GraphicsDevice.Clear(Color.CornflowerBlue);

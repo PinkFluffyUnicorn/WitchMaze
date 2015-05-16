@@ -5,8 +5,10 @@ using System.Text;
 
 namespace WitchMaze.GameStates
 {
-    class Options : GameState
+    class Credits : GameState
     {
+        public Credits() { }
+
         public void initialize()
         {
             throw new NotImplementedException();
@@ -27,7 +29,7 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Graphics.GraphicsDevice graphicsDevice)
         {
             throw new NotImplementedException();
         }

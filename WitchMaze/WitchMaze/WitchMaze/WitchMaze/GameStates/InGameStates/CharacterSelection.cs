@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WitchMaze.GameStates
+namespace WitchMaze.GameStates.InGameStates
 {
-    class Options : GameState
+    class CharacterSelection : InGameState
     {
         public void initialize()
         {
@@ -22,12 +22,12 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
-        public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public EInGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             throw new NotImplementedException();
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.Graphics.GraphicsDevice graphicsDevice)
         {
             throw new NotImplementedException();
         }
