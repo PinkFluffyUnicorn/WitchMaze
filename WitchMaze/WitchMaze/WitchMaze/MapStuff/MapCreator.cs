@@ -38,11 +38,11 @@ namespace WitchMaze.MapStuff
             }
         }
 
-        public Map mapGenerator()
+        public Map generateMap()
         {
             for (int i = 0; i < Settings.mapSizeX; i++)
             {
-                for (int j = 0; i < Settings.mapSizeZ; j++)
+                for (int j = 0; j < Settings.mapSizeZ; j++)
                 {
                     mapType[i, j] = 0;
                     if (mapType[i, j] == 0)

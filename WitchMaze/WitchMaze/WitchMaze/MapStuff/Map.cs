@@ -28,7 +28,7 @@ namespace WitchMaze.MapStuff
         
             for (int i = 0; i < Settings.mapSizeX; i++)
             {
-                for ( int j = 0; i < Settings.mapSizeZ; j++)
+                for ( int j = 0; j < Settings.mapSizeZ; j++)
                 {
                     map[i,j].draw(gameTime, graphicsDevice);
                 }

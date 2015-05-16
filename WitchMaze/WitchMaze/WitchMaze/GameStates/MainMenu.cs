@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -125,7 +126,7 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDevice graphicsDevice)
         {
             graphics.GraphicsDevice.Clear(Color.Black);
 

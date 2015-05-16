@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace WitchMaze.GameStates
         EInGameState currentInGameState = EInGameState.SingleTime; //change back to character selection
         EInGameState prevInGameState;
 
-        InGameState inGameState;
+        InGameState inGameState = new WitchMaze.GameStates.InGameStates.SingleTime();
         
         public void initialize()
         {
@@ -41,9 +42,9 @@ namespace WitchMaze.GameStates
             return EGameState.InGame;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, Microsoft.Xna.Framework.GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDevice graphicsDevice)
         {
-            throw new NotImplementedException();
+            inGameState.Draw(gameTime, graphicsDevice);
         }
 
         /// <summary>
@@ -59,7 +60,7 @@ namespace WitchMaze.GameStates
                     inGameState = new InGameStates.CharacterSelection();
                     break;
                 case EInGameState.SingleTime:
-                    inGameState = new InGameStates.SinlgeTime();
+                    inGameState = new InGameStates.SingleTime();
                     break;
                 case EInGameState.MultiTime:
                     throw new NotImplementedException();

@@ -112,7 +112,7 @@
     <Compile Include="GameStates\InGame.cs" />
     <Compile Include="GameStates\InGameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
-    <Compile Include="GameStates\InGameStates\SinlgeTime.cs" />
+    <Compile Include="GameStates\InGameStates\SingleTime.cs" />
     <Compile Include="GameStates\MainMenu.cs" />
     <Compile Include="GameStates\Options.cs" />
     <Compile Include="Items\Item.cs" />
