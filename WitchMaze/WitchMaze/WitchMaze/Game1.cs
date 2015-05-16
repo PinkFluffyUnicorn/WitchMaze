@@ -28,7 +28,7 @@ namespace WitchMaze
 
         public Game1()
         {
-            currentGameState = EGameState.MainMenu; //tells GameState where so start
+            currentGameState = EGameState.InGame; //tells GameState where so start //change back to main menu
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
