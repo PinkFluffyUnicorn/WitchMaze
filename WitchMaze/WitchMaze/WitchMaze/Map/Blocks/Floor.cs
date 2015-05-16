@@ -15,20 +15,20 @@ namespace WitchMaze.Map.Blocks
     {
         public VertexPositionColor[] plane;
 
-
-
-        public override void initialize()
+        public Floor(Vector3 position, Color color)
         {
             plane = new VertexPositionColor[4];
-            plane[0] = new VertexPositionColor(base.position + new Vector3(Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), Settings.floorColor);
-            plane[1] = new VertexPositionColor(base.position + new Vector3(Settings.blockSizeX / 2, 0f, -1 * Settings.blockSizeZ / 2f), Settings.floorColor);
-            plane[2] = new VertexPositionColor(base.position + new Vector3(-1 * Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), Settings.floorColor);
-            plane[3] = new VertexPositionColor(base.position + new Vector3(-1 * Settings.blockSizeX / 2f, 0f, -1 * Settings.blockSizeZ / 2f), Settings.floorColor);
+            plane[0] = new VertexPositionColor(position + new Vector3(Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), color);
+            plane[1] = new VertexPositionColor(position + new Vector3(Settings.blockSizeX / 2, 0f, -1 * Settings.blockSizeZ / 2f), color);
+            plane[2] = new VertexPositionColor(position + new Vector3(-1 * Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), color);
+            plane[3] = new VertexPositionColor(position + new Vector3(-1 * Settings.blockSizeX / 2f, 0f, -1 * Settings.blockSizeZ / 2f), color);
+
         }
 
-        public override void draw()
+
+        public override void draw(GameTime gameTime, GraphicsDevice graphicsDevice)
         {
-            GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
+            graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
         }
     }
 }

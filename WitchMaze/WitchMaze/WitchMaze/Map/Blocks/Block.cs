@@ -27,10 +27,10 @@ namespace WitchMaze.Map.Blocks
         }
 
 
-        public abstract void draw();
+        public abstract void draw(GameTime gameTime, GraphicsDevice graphicsDevice);
 
 
-        public abstract void initialize();
+       
 
 
 

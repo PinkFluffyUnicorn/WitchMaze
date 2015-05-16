@@ -16,15 +16,12 @@ namespace WitchMaze.Map.Blocks
     {
 
         
-        public override void draw()
+        public override void draw(GameTime gameTime, GraphicsDevice graphicsDevice)
         {
 
         }
 
-        public override void initialize()
-        {
-
-        }
+       
 
     }
 }
