@@ -14,11 +14,13 @@ namespace WitchMaze.Map
 {
     class Map
     {
-        public Block[,] map; 
+        public Block[,] map;
+        public int[,] mapType;
 
-        public Map()
+        public Map(int[,] _mapType)
         {
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
+            mapType = _mapType;
         }
 
         public void initialize()
@@ -28,7 +30,13 @@ namespace WitchMaze.Map
             {
                 for (int j = 0; i < Settings.mapSizeZ; j++)
                 {
-                    map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
+                    if(mapType[i,j] == 0 )
+                        map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
+                    if (mapType[i, j] == 1)
+                        map[i, j] = new Wall();
+                    else
+                        map[i, j] = new BlackHole();
+
                 }
             }
 
