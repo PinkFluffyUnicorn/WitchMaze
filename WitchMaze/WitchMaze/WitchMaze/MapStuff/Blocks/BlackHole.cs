@@ -15,7 +15,7 @@ namespace WitchMaze.MapStuff.Blocks
     class BlackHole : Block
     {
 
-        public override void draw(GameTime gameTime, GraphicsDevice graphicsDevice)
+        public override void draw(GameTime gameTime, GraphicsDeviceManager graphicsDevice)
         {
             
         }
