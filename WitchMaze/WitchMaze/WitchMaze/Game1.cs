@@ -25,10 +25,14 @@ namespace WitchMaze
         EGameState currentGameState;
         EGameState prevGameState;
 
+        GraphicsDevice graphicsDevice;
+
 
         public Game1()
         {
             currentGameState = EGameState.InGame; //tells GameState where so start //change back to main menu
+            handleGameState();
+            //graphicsDevice = GraphicsDevice;
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
@@ -101,7 +105,7 @@ namespace WitchMaze
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            gameState.Draw(gameTime, graphics);
+            gameState.Draw(gameTime, graphicsDevice);
 
 
             base.Draw(gameTime);
