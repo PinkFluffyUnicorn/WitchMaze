@@ -7,5 +7,6 @@ namespace WitchMaze.Map
 {
     class MapCreator
     {
+
     }
 }

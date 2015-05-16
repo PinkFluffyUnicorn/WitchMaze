@@ -7,7 +7,7 @@ namespace WitchMaze.Map
 {
     class Map
     {
-        public int[,] test = new int[2,2];
+        public int[,] test = new int[Settings.mapSizeX,Settings.mapSizeZ];
 
         public Map()
         {
@@ -17,6 +17,11 @@ namespace WitchMaze.Map
         public void initialize()
         {
 
+        }
+
+        public void draw()
+        {
+            for
         }
     }
 }
