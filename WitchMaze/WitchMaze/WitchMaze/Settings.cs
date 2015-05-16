@@ -19,8 +19,8 @@ namespace WitchMaze
         public static float blockSizeZ = 1f;
         public static Color floorColor = Color.DeepPink;
 
-        public static int mapSizeX = 2;
-        public static int mapSizeZ = 2;
+        public static int mapSizeX = 4;
+        public static int mapSizeZ = 4;
 
 // if changing GraphicsDeviceManager properties outside 
 // your game constructor also call:

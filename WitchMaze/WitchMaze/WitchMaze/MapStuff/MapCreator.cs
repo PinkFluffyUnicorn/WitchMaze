@@ -44,13 +44,15 @@ namespace WitchMaze.MapStuff
             {
                 for (int j = 0; j < Settings.mapSizeZ; j++)
                 {
-                    mapType[i, j] = 0;
-                    if (mapType[i, j] == 0)
+                   // mapType[i, j] = 0;
+                    
+                    //if (mapType[i, j] == 0)
                         map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
-                    if (mapType[i, j] == 1)
+                    /*if (mapType[i, j] == 1)
                         map.map[i, j] = new Wall();
                     else
                         map.map[i, j] = new BlackHole();
+                    Console.WriteLine(mapType[i, j].ToString()+ ", "+i.ToString()+", "+j.ToString());*/
 
                 }
             }
