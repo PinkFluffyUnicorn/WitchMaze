@@ -102,10 +102,10 @@ namespace WitchMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            gameState.Draw(gameTime, graphicsDevice);
+            gameState.Draw(gameTime, graphics);
 
 
             base.Draw(gameTime);
