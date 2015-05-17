@@ -118,6 +118,7 @@ namespace WitchMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+
             graphics.GraphicsDevice.BlendState = BlendState.Opaque;
             graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);

@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-
 namespace WitchMaze.GameStates
 {
     class MainMenu : GameState
     {
         ContentManager Content;
+        //GraphicsDeviceManager graphics;
         GraphicsDevice GraphicsDevice;
                 
         int count = 0;
@@ -126,6 +126,8 @@ namespace WitchMaze.GameStates
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
         {
+            graphics.GraphicsDevice.BlendState = BlendState.Opaque;
+            graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             graphics.GraphicsDevice.Clear(Color.Black);
 
             // Draw the sprite.
@@ -185,6 +187,7 @@ namespace WitchMaze.GameStates
                 isPressed = false;
 
            
+            
         }
     }
 }
