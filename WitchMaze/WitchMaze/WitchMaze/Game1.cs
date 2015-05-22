@@ -25,7 +25,7 @@ namespace WitchMaze
         EGameState currentGameState;
         EGameState prevGameState;
 
-        GraphicsDevice graphicsDevice;
+        //GraphicsDevice graphicsDevice;
 
         BasicEffect effect;
 
@@ -37,11 +37,13 @@ namespace WitchMaze
 
         public Game1()
         {
-            currentGameState = EGameState.InGame; //tells GameState where so start //change back to main menu
+            currentGameState = EGameState.MainMenu; //tells GameState where so start //change back to main menu
             handleGameState();
             //graphicsDevice = GraphicsDevice;
             graphics = new GraphicsDeviceManager(this);
+            
             Content.RootDirectory = "Content";
+           
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace WitchMaze
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            gameState.loadContent();
+            gameState.loadContent(Content, graphics);
         }
 
         /// <summary>
@@ -165,7 +167,7 @@ namespace WitchMaze
                     break;
             }
 
-            gameState.loadContent();
+            gameState.loadContent(Content, graphics);
 
             gameState.initialize();
 

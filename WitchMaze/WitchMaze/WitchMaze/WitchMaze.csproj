@@ -116,7 +116,9 @@
     <Compile Include="GameStates\InGameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
     <Compile Include="GameStates\InGameStates\SingleTime.cs" />
-    <Compile Include="GameStates\MainMenu.cs" />
+    <Compile Include="GameStates\MainMenu.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="GameStates\Options.cs" />
     <Compile Include="Items\Item.cs" />
     <Compile Include="Items\ItemSpawner.cs" />

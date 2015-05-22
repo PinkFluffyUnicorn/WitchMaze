@@ -15,9 +15,8 @@ namespace WitchMaze.GameStates
 {
     class MainMenu : GameState
     {
-        ContentManager Content;
         //GraphicsDeviceManager graphics;
-        GraphicsDevice GraphicsDevice;
+        //GraphicsDevice graphicsDevice;
                 
         int count = 0;
         bool isPressed = false;
@@ -27,68 +26,67 @@ namespace WitchMaze.GameStates
         Vector2 startPosition = new Vector2(400,50);
         
         Texture2D startGameIsNotPressed;
-        SpriteBatch StartGameIsNotPressed;
+        SpriteBatch sStartGameIsNotPressed;
         
         Texture2D startGameIsPressed;
-        SpriteBatch StartGameIsPressed;
+        SpriteBatch sStartGameIsPressed;
 
         Vector2 optionsPosition = new Vector2(400,200);
 
         Texture2D optionsIsNotPressed;
-        SpriteBatch OptionsIsNotPressed;
+        SpriteBatch sOptionsIsNotPressed;
         
         Texture2D optionsIsPressed;
-        SpriteBatch OptionsIsPressed;
+        SpriteBatch sOptionsIsPressed;
 
         Vector2 creditsPosition = new Vector2(400,300);
 
         Texture2D creditsIsNotPressed;
-        SpriteBatch CreditsIsNotPressed;
+        SpriteBatch sCreditsIsNotPressed;
         
         Texture2D creditsIsPressed;
-        SpriteBatch CreditsIsPressed;
+        SpriteBatch sCreditsIsPressed;
 
         Vector2 exitPosition = new Vector2(400,500);
 
         Texture2D exitIsNotPressed;
-        SpriteBatch ExitIsNotPressed;
+        SpriteBatch sExitIsNotPressed;
         
         Texture2D exitIsPressed;
-        SpriteBatch ExitIsPressed;
-          
+        SpriteBatch sExitIsPressed;
+
       
         public void initialize()
         {
-            
+
         }
 
-        public void loadContent()
+        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
-            OptionsIsNotPressed = new SpriteBatch(GraphicsDevice);
-            optionsIsNotPressed = Content.Load<Texture2D>("options");
-            
-            OptionsIsPressed = new SpriteBatch(GraphicsDevice);
-            optionsIsPressed = Content.Load<Texture2D>("optionsIsPressed");
+            GraphicsDevice graphicsDevice = graphics.GraphicsDevice;
+            sOptionsIsNotPressed = new SpriteBatch(graphicsDevice);
+            optionsIsNotPressed = content.Load<Texture2D>("options");
 
-            ExitIsNotPressed = new SpriteBatch(GraphicsDevice);
-            exitIsNotPressed = Content.Load<Texture2D>("exit");
-            
-            ExitIsPressed = new SpriteBatch(GraphicsDevice);
-            exitIsPressed = Content.Load<Texture2D>("exitIsPressed");
+            sOptionsIsPressed = new SpriteBatch(graphicsDevice);
+            optionsIsPressed = content.Load<Texture2D>("optionsIsPressed");
 
-            CreditsIsNotPressed = new SpriteBatch(GraphicsDevice);
-            creditsIsNotPressed = Content.Load<Texture2D>("credits");
+            sExitIsNotPressed = new SpriteBatch(graphicsDevice);
+            exitIsNotPressed = content.Load<Texture2D>("exit");
 
-            CreditsIsPressed = new SpriteBatch(GraphicsDevice);
-            creditsIsPressed = Content.Load<Texture2D>("creditsIsPressed");
+            sExitIsPressed = new SpriteBatch(graphicsDevice);
+            exitIsPressed = content.Load<Texture2D>("exitIsPressed");
 
-            StartGameIsNotPressed = new SpriteBatch(GraphicsDevice);
-            startGameIsNotPressed = Content.Load<Texture2D>("startGame");
+            sCreditsIsNotPressed = new SpriteBatch(graphicsDevice);
+            creditsIsNotPressed = content.Load<Texture2D>("credits");
 
-            StartGameIsPressed = new SpriteBatch(GraphicsDevice);
-            startGameIsPressed = Content.Load<Texture2D>("startGameIsPressed");
-            
-          
+            sCreditsIsPressed = new SpriteBatch(graphicsDevice);
+            creditsIsPressed = content.Load<Texture2D>("creditsIsPressed");
+
+            sStartGameIsNotPressed = new SpriteBatch(graphicsDevice);
+            startGameIsNotPressed = content.Load<Texture2D>("startGame");
+
+            sStartGameIsPressed = new SpriteBatch(graphicsDevice);
+            startGameIsPressed = content.Load<Texture2D>("startGameIsPressed");
             
         }
 
@@ -136,58 +134,55 @@ namespace WitchMaze.GameStates
             //spriteBatch.End(); 
             if (count % 4 == 0)
             {
-                StartGameIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                StartGameIsPressed.Draw(startGameIsPressed, startPosition, Color.White);
-                StartGameIsPressed.End();
+                sStartGameIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sStartGameIsPressed.Draw(startGameIsPressed, startPosition, Color.White);
+                sStartGameIsPressed.End();
             }
             else
             {
-                StartGameIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                StartGameIsNotPressed.Draw(startGameIsNotPressed, startPosition, Color.White);
-                StartGameIsNotPressed.End();
+                sStartGameIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sStartGameIsNotPressed.Draw(startGameIsNotPressed, startPosition, Color.White);
+                sStartGameIsNotPressed.End();
             }
             if (count % 4 == 1)
             {
-                OptionsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                OptionsIsPressed.Draw(optionsIsPressed, optionsPosition, Color.White);
-                OptionsIsPressed.End();
+                sOptionsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sOptionsIsPressed.Draw(optionsIsPressed, optionsPosition, Color.White);
+                sOptionsIsPressed.End();
             }
             else
             {
-                OptionsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                OptionsIsNotPressed.Draw(optionsIsNotPressed, optionsPosition, Color.White);
-                OptionsIsNotPressed.End();
+                sOptionsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sOptionsIsNotPressed.Draw(optionsIsNotPressed, optionsPosition, Color.White);
+                sOptionsIsNotPressed.End();
             }
             if (count % 4 == 2)
             {
-                CreditsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                CreditsIsPressed.Draw(creditsIsPressed, creditsPosition, Color.White);
-                CreditsIsPressed.End();
+                sCreditsIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sCreditsIsPressed.Draw(creditsIsPressed, creditsPosition, Color.White);
+                sCreditsIsPressed.End();
             }
             else
             {
-                CreditsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                CreditsIsNotPressed.Draw(creditsIsNotPressed, creditsPosition, Color.White);
-                CreditsIsNotPressed.End();
+                sCreditsIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sCreditsIsNotPressed.Draw(creditsIsNotPressed, creditsPosition, Color.White);
+                sCreditsIsNotPressed.End();
             }
             if (count % 4 == 3)
             {
-                ExitIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                ExitIsPressed.Draw(exitIsPressed, exitPosition, Color.White);
-                ExitIsPressed.End();
+                sExitIsPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sExitIsPressed.Draw(exitIsPressed, exitPosition, Color.White);
+                sExitIsPressed.End();
             }
             else
             {
-                ExitIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                ExitIsNotPressed.Draw(exitIsNotPressed, exitPosition, Color.White);
-                ExitIsNotPressed.End();
+                sExitIsNotPressed.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+                sExitIsNotPressed.Draw(exitIsNotPressed, exitPosition, Color.White);
+                sExitIsNotPressed.End();
             }
             
             if (!keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
-                isPressed = false;
-
-           
-            
+                isPressed = false;            
         }
     }
 }

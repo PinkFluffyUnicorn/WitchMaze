@@ -25,7 +25,7 @@ namespace WitchMaze.GameStates
             inGameState.initialize();
         }
 
-        public void loadContent()
+        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             inGameState.loadContent();
         }
