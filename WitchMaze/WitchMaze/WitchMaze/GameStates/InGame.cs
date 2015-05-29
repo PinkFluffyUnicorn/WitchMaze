@@ -47,14 +47,14 @@ namespace WitchMaze.GameStates
             if (currentInGameState == EInGameState.ExitInGame)
                 return EGameState.Exit;
             return EGameState.InGame;
+
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
         {
             
             inGameState.Draw(gameTime, graphics);
-
-            
+           
         }
 
         /// <summary>

@@ -42,62 +42,67 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="startGame.png">
+    <Compile Include="startGame.png">
       <Name>startGame</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Compile>
+    <Compile Include="cube.fbx">
+      <Name>cube</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="options.png">
+    <Compile Include="options.png">
       <Name>options</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="credits.png">
+    <Compile Include="credits.png">
       <Name>credits</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="exit.png">
+    <Compile Include="exit.png">
       <Name>exit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="creditsIsPressed.png">
+    <Compile Include="creditsIsPressed.png">
       <Name>creditsIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="exitIsPressed.png">
+    </Compile>
+    <Compile Include="exitIsPressed.png">
       <Name>exitIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="optionsIsPressed.png">
+    </Compile>
+    <Compile Include="optionsIsPressed.png">
       <Name>optionsIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="startGameIsPressed.png">
+    </Compile>
+    <Compile Include="startGameIsPressed.png">
       <Name>startGameIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
