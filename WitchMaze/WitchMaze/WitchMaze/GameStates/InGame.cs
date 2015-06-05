@@ -25,7 +25,7 @@ namespace WitchMaze.GameStates
             inGameState.initialize();
         }
 
-        public void loadContent()
+        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             inGameState.loadContent();
         }
@@ -47,14 +47,14 @@ namespace WitchMaze.GameStates
             if (currentInGameState == EInGameState.ExitInGame)
                 return EGameState.Exit;
             return EGameState.InGame;
+
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
         {
             
             inGameState.Draw(gameTime, graphics);
-
-            
+           
         }
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
-        public void loadContent()
+        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
         {
             throw new NotImplementedException();
         }
