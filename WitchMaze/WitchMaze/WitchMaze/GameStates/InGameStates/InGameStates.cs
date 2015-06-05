@@ -17,7 +17,7 @@ namespace WitchMaze.GameStates
 
         EInGameState update(GameTime gameTime);
 
-        void Draw(GameTime gameTime, GraphicsDeviceManager graphics);
+        void Draw(GameTime gameTime);
     }
 
     public enum EInGameState

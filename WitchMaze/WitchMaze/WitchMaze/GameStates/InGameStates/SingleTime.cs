@@ -41,9 +41,9 @@ namespace WitchMaze.GameStates.InGameStates
             return EInGameState.SingleTime;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            map.draw(gameTime, graphics);
+            map.draw(gameTime);
         }
     }
 }

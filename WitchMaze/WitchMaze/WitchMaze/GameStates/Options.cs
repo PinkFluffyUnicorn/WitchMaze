@@ -20,7 +20,7 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
-        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
+        public void loadContent()
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace WitchMaze.GameStates
             throw new NotImplementedException();
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphicsDevice)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             throw new NotImplementedException();
         }

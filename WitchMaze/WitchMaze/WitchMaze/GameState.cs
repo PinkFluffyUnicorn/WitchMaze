@@ -16,13 +16,13 @@ namespace WitchMaze
     {
         void initialize();
 
-        void loadContent(ContentManager content, GraphicsDeviceManager graphics);
+        void loadContent();
 
         void unloadContent();
 
         EGameState update(GameTime gameTime);
 
-        void Draw(GameTime gameTime, GraphicsDeviceManager graphicsDevice);
+        void Draw(GameTime gameTime);
     }
 
     public enum EGameState

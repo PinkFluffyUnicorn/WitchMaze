@@ -25,7 +25,7 @@ namespace WitchMaze.GameStates
             inGameState.initialize();
         }
 
-        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
+        public void loadContent()
         {
             inGameState.loadContent();
         }
@@ -50,10 +50,10 @@ namespace WitchMaze.GameStates
 
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             
-            inGameState.Draw(gameTime, graphics);
+            inGameState.Draw(gameTime);
            
         }
 
