@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze;
 
 namespace WitchMaze.GameStates
 {
@@ -61,35 +62,36 @@ namespace WitchMaze.GameStates
 
         }
 
-        public void loadContent(ContentManager content, GraphicsDeviceManager graphics)
+        public void loadContent()
         {
-            if (graphics != null)
+            
+            if (Game1.getGraphics() != null)
             {
-                GraphicsDevice graphicsDevice = graphics.GraphicsDevice;
+                GraphicsDevice graphicsDevice = Game1.getGraphics().GraphicsDevice;
 
                 sOptionsIsNotPressed = new SpriteBatch(graphicsDevice);
-                optionsIsNotPressed = content.Load<Texture2D>("options");
+                optionsIsNotPressed = Game1.getContent().Load<Texture2D>("options");
 
                 sOptionsIsPressed = new SpriteBatch(graphicsDevice);
-                optionsIsPressed = content.Load<Texture2D>("optionsIsPressed");
+                optionsIsPressed = Game1.getContent().Load<Texture2D>("optionsIsPressed");
 
                 sExitIsNotPressed = new SpriteBatch(graphicsDevice);
-                exitIsNotPressed = content.Load<Texture2D>("exit");
+                exitIsNotPressed = Game1.getContent().Load<Texture2D>("exit");
 
                 sExitIsPressed = new SpriteBatch(graphicsDevice);
-                exitIsPressed = content.Load<Texture2D>("exitIsPressed");
+                exitIsPressed = Game1.getContent().Load<Texture2D>("exitIsPressed");
 
                 sCreditsIsNotPressed = new SpriteBatch(graphicsDevice);
-                creditsIsNotPressed = content.Load<Texture2D>("credits");
+                creditsIsNotPressed = Game1.getContent().Load<Texture2D>("credits");
 
                 sCreditsIsPressed = new SpriteBatch(graphicsDevice);
-                creditsIsPressed = content.Load<Texture2D>("creditsIsPressed");
+                creditsIsPressed = Game1.getContent().Load<Texture2D>("creditsIsPressed");
 
                 sStartGameIsNotPressed = new SpriteBatch(graphicsDevice);
-                startGameIsNotPressed = content.Load<Texture2D>("startGame");
+                startGameIsNotPressed = Game1.getContent().Load<Texture2D>("startGame");
 
                 sStartGameIsPressed = new SpriteBatch(graphicsDevice);
-                startGameIsPressed = content.Load<Texture2D>("startGameIsPressed");
+                startGameIsPressed = Game1.getContent().Load<Texture2D>("startGameIsPressed");
             }
         }
 
@@ -125,11 +127,11 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime, GraphicsDeviceManager graphics)
+        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            graphics.GraphicsDevice.BlendState = BlendState.Opaque;
-            graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            graphics.GraphicsDevice.Clear(Color.Black);
+            Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
+            Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            Game1.getGraphics().GraphicsDevice.Clear(Color.Black);
 
             // Draw the sprite.
             //spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);

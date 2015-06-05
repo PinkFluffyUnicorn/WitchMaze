@@ -16,7 +16,8 @@ namespace WitchMaze
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        GraphicsDeviceManager graphics;
+        static GraphicsDeviceManager graphics;
+        static ContentManager content;
         SpriteBatch spriteBatch;
 
         //Current GameState to run
@@ -33,7 +34,17 @@ namespace WitchMaze
 
         Vector3[] view;
         Matrix projektion, camera;
+        //getter für graphicsDeviceManager und Content Manager
 
+        public static GraphicsDeviceManager getGraphics()
+        {
+            return graphics;
+        }
+
+        public static ContentManager getContent()
+        {
+            return content;
+        }
 
         public Game1()
         {
@@ -43,6 +54,7 @@ namespace WitchMaze
             graphics = new GraphicsDeviceManager(this);
             
             Content.RootDirectory = "Content";
+            content = Content;
            
         }
 
@@ -79,7 +91,7 @@ namespace WitchMaze
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            gameState.loadContent(Content, graphics);
+            gameState.loadContent();
         }
 
         /// <summary>
@@ -136,7 +148,7 @@ namespace WitchMaze
 
 
             // TODO: Add your drawing code here
-            gameState.Draw(gameTime, graphics);
+            gameState.Draw(gameTime);
 
 
             base.Draw(gameTime);
@@ -167,7 +179,7 @@ namespace WitchMaze
                     break;
             }
 
-            gameState.loadContent(Content, graphics);
+            gameState.loadContent();
 
             gameState.initialize();
 
