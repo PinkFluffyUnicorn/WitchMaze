@@ -14,11 +14,19 @@ namespace WitchMaze.MapStuff.Blocks
 {
     class Wall : Block
     {
+        Model model;
 
+
+        public Wall(Vector3 _position, Model _model)
+        {
+            model = _model;
+            position = _position;
+
+        }
         
         public override void draw(GameTime gameTime)
         {
-
+            model.Draw(Player.Player.world, Player.Player.camera, Player.Player.projektion);
         }
 
        

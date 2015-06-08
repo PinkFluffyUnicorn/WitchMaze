@@ -21,19 +21,24 @@ namespace WitchMaze.Player
 
         BasicEffect effect = Game1.getEffect();
 
-        Matrix projektion, camera;
+        public static Matrix projektion, camera, world ; 
         public Player()
         {
             keyboard = Keyboard.GetState();
             aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
             projektion = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
+             // params : position, forward,up, matrix out 
+
             //werte sollten später für jeden Spieler einzeind angepasst werden
             position = new Vector3(0, 1, 0);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
+            world = Matrix.CreateWorld(position, lookAt, upDirection);
 
             
         }
+
+
 
         public void update(GameTime gameTime)
         {
