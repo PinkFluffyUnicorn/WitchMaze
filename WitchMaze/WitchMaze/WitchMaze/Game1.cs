@@ -26,14 +26,8 @@ namespace WitchMaze
         EGameState currentGameState;
         EGameState prevGameState;
 
-        //GraphicsDevice graphicsDevice;
+        static BasicEffect effect;
 
-        BasicEffect effect;
-
-        //lalala ich weiß genau was ich tue 
-
-        Vector3[] view;
-        Matrix projektion, camera;
         //getter für graphicsDeviceManager und Content Manager
 
         public static GraphicsDeviceManager getGraphics()
@@ -44,6 +38,10 @@ namespace WitchMaze
         public static ContentManager getContent()
         {
             return content;
+        }
+        public static BasicEffect getEffect()
+        {
+            return effect;
         }
 
         public Game1()
@@ -68,13 +66,6 @@ namespace WitchMaze
         {
             // TODO: Add your initialization logic here
             effect = new BasicEffect(graphics.GraphicsDevice);
-            //pink Fluffy UNicorns dancing on rainbows 
-
-            projektion = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, GraphicsDevice.Viewport.AspectRatio, 0.5f, 1000.0f);
-            view = new Vector3[3];
-            view[0] = new Vector3(-1, 1, -1); //position
-            view[1] = new Vector3(0, 0, 0); //lookAtPoint
-            view[2] = new Vector3(0, 1, 0); //upDirection
 
             gameState.initialize();
 
@@ -136,15 +127,9 @@ namespace WitchMaze
             graphics.GraphicsDevice.BlendState = BlendState.Opaque;
             graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
+            //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;
-
-            camera = Matrix.CreateLookAt(view[0], view[1], view[2]);
-            effect.VertexColorEnabled = true;
-            effect.View = camera;
-            effect.Projection = projektion;
-            effect.CurrentTechnique.Passes[0].Apply();
 
 
             // TODO: Add your drawing code here

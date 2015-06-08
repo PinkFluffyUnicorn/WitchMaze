@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.MapStuff;
 using WitchMaze.Items;
+using WitchMaze.Player;
 
 namespace WitchMaze.GameStates.InGameStates
 {
@@ -19,10 +20,14 @@ namespace WitchMaze.GameStates.InGameStates
         //basicly a test
         MapCreator mapCreator;
         Map map;
+
+        Player.Player player1;
         public void initialize()
         {
             mapCreator = new MapCreator();
             map = mapCreator.generateMap();
+
+            player1 = new Player.Player();
         }
 
         public void loadContent()
@@ -37,12 +42,13 @@ namespace WitchMaze.GameStates.InGameStates
 
         public EInGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            //throw new NotImplementedException();
+            player1.update(gameTime);
             return EInGameState.SingleTime;
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            player1.draw(gameTime);
             map.draw(gameTime);
         }
     }

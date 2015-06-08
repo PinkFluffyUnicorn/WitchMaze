@@ -15,12 +15,12 @@ namespace WitchMaze
         bool isFullScreen = false;
 
         public static float blockSizeX = 1f;
-        public static float blockSizeY = 2f;
+        public static float blockSizeY = 1f;
         public static float blockSizeZ = 1f;
         public static Color floorColor = Color.DeepPink;
 
-        public static int mapSizeX = 4;
-        public static int mapSizeZ = 4;
+        public static int mapSizeX = 10;
+        public static int mapSizeZ = 10;
 
 // if changing GraphicsDeviceManager properties outside 
 // your game constructor also call:
