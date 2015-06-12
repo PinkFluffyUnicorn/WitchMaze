@@ -19,22 +19,26 @@ namespace WitchMaze.Player
         float timescale = 200;
         Vector3 direction;
 
+        //Shader
+
+
+
         BasicEffect effect = Game1.getEffect();
 
-        public static Matrix projektion, camera, world ; 
+        public static Matrix projection, camera, world ; 
         public Player()
         {
             keyboard = Keyboard.GetState();
             aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
-            projektion = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
              // params : position, forward,up, matrix out 
 
-            //werte sollten später für jeden Spieler einzeind angepasst werden
+            //werte sollten später für jeden Spieler einzeln angepasst werden
             position = new Vector3(0, 1, 0);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
-            world = Matrix.CreateWorld(position, lookAt, upDirection);
-
+            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            world = Matrix.Identity;
             
         }
 
@@ -84,7 +88,7 @@ namespace WitchMaze.Player
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             effect.VertexColorEnabled = true;
             effect.View = camera;
-            effect.Projection = projektion;
+            effect.Projection = projection;
             effect.CurrentTechnique.Passes[0].Apply();
         }
 

@@ -26,7 +26,7 @@ namespace WitchMaze.MapStuff.Blocks
         
         public override void draw(GameTime gameTime)
         {
-            model.Draw(Player.Player.world, Player.Player.camera, Player.Player.projektion);
+            model.Draw(Player.Player.world, Player.Player.camera, Player.Player.projection);
         }
 
        
