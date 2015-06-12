@@ -21,11 +21,18 @@ namespace WitchMaze.Player
 
         //Shader
 
-
-
         BasicEffect effect = Game1.getEffect();
 
-        public static Matrix projection, camera, world ; 
+        private static Matrix projection, camera, world ;
+
+
+
+
+        public static Matrix getProjection() { return projection; }
+        public static Matrix getCamera() { return camera; }
+        public static Matrix getWorld() { return world; }
+
+
         public Player()
         {
             keyboard = Keyboard.GetState();
@@ -37,7 +44,8 @@ namespace WitchMaze.Player
             position = new Vector3(0, 1, 0);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
-            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            camera = Matrix.CreateWorld(position,lookAt , upDirection);
             world = Matrix.Identity;
             
         }
@@ -89,6 +97,7 @@ namespace WitchMaze.Player
             effect.VertexColorEnabled = true;
             effect.View = camera;
             effect.Projection = projection;
+            effect.World = world;
             effect.CurrentTechnique.Passes[0].Apply();
         }
 

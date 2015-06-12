@@ -28,6 +28,7 @@ namespace WitchMaze.MapStuff.Blocks
         }
         public override void draw(GameTime gameTime)
         {
+            Game1.getEffect().World = Matrix.Identity;
             Game1.getGraphics().GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
         }
 

@@ -19,6 +19,7 @@ namespace WitchMaze
         public static float blockSizeZ = 1f;
         public static Color floorColor = Color.DeepPink;
         public static Color blackHoleColor = Color.Black;
+        public static Color WallColor = Color.Gold;
 
         public static int mapSizeX = 9;
         public static int mapSizeZ = 9;
