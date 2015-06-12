@@ -16,8 +16,9 @@ namespace WitchMaze.Player
         KeyboardState keyboard;
         float aspectRatio;
         float timeSinceLastMove;
-        float timescale = 200;
-        Vector3 direction;
+        float timescale = 400;
+        Vector3 direction; //für bewegung vorne hinten
+        Vector3 ortoDirection; //für bewegung links rechts
 
         //Shader
 
@@ -54,14 +55,15 @@ namespace WitchMaze.Player
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
+            ortoDirection = Vector3.Cross(direction, upDirection);
             //kack steuerung auf mehr hatte ich grad keine lust
             //forward
             if (keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S))
             {
+                //position.Z = position.Z * (timeSinceLastMove / timescale);
                 position = position + direction * (timeSinceLastMove / timescale);
                 lookAt = position + direction;
             }
-
             //backward
             if (keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.W))
             {
@@ -69,14 +71,29 @@ namespace WitchMaze.Player
                 lookAt = position + direction;
             }
 
+
+            //right
+            if (keyboard.IsKeyDown(Keys.D) && !keyboard.IsKeyDown(Keys.A))
+            {
+                position = position + ortoDirection * (timeSinceLastMove / timescale);
+                lookAt = position + direction;
+            }
+
+            //left
+            if (keyboard.IsKeyDown(Keys.A) && !keyboard.IsKeyDown(Keys.D))
+            {
+                position = position - ortoDirection * (timeSinceLastMove / timescale);
+                lookAt = position + direction;
+            }
+
             //rotate left
-            if (keyboard.IsKeyDown(Keys.Q) && !keyboard.IsKeyDown(Keys.E))
+            if (keyboard.IsKeyDown(Keys.Q) && !keyboard.IsKeyDown(Keys.E) || keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
             {
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(timeSinceLastMove / 4 / timescale)));
             }
 
             //rotate rigth
-            if (keyboard.IsKeyDown(Keys.E) && !keyboard.IsKeyDown(Keys.Q))
+            if (keyboard.IsKeyDown(Keys.E) && !keyboard.IsKeyDown(Keys.Q) || keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Left))
             {
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(-timeSinceLastMove / 4 / timescale)));
             }
