@@ -66,6 +66,7 @@ namespace WitchMaze
         {
             // TODO: Add your initialization logic here
             effect = new BasicEffect(graphics.GraphicsDevice);
+            effect.EnableDefaultLighting();
 
             gameState.initialize();
 
