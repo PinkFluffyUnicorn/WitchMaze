@@ -43,9 +43,9 @@ namespace WitchMaze.Player
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
-            position = new Vector3(0, 1, 0);
-            lookAt = new Vector3(0, 1, 1);
-            upDirection = new Vector3(0, 1, 0);
+            position = new Vector3(0, 30, 0);
+            lookAt = new Vector3(Settings.mapSizeX /2, -1, Settings.mapSizeZ/2);
+            upDirection = new Vector3(1, 0, 0);
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
             world = Matrix.Identity;
@@ -118,9 +118,9 @@ namespace WitchMaze.Player
             effect.Projection = projection;
             effect.World = world;
             effect.CurrentTechnique.Passes[0].Apply();
-            model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
+          /*  model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
             Game1.getEffect().World = Matrix.Identity;
-            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
+            Game1.getEffect().CurrentTechnique.Passes[0].Apply();*/
         }
 
     }

@@ -25,6 +25,7 @@ namespace WitchMaze.GameStates.InGameStates
         public void initialize()
         {
             mapCreator = new MapCreator();
+            mapCreator.initialize();
             map = mapCreator.generateMap();
 
             player1 = new Player.Player();
