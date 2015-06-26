@@ -10,7 +10,7 @@ namespace WitchMaze.Player
 {
     class Player
     {
-        Vector3 position;
+        public Vector3 position { get; protected set; }
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
@@ -19,6 +19,7 @@ namespace WitchMaze.Player
         float timescale = 400;
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
+        Model model;
 
         //Shader
 
@@ -48,6 +49,7 @@ namespace WitchMaze.Player
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
             world = Matrix.Identity;
+            model = Game1.getContent().Load<Model>("cube");
             
         }
 
@@ -116,6 +118,9 @@ namespace WitchMaze.Player
             effect.Projection = projection;
             effect.World = world;
             effect.CurrentTechnique.Passes[0].Apply();
+            model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
+            Game1.getEffect().World = Matrix.Identity;
+            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
         }
 
     }
