@@ -43,9 +43,15 @@ namespace WitchMaze.Player
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
-            position = new Vector3(0, 30, 0);
-            lookAt = new Vector3(Settings.mapSizeX /2, -1, Settings.mapSizeZ/2);
-            upDirection = new Vector3(1, 0, 0);
+            //position = new Vector3(0, 30, 0);
+            //lookAt = new Vector3(Settings.mapSizeX /2, -1, Settings.mapSizeZ/2);
+            //upDirection = new Vector3(1, 0, 0);
+
+            position = new Vector3(0, 1, 0);
+            lookAt = new Vector3(0, 1, 1);
+            upDirection = new Vector3(0, 1, 0);
+
+
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
             world = Matrix.Identity;

@@ -16,6 +16,7 @@ namespace WitchMaze.MapStuff
     {
         public Block[,] map;
 
+
         public Map()
         {
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
