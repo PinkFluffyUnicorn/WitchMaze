@@ -1,10 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Net;
+using Microsoft.Xna.Framework.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 
 namespace WitchMaze.Player
 {
@@ -47,6 +54,7 @@ namespace WitchMaze.Player
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
             position = new Vector3(0, 1, 0);
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
 
@@ -54,17 +62,23 @@ namespace WitchMaze.Player
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
             world = Matrix.Identity;
             model = Game1.getContent().Load<Model>("cube");
-            
+            direction = lookAt - position;
+            ortoDirection = Vector3.Cross(direction, upDirection);
         }
 
 
 
         public void update(GameTime gameTime)
         {
-            this.move(gameTime);
+
+            this.moveG(gameTime); //GamePad
+       
+            this.moveK(gameTime); //Keyboard
+           
         }
 
-        private void move(GameTime gameTime)
+        //Keyboard
+        private void moveK(GameTime gameTime)
         {
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
@@ -136,6 +150,53 @@ namespace WitchMaze.Player
 
         }
 
+        //GamePad
+        private void moveG(GameTime gameTime)
+        {
+            // Get the current gamepad state.
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
+            
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y >= 0.0f)
+            {// Player one has pressed the left thumbstick up.
+
+                position = position + direction * (currentState.ThumbSticks.Left.Y/20);
+                lookAt = position + direction;
+            }
+
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y <= 0.0f)
+            {// Player one has pressed the left thumbstick down.
+
+                position = position + direction * (currentState.ThumbSticks.Left.Y/20);
+                lookAt = position + direction;
+            }
+
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X >= 0.0f)
+            {// Player one has pressed the left thumbstick right.
+
+                position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
+                lookAt = position + direction;
+            }
+
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X <= 0.0f)
+            {// Player one has pressed the left thumbstick left.
+
+                position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
+                lookAt = position + direction;
+            }
+            
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X >= 0.0f)
+            {// Player one has pressed the right thumbstick right.
+
+                lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
+            }
+
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X <= 0.0f)
+            {// Player one has pressed the right thumbstick left.
+
+                lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
+            }
+
+        }
 
         public void draw(GameTime gametime)
         {
