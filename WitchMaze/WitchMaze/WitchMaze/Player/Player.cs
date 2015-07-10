@@ -10,7 +10,7 @@ namespace WitchMaze.Player
 {
     class Player
     {
-        public Vector3 position { get; protected set; }
+        Vector3 position;
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
@@ -33,6 +33,9 @@ namespace WitchMaze.Player
         public static Matrix getProjection() { return projection; }
         public static Matrix getCamera() { return camera; }
         public static Matrix getWorld() { return world; }
+        public Vector3 getPosition() { return this.position; }
+        //public Vector2[,] getBoundingBox { return null;}
+        public Model getModel() { return this.model; }
 
 
         public Player()
@@ -43,14 +46,9 @@ namespace WitchMaze.Player
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
-            //position = new Vector3(0, 30, 0);
-            //lookAt = new Vector3(Settings.mapSizeX /2, -1, Settings.mapSizeZ/2);
-            //upDirection = new Vector3(1, 0, 0);
-
             position = new Vector3(0, 1, 0);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
-
 
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
@@ -113,6 +111,29 @@ namespace WitchMaze.Player
             {
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(-timeSinceLastMove / 4 / timescale)));
             }
+
+            //ToDo:
+            //Springen
+            //Hoch schaun
+            //up direction verschieben...
+            //if (keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
+            //{
+            //    upDirection = upDirection + Matrix.CreateRotationX((timeSinceLastMove/timescale));
+            //}
+            //Runter schaun
+
+            //fliegen
+            if (!keyboard.IsKeyDown(Keys.LeftControl) && keyboard.IsKeyDown(Keys.LeftShift))
+            {
+                position += new Vector3(0,timeSinceLastMove / timescale,0);
+                lookAt += new Vector3(0, timeSinceLastMove / timescale, 0);
+            }
+            if (keyboard.IsKeyDown(Keys.LeftControl) && !keyboard.IsKeyDown(Keys.LeftShift))
+            {
+                position -= new Vector3(0, timeSinceLastMove / timescale, 0);
+                lookAt -= new Vector3(0, timeSinceLastMove / timescale, 0);
+            }
+
         }
 
 
@@ -124,9 +145,9 @@ namespace WitchMaze.Player
             effect.Projection = projection;
             effect.World = world;
             effect.CurrentTechnique.Passes[0].Apply();
-          /*  model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
+            //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
             Game1.getEffect().World = Matrix.Identity;
-            Game1.getEffect().CurrentTechnique.Passes[0].Apply();*/
+            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
         }
 
     }

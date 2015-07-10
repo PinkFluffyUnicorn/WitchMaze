@@ -50,7 +50,7 @@ namespace WitchMaze.MapStuff
             {
                 for (int j = 0; j < Settings.mapSizeZ; j++)
                 {
-                    //[i, j] = i % 3;
+                    mapType[i, j] = i % 3;
                     Console.WriteLine(mapType[i, j].ToString());
                     
                     if (mapType[i, j] == 0)

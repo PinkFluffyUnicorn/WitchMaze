@@ -26,7 +26,6 @@ namespace WitchMaze.MapStuff.Blocks
             _position = position;
         }
 
-
         public abstract void draw(GameTime gameTime);
 
 

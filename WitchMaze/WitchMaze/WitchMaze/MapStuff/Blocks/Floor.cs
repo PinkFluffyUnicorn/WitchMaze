@@ -37,7 +37,7 @@ namespace WitchMaze.MapStuff.Blocks
            // Game1.getGraphics().GraphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, plane, 0, 2);
             model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
             //Game1.getEffect().World = Matrix.Identity;
-            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
+            //Game1.getEffect().CurrentTechnique.Passes[0].Apply();
         }
     }
 }
