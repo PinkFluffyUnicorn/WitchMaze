@@ -18,12 +18,13 @@ namespace WitchMaze.MapStuff.Blocks
           
 
 
-        public Wall(Vector3 _position, Model _model)
+        public Wall(Vector3 _position, Model _model, Boolean _walkable, Boolean _transportable)
         {
 
             model = _model;
             position = _position;
-
+            walkable = _walkable;
+            transportable = _transportable;
         }
         
         public override void draw(GameTime gameTime)
