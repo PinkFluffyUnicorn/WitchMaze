@@ -22,11 +22,14 @@ namespace WitchMaze.MapStuff
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
         }
 
+        /// <summary>
+        /// returns if a tile at position p is walkable
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
         public bool getTileWalkableAt(Vector2 p)
         {
-            //if(map[(int)p.X, (int)p.Y] )
-            //else
-            return true;
+            return map[(int)p.X, (int)p.Y].walkable;
         }
 
         public void draw(GameTime gameTime)

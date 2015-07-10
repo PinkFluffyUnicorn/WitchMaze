@@ -14,7 +14,7 @@ namespace WitchMaze
 
         bool isFullScreen = false;
 
-        public static float blockSizeX = 1f;
+        public static float blockSizeX = 2f;
         public static float blockSizeY = 1f;
         public static float blockSizeZ = 1f;
         public static Color floorColor = Color.DeepPink;

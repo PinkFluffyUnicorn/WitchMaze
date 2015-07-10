@@ -17,6 +17,7 @@ namespace WitchMaze.Player
 {
     class Player
     {
+        Vector3 newPosition;
         Vector3 position;
         Vector3 lookAt;
         Vector3 upDirection;
@@ -28,6 +29,7 @@ namespace WitchMaze.Player
         Vector3 ortoDirection; //für bewegung links rechts
         Model model;
         Vector2 playerMapPosition;
+        
 
         //Shader
 
@@ -54,7 +56,7 @@ namespace WitchMaze.Player
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
-            position = new Vector3(0, 1, 0);
+            position = new Vector3(5, 1, 5);
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
@@ -81,49 +83,57 @@ namespace WitchMaze.Player
         //Keyboard
         private void moveK(GameTime gameTime)
         {
+            if(this.collision(position))
+                Console.Write("Collision");
+
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             //kack steuerung auf mehr hatte ich grad keine lust
-            //forward
             if (keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S))
-            {
+            {//forward
                 //position.Z = position.Z * (timeSinceLastMove / timescale);
-                position = position + direction * (timeSinceLastMove / timescale);
-                lookAt = position + direction;
+                newPosition = position + direction * (timeSinceLastMove / timescale);
+                if (!this.collision(newPosition))
+                {
+                    position = newPosition;
+                    lookAt = position + direction;
+                }
             }
-            //backward
             if (keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.W))
-            {
-                position = position - direction * (timeSinceLastMove / timescale);
-                lookAt = position + direction;
+            {//backward
+                newPosition = position - direction * (timeSinceLastMove / timescale);
+                if (!this.collision(newPosition))
+                {
+                    position = newPosition;
+                    lookAt = position + direction;
+                }
             }
-
-
-            //right
             if (keyboard.IsKeyDown(Keys.D) && !keyboard.IsKeyDown(Keys.A))
-            {
-                position = position + ortoDirection * (timeSinceLastMove / timescale);
-                lookAt = position + direction;
+            {//right
+                newPosition = position + ortoDirection * (timeSinceLastMove / timescale);
+                if (!this.collision(newPosition))
+                {
+                    position = newPosition;
+                    lookAt = position + direction;
+                }
             }
-
-            //left
             if (keyboard.IsKeyDown(Keys.A) && !keyboard.IsKeyDown(Keys.D))
-            {
-                position = position - ortoDirection * (timeSinceLastMove / timescale);
-                lookAt = position + direction;
+            {//left
+                newPosition = position - ortoDirection * (timeSinceLastMove / timescale);
+                if (!this.collision(newPosition))
+                {
+                    position = newPosition;
+                    lookAt = position + direction;
+                }
             }
-
-            //rotate left
             if (keyboard.IsKeyDown(Keys.Q) && !keyboard.IsKeyDown(Keys.E) || keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
-            {
+            {//rotate left
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(timeSinceLastMove / 4 / timescale)));
             }
-
-            //rotate rigth
             if (keyboard.IsKeyDown(Keys.E) && !keyboard.IsKeyDown(Keys.Q) || keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Left))
-            {
+            {//rotate rigth
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(-timeSinceLastMove / 4 / timescale)));
             }
 
@@ -199,18 +209,26 @@ namespace WitchMaze.Player
 
         }
 
-        public bool collision(MapStuff.Map map)
+        /// <summary>
+        /// handles the collision for the player by checking if the maptiles near him are walkable
+        /// </summary>
+        /// <returns></returns>
+        public bool collision(Vector3 p)
         {
             //maping Player position to MapTile position
-            playerMapPosition = new Vector2(position.X / Settings.mapSizeX, position.Z / Settings.mapSizeZ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
-
-            
-
-            
-
-            return false;
+            playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
+            Console.WriteLine(playerMapPosition);
+            //PlayerMapCollision
+            if (WitchMaze.GameStates.InGameStates.SingleTime.getMap().getTileWalkableAt(playerMapPosition))
+                return false;
+            else
+                return true;
         }
 
+        /// <summary>
+        /// handles the player draw
+        /// </summary>
+        /// <param name="gametime"></param>
         public void draw(GameTime gametime)
         {
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);

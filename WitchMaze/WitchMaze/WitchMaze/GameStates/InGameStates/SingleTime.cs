@@ -18,8 +18,10 @@ namespace WitchMaze.GameStates.InGameStates
     class SingleTime : InGameState
     {
         //basicly a test
-        MapCreator mapCreator;
-        Map map;
+        static MapCreator mapCreator;
+        static Map map;
+
+        public static Map getMap() { return map; }
 
         Player.Player player1;
         public void initialize()
