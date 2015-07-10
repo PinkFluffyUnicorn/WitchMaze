@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
                         map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"));
                     }
                     if (mapType[i, j] == 2)
-                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY / 2.0f), (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("cube"));
+                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY / 2.0f + 1), (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("cube"));
                     //y- Position wird in der eigenen KLasse gesetzt ... ist einfacher
                     if (mapType[i,j] == 1)
                     {

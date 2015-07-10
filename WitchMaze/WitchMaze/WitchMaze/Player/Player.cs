@@ -27,6 +27,7 @@ namespace WitchMaze.Player
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
         Model model;
+        Vector2 playerMapPosition;
 
         //Shader
 
@@ -156,46 +157,58 @@ namespace WitchMaze.Player
             // Get the current gamepad state.
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.0f)
             {// Player one has pressed the left thumbstick up.
 
                 position = position + direction * (currentState.ThumbSticks.Left.Y/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0.0f)
             {// Player one has pressed the left thumbstick down.
 
                 position = position + direction * (currentState.ThumbSticks.Left.Y/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.0f)
             {// Player one has pressed the left thumbstick right.
 
                 position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0.0f)
             {// Player one has pressed the left thumbstick left.
 
                 position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
                 lookAt = position + direction;
             }
             
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.0f)
             {// Player one has pressed the right thumbstick right.
 
                 lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0.0f)
             {// Player one has pressed the right thumbstick left.
 
                 lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
             }
 
+        }
+
+        public bool collision(MapStuff.Map map)
+        {
+            //maping Player position to MapTile position
+            playerMapPosition = new Vector2(position.X / Settings.mapSizeX, position.Z / Settings.mapSizeZ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
+
+            
+
+            
+
+            return false;
         }
 
         public void draw(GameTime gametime)
@@ -206,7 +219,7 @@ namespace WitchMaze.Player
             effect.Projection = projection;
             effect.World = world;
             effect.CurrentTechnique.Passes[0].Apply();
-            //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection);
+            //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
             Game1.getEffect().World = Matrix.Identity;
             Game1.getEffect().CurrentTechnique.Passes[0].Apply();
         }

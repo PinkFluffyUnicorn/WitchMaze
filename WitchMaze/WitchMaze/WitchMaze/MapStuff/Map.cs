@@ -22,6 +22,12 @@ namespace WitchMaze.MapStuff
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
         }
 
+        public bool getTileWalkableAt(Vector2 p)
+        {
+            //if(map[(int)p.X, (int)p.Y] )
+            //else
+            return true;
+        }
 
         public void draw(GameTime gameTime)
         {
@@ -34,19 +40,6 @@ namespace WitchMaze.MapStuff
 
                 }
             }
-        }
-
-        public bool collision(Player.Player player) {
-            //player.getModel().b
-
-            //wie komme ich an die bounding box des Spielers?
-            //wie kann ich vernümpftig an die Map infos kommen?
-
-
-            //Vector2 playerTilemapPosition = new Vector2(player.getPosition().X / Settings.mapSizeX, player.getPosition().Z / Settings.mapSizeZ);
-            //if(this.map[(int)playerTilemapPosition.X, (int)playerTilemapPosition.Y].Equals(Blocks.Wall))
-            //    return true;
-            return false;
         }
 
 
