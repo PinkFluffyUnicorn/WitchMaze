@@ -18,7 +18,7 @@ namespace WitchMaze.MapStuff.Blocks
         Model model;
 
 
-        public Floor(Vector3 _position, /*Color color,*/ Model _model, Boolean _walkable, Boolean _transportable )
+        public Floor(Vector3 _position, /*Color color,*/ Model _model )
         {
             /*plane = new VertexPositionColor[4];
             plane[0] = new VertexPositionColor(position + new Vector3(Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), color);
@@ -28,8 +28,8 @@ namespace WitchMaze.MapStuff.Blocks
 
             model = _model;
             position = _position;
-            walkable = _walkable;
-            transportable = _transportable;
+            walkable = true;
+            transportable = false;
 
         }
 

@@ -216,6 +216,7 @@ namespace WitchMaze.Player
         /// <returns></returns>
         public bool collision(Vector3 p)
         {
+            return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
             playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             Console.WriteLine(playerMapPosition);

@@ -85,18 +85,18 @@ namespace WitchMaze.MapStuff
                     if (mapType[i, j] == 0)
                     {
                         // map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
-                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"), true, false);
+                        map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)),Game1.getContent().Load<Model>("bottom"));
                     }
                     else if (mapType[i, j] == 2)
                     {
-                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY * 0.5f), (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("cube"), false, false);
+                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY * 0.5f), (float)(j * Settings.blockSizeZ)));
                         //y- Position wird in der eigenen KLasse gesetzt ... ist einfacher
                         
                     }    
                     else //if (mapType[i,j] == 1)
                     {
                         //map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.blackHoleColor);
-                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"), true, true);
+                        map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"));
                     }
                         
 
