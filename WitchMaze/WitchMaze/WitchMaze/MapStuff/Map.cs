@@ -38,7 +38,7 @@ namespace WitchMaze.MapStuff
             {
                 for ( int j = 0; j < Settings.mapSizeZ; j++)
                 {
-                    map[i,j].draw(gameTime);
+                    map[i,j].draw();
 
                 }
             }

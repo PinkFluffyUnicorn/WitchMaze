@@ -16,7 +16,11 @@ namespace WitchMaze.MapStuff.Blocks
     {
 
 
-
+        /// <summary>
+        /// Constructor for Wall - Object
+        /// </summary>
+        /// <param name="_model"></param>
+        /// <param name="_position"></param>
         public Wall(Model _model, Vector3 _position)
         {
 
@@ -26,14 +30,35 @@ namespace WitchMaze.MapStuff.Blocks
             transportable = false;
         }
         
-        public override void draw(GameTime gameTime)
+       
+        /// <summary>
+        /// Own Draw Method
+        /// Calculates world, view and Projection Matrix and sets the Lighting 
+        /// </summary>
+        public override void draw()
         {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.LightingEnabled = true; // Turn on the lighting subsystem.
 
-            
-            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
-            //Game1.getEffect().World = Matrix.Identity;
-            //Game1.getEffect().CurrentTechnique.Passes[0].Apply();
-            
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+                    effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights*
+
+                    //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+                    //effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. 
+
+                    effect.World = Matrix.CreateScale(0.5f) * Matrix.CreateTranslation(position);
+                    effect.View = Player.Player.getCamera();
+                    effect.Projection = Player.Player.getProjection();
+                }
+
+                mesh.Draw();
+            }
+
         }
 
        

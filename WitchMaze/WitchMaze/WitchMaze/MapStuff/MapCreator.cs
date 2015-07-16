@@ -35,21 +35,21 @@ namespace WitchMaze.MapStuff
                 {
 
                     //chess pattern inside
-                    if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
+                   /* if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
                     {
                         mapType[i, j] = 2;
-                    }
+                    }*/
                     if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
                     {
-                        mapType[i, j] = 0;
+                        mapType[i, j] = 1;
                     }
 
 
                     // Edge of Labyrinth 
-                    if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
+                   /* if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
                     {
                             mapType[i, j] = 2;
-                    }
+                    }*/
 
 
                 }
@@ -84,18 +84,15 @@ namespace WitchMaze.MapStuff
                     Console.Write(mapType[i, j]);
                     if (mapType[i, j] == 0)
                     {
-                        // map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
                         map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)),Game1.getContent().Load<Model>("bottom"));
                     }
                     else if (mapType[i, j] == 2)
                     {
-                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY * 0.5f), (float)(j * Settings.blockSizeZ)));
-                        //y- Position wird in der eigenen KLasse gesetzt ... ist einfacher
+                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.blockSizeX), 0.5f /*+ (float)(Settings.blockSizeY)*/, (float)(j * Settings.blockSizeZ)));
                         
                     }    
                     else //if (mapType[i,j] == 1)
                     {
-                        //map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.blackHoleColor);
                         map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"));
                     }
                         

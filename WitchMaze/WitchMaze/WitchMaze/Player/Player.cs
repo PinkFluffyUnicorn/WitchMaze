@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace WitchMaze.Player
 {
     class Player
@@ -57,9 +56,16 @@ namespace WitchMaze.Player
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
             position = new Vector3(5, 1, 5);
-            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
+
+            //draufsicht
+           /* position = new Vector3(5, -40, 5);
+            lookAt = new Vector3(0, 1, 1);
+            upDirection = new Vector3(0, 0, 1);*/
+
+
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
 
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
