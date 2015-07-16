@@ -17,6 +17,8 @@ namespace WitchMaze.MapStuff.Blocks
         public Vector3 position { get; protected set; }
         public Boolean walkable { get; protected set; }
         public Boolean transportable { get; protected set; }
+
+        public Model model { get; protected set; }
        
         public Block()
         {

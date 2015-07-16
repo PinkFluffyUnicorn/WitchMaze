@@ -21,7 +21,7 @@ namespace WitchMaze
         public static Color blackHoleColor = Color.Black;
         public static Color WallColor = Color.Gold;
 
-        public static int mapSizeX = 20;
+        public static int mapSizeX = 10;
         public static int mapSizeZ = 20;
 
 // if changing GraphicsDeviceManager properties outside 

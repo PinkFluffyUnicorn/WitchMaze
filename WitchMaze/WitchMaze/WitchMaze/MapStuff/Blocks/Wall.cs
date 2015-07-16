@@ -14,23 +14,23 @@ namespace WitchMaze.MapStuff.Blocks
 {
     class Wall : Block
     {
-        Model model;
-          
 
 
-        public Wall(Vector3 _position, Model _model, Boolean _walkable, Boolean _transportable)
+
+        public Wall(Model _model, Vector3 _position)
         {
 
             model = _model;
             position = _position;
-            walkable = _walkable;
-            transportable = _transportable;
+            walkable = false;
+            transportable = false;
         }
         
         public override void draw(GameTime gameTime)
         {
+
             
-            model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
+            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
             //Game1.getEffect().World = Matrix.Identity;
             //Game1.getEffect().CurrentTechnique.Passes[0].Apply();
             
