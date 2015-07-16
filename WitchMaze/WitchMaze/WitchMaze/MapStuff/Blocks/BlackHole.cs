@@ -17,8 +17,6 @@ namespace WitchMaze.MapStuff.Blocks
 
         public VertexPositionColor[] plane;
 
-        Model model;
-
         public BlackHole(Vector3 _position/*, Color color*/, Model _model)
         {
             /*plane = new VertexPositionColor[4];

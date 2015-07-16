@@ -15,8 +15,6 @@ namespace WitchMaze.MapStuff.Blocks
     {
         public VertexPositionColor[] plane;
 
-        Model model;
-
 
         public Floor(Vector3 _position, /*Color color,*/ Model _model )
         {

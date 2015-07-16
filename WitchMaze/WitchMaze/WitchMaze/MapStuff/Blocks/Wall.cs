@@ -14,7 +14,6 @@ namespace WitchMaze.MapStuff.Blocks
 {
     class Wall : Block
     {
-        Model model;
 
 
 
