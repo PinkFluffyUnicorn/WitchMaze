@@ -25,7 +25,6 @@ namespace WitchMaze.MapStuff
 
         public void draw(GameTime gameTime)
         {
-        
             for (int i = 0; i < Settings.mapSizeX; i++)
             {
                 for ( int j = 0; j < Settings.mapSizeZ; j++)

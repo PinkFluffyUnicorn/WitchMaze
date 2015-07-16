@@ -33,17 +33,45 @@ namespace WitchMaze.MapStuff
             {
                 for (int j = 0; j < Settings.mapSizeZ; j++)
                 {
-                    if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
+
+                    //chess pattern inside
+                    if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
+                    {
                         mapType[i, j] = 2;
-                    else
+                    }
+                    if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
+                    {
                         mapType[i, j] = 0;
+                    }
+
+
+                    // Edge of Labyrinth 
+                    if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
+                    {
+                            mapType[i, j] = 2;
+                    }
+
+
                 }
+            }
+
+
+            //for testing if the Map is filled correctly
+            /*
+            for (int i = 0; i < Settings.mapSizeX; i++)
+            {
+                for (int j = 0; j < Settings.mapSizeX; j++)
+                {
+                    Console.Write(mapType[i, j]);
+                }
+                Console.WriteLine();
             }
             //Console.WriteLine("PlaceWallsRandom");
             //placeWallsRandom(6, 10, 6, 5);
             //placeWallsRandom(4, 6, 4, 8);
 
             // BlackHoles noch hinzufügen, nach gleichem Prinzip
+             */
         }
 
         public Map generateMap()
@@ -59,13 +87,13 @@ namespace WitchMaze.MapStuff
                         // map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.floorColor);
                         map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"), true, false);
                     }
-                    if (mapType[i, j] == 2)
+                    else if (mapType[i, j] == 2)
                     {
-                        Console.Write("zeichnen");
-                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY / 2.0f), (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("cube"), false, false);
+                        map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), (float)(Settings.blockSizeY * 0.5f), (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("cube"), false, false);
                         //y- Position wird in der eigenen KLasse gesetzt ... ist einfacher
+                        
                     }    
-                    if (mapType[i,j] == 1)
+                    else //if (mapType[i,j] == 1)
                     {
                         //map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0f, (float)(j * Settings.blockSizeZ)), Settings.blackHoleColor);
                         map.map[i, j] = new Wall(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"), true, true);

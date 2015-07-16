@@ -64,6 +64,7 @@ namespace WitchMaze.Player
             model = Game1.getContent().Load<Model>("cube");
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
+            effect.LightingEnabled = true;
         }
 
 
@@ -71,7 +72,7 @@ namespace WitchMaze.Player
         public void update(GameTime gameTime)
         {
 
-            this.moveG(gameTime); //GamePad
+           // this.moveG(gameTime); //GamePad
        
             this.moveK(gameTime); //Keyboard
            
