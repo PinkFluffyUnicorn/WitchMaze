@@ -29,9 +29,9 @@ namespace WitchMaze.MapStuff.Blocks
         
         public override void draw(GameTime gameTime)
         {
-           
-            model.Draw(Matrix.CreateScale(0.05f)*Matrix.CreateScale(Settings.blockSizeX, Settings.blockSizeY, Settings.blockSizeZ) * Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
-            Game1.effect.LightingEnabled = true;
+
+            
+            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
             //Game1.getEffect().World = Matrix.Identity;
             //Game1.getEffect().CurrentTechnique.Passes[0].Apply();
             

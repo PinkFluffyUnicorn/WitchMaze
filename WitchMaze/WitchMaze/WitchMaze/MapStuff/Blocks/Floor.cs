@@ -36,7 +36,7 @@ namespace WitchMaze.MapStuff.Blocks
 
         public override void draw(GameTime gameTime)
         {
-            model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateScale(Settings.blockSizeX, 1, Settings.blockSizeZ)* Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
+            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
         }
     }
 }
