@@ -156,41 +156,41 @@ namespace WitchMaze.Player
             // Get the current gamepad state.
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
             
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.0f)
             {// Player one has pressed the left thumbstick up.
 
                 position = position + direction * (currentState.ThumbSticks.Left.Y/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0.0f)
             {// Player one has pressed the left thumbstick down.
 
                 position = position + direction * (currentState.ThumbSticks.Left.Y/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.0f)
             {// Player one has pressed the left thumbstick right.
 
                 position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
                 lookAt = position + direction;
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0.0f)
             {// Player one has pressed the left thumbstick left.
 
                 position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
                 lookAt = position + direction;
             }
             
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X >= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.0f)
             {// Player one has pressed the right thumbstick right.
 
                 lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
             }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X <= 0.0f)
+            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0.0f)
             {// Player one has pressed the right thumbstick left.
 
                 lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));

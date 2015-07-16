@@ -70,28 +70,28 @@ namespace WitchMaze.GameStates
                 GraphicsDevice graphicsDevice = Game1.getGraphics().GraphicsDevice;
 
                 sOptionsIsNotPressed = new SpriteBatch(graphicsDevice);
-                optionsIsNotPressed = Game1.getContent().Load<Texture2D>("options");
+                optionsIsNotPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/options");
 
                 sOptionsIsPressed = new SpriteBatch(graphicsDevice);
-                optionsIsPressed = Game1.getContent().Load<Texture2D>("optionsIsPressed");
+                optionsIsPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/optionsIsPressed");
 
                 sExitIsNotPressed = new SpriteBatch(graphicsDevice);
-                exitIsNotPressed = Game1.getContent().Load<Texture2D>("exit");
+                exitIsNotPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/exit");
 
                 sExitIsPressed = new SpriteBatch(graphicsDevice);
-                exitIsPressed = Game1.getContent().Load<Texture2D>("exitIsPressed");
+                exitIsPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/exitIsPressed");
 
                 sCreditsIsNotPressed = new SpriteBatch(graphicsDevice);
-                creditsIsNotPressed = Game1.getContent().Load<Texture2D>("credits");
+                creditsIsNotPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/credits");
 
                 sCreditsIsPressed = new SpriteBatch(graphicsDevice);
-                creditsIsPressed = Game1.getContent().Load<Texture2D>("creditsIsPressed");
+                creditsIsPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/creditsIsPressed");
 
                 sStartGameIsNotPressed = new SpriteBatch(graphicsDevice);
-                startGameIsNotPressed = Game1.getContent().Load<Texture2D>("startGame");
+                startGameIsNotPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/startGame");
 
                 sStartGameIsPressed = new SpriteBatch(graphicsDevice);
-                startGameIsPressed = Game1.getContent().Load<Texture2D>("startGameIsPressed");
+                startGameIsPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/startGameIsPressed");
             }
         }
 
