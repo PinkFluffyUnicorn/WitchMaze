@@ -52,7 +52,7 @@ namespace WitchMaze.GameStates.InGameStates
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             player1.draw(gameTime);
-            map.draw(gameTime);
+            map.draw();
         }
     }
 }

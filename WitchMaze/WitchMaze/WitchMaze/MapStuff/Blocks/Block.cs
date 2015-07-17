@@ -15,7 +15,7 @@ namespace WitchMaze.MapStuff.Blocks
     abstract class Block
     {
         /// <summary>
-        /// Position of the Block
+        /// Position of a Block
         /// </summary>
         public Vector3 position { get; protected set; }
         /// <summary>
