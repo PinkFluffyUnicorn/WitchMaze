@@ -15,28 +15,51 @@ namespace WitchMaze.MapStuff.Blocks
     {
         public VertexPositionColor[] plane;
 
-        Model model;
-
-
-        public Floor(Vector3 _position, /*Color color,*/ Model _model, Boolean _walkable, Boolean _transportable )
+        /// <summary>
+        /// Constructor for Floor
+        /// </summary>
+        /// <param name="_position"></param>
+        /// <param name="_model"></param>
+        public Floor(Vector3 _position, /*Color color,*/ Model _model )
         {
-            /*plane = new VertexPositionColor[4];
-            plane[0] = new VertexPositionColor(position + new Vector3(Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), color);
-            plane[1] = new VertexPositionColor(position + new Vector3(Settings.blockSizeX / 2, 0f, -1 * Settings.blockSizeZ / 2f), color);
-            plane[2] = new VertexPositionColor(position + new Vector3(-1 * Settings.blockSizeX / 2, 0f, Settings.blockSizeZ / 2f), color);
-            plane[3] = new VertexPositionColor(position + new Vector3(-1 * Settings.blockSizeX / 2f, 0f, -1 * Settings.blockSizeZ / 2f), color);*/
-
             model = _model;
             position = _position;
-            walkable = _walkable;
-            transportable = _transportable;
+            walkable = true;
+            transportable = false;
 
         }
 
 
-        public override void draw(GameTime gameTime)
+        /// <summary>
+        /// Own Draw Method
+        /// Calculates world, view and Projection Matrix and sets the Lighting 
+        /// </summary>
+        public override void draw()
         {
-            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.LightingEnabled = true; // Turn on the lighting subsystem.
+
+                     effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+                     effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+                     effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+
+                     /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
+
+                    effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                     effect.View = Player.Player.getCamera();
+                     effect.Projection = Player.Player.getProjection();
+                }
+
+                mesh.Draw();
+            }
+
+            //model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
+
         }
     }
 }

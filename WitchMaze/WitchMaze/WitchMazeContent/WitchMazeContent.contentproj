@@ -42,7 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="startGame.png">
+    <Compile Include="Textures\mainmenu\startGame.png">
       <Name>startGame</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -56,7 +56,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="options.png">
+    <Compile Include="Textures\mainmenu\options.png">
       <Name>options</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -64,7 +64,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="credits.png">
+    <Compile Include="Textures\mainmenu\credits.png">
       <Name>credits</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -72,7 +72,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="exit.png">
+    <Compile Include="Textures\mainmenu\exit.png">
       <Name>exit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -80,25 +80,25 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="creditsIsPressed.png">
+    <Compile Include="Textures\mainmenu\creditsIsPressed.png">
       <Name>creditsIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="exitIsPressed.png">
+    <Compile Include="Textures\mainmenu\exitIsPressed.png">
       <Name>exitIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="optionsIsPressed.png">
+    <Compile Include="Textures\mainmenu\optionsIsPressed.png">
       <Name>optionsIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="startGameIsPressed.png">
+    <Compile Include="Textures\mainmenu\startGameIsPressed.png">
       <Name>startGameIsPressed</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -122,7 +122,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="option\offButton.png">
+    <Compile Include="Textures\option\offButton.png">
       <Name>offButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -130,7 +130,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="option\onButton.png">
+    <Compile Include="Textures\option\onButton.png">
       <Name>onButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>

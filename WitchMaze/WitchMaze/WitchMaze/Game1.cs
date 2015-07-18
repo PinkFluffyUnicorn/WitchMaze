@@ -27,7 +27,7 @@ namespace WitchMaze
         EGameState currentGameState;
         EGameState prevGameState;
 
-        static BasicEffect effect;
+         public static BasicEffect effect;
 
         //getter für graphicsDeviceManager und Content Manager
 

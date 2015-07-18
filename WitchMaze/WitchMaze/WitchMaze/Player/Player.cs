@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 namespace WitchMaze.Player
 {
     class Player
@@ -64,10 +63,22 @@ namespace WitchMaze.Player
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
+<<<<<<< HEAD
             position = new Vector3(10, 1, 10);
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
+=======
+            position = new Vector3(5, 1, 5);
+>>>>>>> fd96caf9fd33b67b0c958030dde107219f49fe24
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
+
+            //draufsicht
+           /* position = new Vector3(5, -40, 5);
+            lookAt = new Vector3(0, 1, 1);
+            upDirection = new Vector3(0, 0, 1);*/
+
+
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
 
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
@@ -75,6 +86,7 @@ namespace WitchMaze.Player
             model = Game1.getContent().Load<Model>("cube");
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
+            effect.LightingEnabled = true;
         }
 
 
@@ -83,7 +95,12 @@ namespace WitchMaze.Player
         {
             this.reportStatus();
 
+<<<<<<< HEAD
             this.moveG(gameTime); //GamePad
+=======
+           // this.moveG(gameTime); //GamePad
+       
+>>>>>>> fd96caf9fd33b67b0c958030dde107219f49fe24
             this.moveK(gameTime); //Keyboard
 
             this.itemCollision();
@@ -225,6 +242,7 @@ namespace WitchMaze.Player
         /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
         {
+            return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
             playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             Console.WriteLine(playerMapPosition);
