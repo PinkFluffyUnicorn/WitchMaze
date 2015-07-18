@@ -4,25 +4,43 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WitchMaze.Items;
+using WitchMaze.MapStuff;
 
 namespace WitchMaze.GameStates
 {
-    public interface InGameState
+    abstract class InGameState
     {
-        void initialize();
 
-        void loadContent();
+        static protected MapCreator mapCreator;
+        static protected Map map;
 
-        void unloadContent();
+        static protected ItemMap itemMap;
+        static protected ItemSpawner itemSpawner;
 
-        EInGameState update(GameTime gameTime);
+        public static Map getMap() { return map; }
+        public static ItemMap getItemMap() { return itemMap; }
+        public static ItemSpawner getItemSpawner() { return itemSpawner; }
+        //vllt ItemSpawner, Map, ect schon hier Updaten und Initialisieren, einfacher für folgende GameStates
 
-        void Draw(GameTime gameTime);
+
+
+
+
+        //standart klassen zum überschreiben
+        public abstract void initialize();
+
+        public abstract void loadContent();
+
+        public abstract void unloadContent();
+
+        public abstract EInGameState update(GameTime gameTime);
+
+        public abstract void Draw(GameTime gameTime);
     }
 
     public enum EInGameState
     {
-        CharacterSelection,
         SingleTime,
         MultiTime,
         MultiNotTime, //dunno good name

@@ -120,9 +120,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="GameStates\Options.cs" />
+    <Compile Include="Items\GreenBottle.cs" />
     <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemMap.cs" />
     <Compile Include="Items\ItemSpawner.cs" />
-    <Compile Include="Items\UselessStick.cs" />
     <Compile Include="MapStuff\Blocks\BlackHole.cs" />
     <Compile Include="MapStuff\Blocks\Block.cs" />
     <Compile Include="MapStuff\Blocks\Floor.cs" />

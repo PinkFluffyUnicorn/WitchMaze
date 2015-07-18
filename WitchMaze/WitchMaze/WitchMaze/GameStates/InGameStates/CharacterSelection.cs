@@ -14,8 +14,10 @@ using Microsoft.Xna.Framework.Media;
 
 namespace WitchMaze.GameStates.InGameStates
 {
-    class CharacterSelection : InGameState
+    class CharacterSelection : GameState
     {
+        public CharacterSelection() { }
+
         public void initialize()
         {
             throw new NotImplementedException();
@@ -31,7 +33,7 @@ namespace WitchMaze.GameStates.InGameStates
             throw new NotImplementedException();
         }
 
-        public EInGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             throw new NotImplementedException();
         }

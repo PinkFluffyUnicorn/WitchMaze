@@ -7,10 +7,12 @@ using System.Text;
 
 namespace WitchMaze.Items
 {
-    class Item
+    abstract class Item
     {
-        Vector3 position;
-        Model modell;
+        public Vector3 position { get; protected set; }
+        public Model model { get; protected set; }
+
+        public abstract void draw();
 
     }
 }

@@ -66,9 +66,6 @@ namespace WitchMaze.GameStates
 
             switch (currentInGameState)
             {
-                case EInGameState.CharacterSelection:
-                    inGameState = new InGameStates.CharacterSelection();
-                    break;
                 case EInGameState.SingleTime:
                     inGameState = new InGameStates.SingleTime();
                     break;
