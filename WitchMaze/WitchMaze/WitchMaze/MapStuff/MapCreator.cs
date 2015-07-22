@@ -15,17 +15,29 @@ namespace WitchMaze.MapStuff
 {
     class MapCreator
     {
+        /// <summary>
+        /// double Array to store which Type the Tile is going to be 
+        /// </summary>
         public int[,] mapType;
+        /// <summary>
+        /// stores the Map
+        /// </summary>
         public Map map;
         // Types(weil ich nicht weiß, ob hier ein enum shcon sinn macht ^^
         // 0: Floor, 1: Wall, 2: Blackhole
 
+        /// <summary>
+        /// Constructor for MapCreator, initializes mapType and map
+        /// </summary>
         public MapCreator()
         {
             mapType = new int[Settings.mapSizeX, Settings.mapSizeZ];
             map = new Map();
         }
 
+        /// <summary>
+        /// mapType gets filled here, here is the Place for the fancy random Function ^^
+        /// </summary>
         public void initialize()
         {
             
@@ -35,10 +47,10 @@ namespace WitchMaze.MapStuff
                 {
 
                     //chess pattern inside
-                   /* if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
+                    if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
                     {
                         mapType[i, j] = 2;
-                    }*/
+                    }
                     if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
                     {
                         mapType[i, j] = 1;
@@ -46,10 +58,10 @@ namespace WitchMaze.MapStuff
 
 
                     // Edge of Labyrinth 
-                   /* if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
+                    if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
                     {
                             mapType[i, j] = 2;
-                    }*/
+                    }
 
 
                 }
@@ -74,6 +86,10 @@ namespace WitchMaze.MapStuff
              */
         }
 
+        /// <summary>
+        /// Method for generating the Map from MapType, Map gets filled here
+        /// </summary>
+        /// <returns>Map</returns>
         public Map generateMap()
         {
             
@@ -103,6 +119,14 @@ namespace WitchMaze.MapStuff
             return map;
         }
 
+
+        /// <summary>
+        /// first try for random algorithm but makes no sense ^^
+        /// </summary>
+        /// <param name="minlengthWall"></param>
+        /// <param name="maxlengthWall"></param>
+        /// <param name="granularity"></param>
+        /// <param name="numWalls"></param>
         public void placeWallsRandom(int minlengthWall, int maxlengthWall, int granularity, int numWalls)
         {
             Random r = new Random();

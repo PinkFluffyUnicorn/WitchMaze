@@ -14,9 +14,15 @@ namespace WitchMaze.MapStuff
 {
     class Map
     {
+        /// <summary>
+        /// Map
+        /// </summary>
         public Block[,] map;
 
 
+        /// <summary>
+        /// Constructor for Map
+        /// </summary>
         public Map()
         {
             map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
@@ -25,14 +31,18 @@ namespace WitchMaze.MapStuff
         /// <summary>
         /// returns if a tile at position p is walkable
         /// </summary>
-        /// <param name="p"></param>
-        /// <returns></returns>
+        /// <param name="p">Vector2 position</param>
+        /// <returns>bool</returns>
         public bool getTileWalkableAt(Vector2 p)
         {
             return map[(int)p.X, (int)p.Y].walkable;
         }
 
-        public void draw(GameTime gameTime)
+        /// <summary>
+        /// draws the Map
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void draw()
         {
             for (int i = 0; i < Settings.mapSizeX; i++)
             {
