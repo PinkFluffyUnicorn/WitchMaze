@@ -44,6 +44,7 @@ namespace WitchMaze.MapStuff
         /// <param name="gameTime"></param>
         public void draw()
         {
+
             for (int i = 0; i < Settings.mapSizeX; i++)
             {
                 for ( int j = 0; j < Settings.mapSizeZ; j++)

@@ -16,7 +16,9 @@ namespace WitchMaze.GameStates
 {
     class MainMenu : GameState
     {
-               
+        //GraphicsDeviceManager graphics;
+        //GraphicsDevice graphicsDevice;
+             
         int count = 0;
         bool isPressed = false;
 
@@ -66,6 +68,8 @@ namespace WitchMaze.GameStates
             if (Game1.getGraphics() != null)
             {
                 GraphicsDevice graphicsDevice = Game1.getGraphics().GraphicsDevice;
+
+               
 
                 sOptionsIsNotPressed = new SpriteBatch(graphicsDevice);
                 optionsIsNotPressed = Game1.getContent().Load<Texture2D>("Textures/mainmenu/options");

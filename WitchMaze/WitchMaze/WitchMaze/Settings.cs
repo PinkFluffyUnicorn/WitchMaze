@@ -9,6 +9,8 @@ namespace WitchMaze
 {
     class Settings
     {
+        public static int resolutionX = 340;
+        public static int resolutionY = 480;
         public static int resolutionX = 1280;
         public static int resolutionY = 850;
 
@@ -21,10 +23,8 @@ namespace WitchMaze
         public static Color blackHoleColor = Color.Black;
         public static Color WallColor = Color.Gold;
 
-
-        public static int mapSizeX = 40;
-        public static int mapSizeZ = 40;
-
+        public static int mapSizeX = 11;
+        public static int mapSizeZ = 21;
 
 // if changing GraphicsDeviceManager properties outside 
 // your game constructor also call:
