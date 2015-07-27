@@ -13,7 +13,7 @@ using WitchMaze.MapStuff.Blocks;
 
 namespace WitchMaze.MapStuff
 {
-    class MapCreator
+    class MapCreator 
     {
         /// <summary>
         /// double Array to store which Type the Tile is going to be 
@@ -67,7 +67,7 @@ namespace WitchMaze.MapStuff
                 }
             }
 
-            createMaze();
+            //createMaze();
 
             // BlackHoles noch hinzufügen, nach gleichem Prinzip
              
