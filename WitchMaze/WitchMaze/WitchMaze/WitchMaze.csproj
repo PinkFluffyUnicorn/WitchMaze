@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="GameState.cs" />
     <Compile Include="GameStates\Credits.cs" />
+    <Compile Include="GameStates\Exit.cs" />
     <Compile Include="GameStates\InGame.cs" />
     <Compile Include="GameStates\InGameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
