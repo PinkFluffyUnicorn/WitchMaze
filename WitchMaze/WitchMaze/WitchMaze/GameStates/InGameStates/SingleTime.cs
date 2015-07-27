@@ -10,8 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.MapStuff;
-using WitchMaze.Items;
+using WitchMaze.ItemStuff.Items;
 using WitchMaze.Player;
+using WitchMaze.ItemStuff;
 
 namespace WitchMaze.GameStates.InGameStates
 {
@@ -54,12 +55,9 @@ namespace WitchMaze.GameStates.InGameStates
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             player1.draw(gameTime);
-<<<<<<< HEAD
-            map.draw(gameTime);
             itemMap.draw();
-=======
             map.draw();
->>>>>>> fd96caf9fd33b67b0c958030dde107219f49fe24
+
         }
     }
 }

@@ -28,11 +28,10 @@ namespace WitchMaze
     public enum EGameState
     {
         MainMenu,
-        InGame,
         Credits,
         Options,
         Exit,
+        CharacterSelection,
+        InGame,
     }
-
-
 }

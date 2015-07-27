@@ -110,20 +110,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameState.cs" />
+    <Compile Include="GameStates\GameState.cs" />
+    <Compile Include="GameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\Credits.cs" />
     <Compile Include="GameStates\InGame.cs" />
-    <Compile Include="GameStates\InGameStates\CharacterSelection.cs" />
+    <Compile Include="GameStates\InGameStates\GameWon.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
     <Compile Include="GameStates\InGameStates\SingleTime.cs" />
     <Compile Include="GameStates\MainMenu.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="GameStates\Options.cs" />
-    <Compile Include="Items\GreenBottle.cs" />
-    <Compile Include="Items\Item.cs" />
-    <Compile Include="Items\ItemMap.cs" />
-    <Compile Include="Items\ItemSpawner.cs" />
+    <Compile Include="InterfaceObjects\Icon.cs" />
+    <Compile Include="InterfaceObjects\InterfaceObject.cs" />
+    <Compile Include="InterfaceObjects\LeftRightSwitch.cs" />
+    <Compile Include="InterfaceObjects\Button.cs" />
+    <Compile Include="ItemStuff\Items\GreenBottle.cs" />
+    <Compile Include="ItemStuff\Items\Item.cs" />
+    <Compile Include="ItemStuff\ItemMap.cs" />
+    <Compile Include="ItemStuff\ItemSpawner.cs" />
+    <Compile Include="ItemStuff\Items\PinkBottle.cs" />
     <Compile Include="MapStuff\Blocks\BlackHole.cs" />
     <Compile Include="MapStuff\Blocks\Block.cs" />
     <Compile Include="MapStuff\Blocks\Floor.cs" />

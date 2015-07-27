@@ -47,15 +47,17 @@ namespace WitchMaze.MapStuff
                 {
 
                     //chess pattern inside
-                    if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
-                    {
-                        mapType[i, j] = 2;
-                    }
-                    if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
-                    {
-                        mapType[i, j] = 1;
-                    }
+                    //if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
+                    //{
+                    //    mapType[i, j] = 2;
+                    //}
+                    //if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
+                    //{
+                    //    mapType[i, j] = 1;
+                    //}
 
+                    //empty pattern
+                    mapType[i, j] = 0;
 
                     // Edge of Labyrinth 
                     if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)

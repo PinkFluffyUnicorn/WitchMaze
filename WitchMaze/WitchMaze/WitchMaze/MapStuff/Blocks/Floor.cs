@@ -44,8 +44,10 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.LightingEnabled = true; // Turn on the lighting subsystem.
 
                      effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-                     effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+                     effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  // coming along the x-axis
                      effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+
+                      
 
                      /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                      effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */

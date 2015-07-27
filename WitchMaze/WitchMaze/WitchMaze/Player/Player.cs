@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WitchMaze.ItemStuff.Items;
 
 namespace WitchMaze.Player
 {
@@ -28,7 +29,7 @@ namespace WitchMaze.Player
         Vector3 ortoDirection; //für bewegung links rechts
         Model model;
         Vector2 playerMapPosition;
-        List<Items.Item> itemsCollected; 
+        List<Item> itemsCollected; 
         
 
         //Shader
@@ -56,19 +57,16 @@ namespace WitchMaze.Player
 
         public Player()
         {
-            itemsCollected = new List<Items.Item>();
+            itemsCollected = new List<Item>();
             keyboard = Keyboard.GetState();
             aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
              // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
-<<<<<<< HEAD
+
             position = new Vector3(10, 1, 10);
-            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
-=======
-            position = new Vector3(5, 1, 5);
->>>>>>> fd96caf9fd33b67b0c958030dde107219f49fe24
+            //position = new Vector3(5, 1, 5);
             lookAt = new Vector3(0, 1, 1);
             upDirection = new Vector3(0, 1, 0);
 
@@ -78,7 +76,7 @@ namespace WitchMaze.Player
             upDirection = new Vector3(0, 0, 1);*/
 
 
-            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
             //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
             camera = Matrix.CreateWorld(position,lookAt , upDirection);
@@ -95,12 +93,8 @@ namespace WitchMaze.Player
         {
             this.reportStatus();
 
-<<<<<<< HEAD
             this.moveG(gameTime); //GamePad
-=======
-           // this.moveG(gameTime); //GamePad
-       
->>>>>>> fd96caf9fd33b67b0c958030dde107219f49fe24
+
             this.moveK(gameTime); //Keyboard
 
             this.itemCollision();
@@ -242,7 +236,7 @@ namespace WitchMaze.Player
         /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
         {
-            return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
+            //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
             playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             Console.WriteLine(playerMapPosition);

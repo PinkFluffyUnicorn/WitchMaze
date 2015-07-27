@@ -16,9 +16,7 @@ namespace WitchMaze.GameStates
 {
     class MainMenu : GameState
     {
-        //GraphicsDeviceManager graphics;
-        //GraphicsDevice graphicsDevice;
-                
+               
         int count = 0;
         bool isPressed = false;
 
@@ -116,7 +114,7 @@ namespace WitchMaze.GameStates
             }
             //switch the GameState
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 0)
-                return EGameState.InGame;
+                return EGameState.CharacterSelection;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 1)
                 return EGameState.Options;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count % 4 == 2)

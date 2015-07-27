@@ -51,6 +51,11 @@ namespace WitchMaze
             handleGameState();
             //graphicsDevice = GraphicsDevice;
             graphics = new GraphicsDeviceManager(this);
+            //fullscreen
+            graphics.IsFullScreen = Settings.isFullScreen;
+            //fenstergröße
+            graphics.PreferredBackBufferHeight = Settings.resolutionY;
+            graphics.PreferredBackBufferWidth = Settings.resolutionX;
             
             Content.RootDirectory = "Content";
             content = Content;
@@ -112,7 +117,7 @@ namespace WitchMaze
 
             // TODO: Add your update logic here
             currentGameState = gameState.update(gameTime);
-
+            Console.WriteLine(currentGameState);
             if (currentGameState != prevGameState)
                 handleGameState();
 
@@ -157,8 +162,8 @@ namespace WitchMaze
                 case EGameState.MainMenu:
                     gameState = new GameStates.MainMenu();
                     break;
-                case EGameState.InGame:
-                    gameState = new GameStates.InGame();
+                case EGameState.CharacterSelection:
+                    gameState = new GameStates.CharacterSelection();
                     break;
                 case EGameState.Credits:
                     gameState = new GameStates.Credits();
@@ -166,11 +171,14 @@ namespace WitchMaze
                 case EGameState.Options:
                     gameState = new GameStates.Options();
                     break;
+                case EGameState.InGame:
+                    gameState = new GameStates.InGame();
+                    break;
             }
 
-            gameState.loadContent();
-
             gameState.initialize();
+
+            gameState.loadContent();
 
             prevGameState = currentGameState;
         }

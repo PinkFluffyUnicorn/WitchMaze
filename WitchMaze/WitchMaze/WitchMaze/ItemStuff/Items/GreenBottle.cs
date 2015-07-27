@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WitchMaze.Items
+namespace WitchMaze.ItemStuff.Items
 {
     class GreenBottle : Item
     {
@@ -13,11 +13,6 @@ namespace WitchMaze.Items
         {
             position = _position;
             model = Game1.getContent().Load<Model>("bottle");
-        }
-
-        public override void draw()
-        {
-            model.Draw(Matrix.CreateTranslation(position), Player.Player.getCamera(), Player.Player.getProjection());
         }
     }
 }

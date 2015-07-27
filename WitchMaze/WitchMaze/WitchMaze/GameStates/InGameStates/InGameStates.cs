@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using WitchMaze.Items;
+using WitchMaze.ItemStuff.Items;
 using WitchMaze.MapStuff;
+using WitchMaze.ItemStuff;
 
 namespace WitchMaze.GameStates
 {
@@ -46,5 +47,6 @@ namespace WitchMaze.GameStates
         MultiNotTime, //dunno good name
         ExitInGame,
         ExitGame,
+        GameWon,
     }
 }
