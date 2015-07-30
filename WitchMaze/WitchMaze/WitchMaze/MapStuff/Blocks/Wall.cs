@@ -19,8 +19,8 @@ namespace WitchMaze.MapStuff.Blocks
         /// <summary>
         /// Constructor for Wall - Object
         /// </summary>
-        /// <param name="_model"></param>
-        /// <param name="_position"></param>
+        /// <param name="_model">Modell</param>
+        /// <param name="_position">Position Vector3, Weltkoordinaten</param>
         public Wall(Model _model, Vector3 _position)
         {
 

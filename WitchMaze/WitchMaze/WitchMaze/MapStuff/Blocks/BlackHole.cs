@@ -21,8 +21,8 @@ namespace WitchMaze.MapStuff.Blocks
         /// <summary>
         /// Constructor for BlackHoles
         /// </summary>
-        /// <param name="_position"></param>
-        /// <param name="_model"></param>
+        /// <param name="_position">Position Vector3, Weltkoordinaten</param>
+        /// <param name="_model">Modell</param>
         public BlackHole(Vector3 _position/*, Color color*/, Model _model)
         {
             model = _model;
