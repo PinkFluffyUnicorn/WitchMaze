@@ -138,14 +138,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="player1.fbx">
-      <Name>player1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\SpecialItems\AcaFigure.fbx">
       <Name>AcaFigure</Name>
       <Importer>FbxImporter</Importer>
@@ -164,8 +156,8 @@
       <Processor>ModelProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Models\Items\blueCrystal.fbx">
-      <Name>blueCrystal</Name>
+    <Compile Include="Models\Items\BlueCrystal.fbx">
+      <Name>BlueCrystal</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -203,11 +195,56 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\MapStuff\" />
-    <Folder Include="Models\Player\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Items\MonsterEye.fbx">
       <Name>MonsterEye</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Player\player1.fbx">
+      <Name>player1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player2.fbx">
+      <Name>player2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player3.fbx">
+      <Name>player3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player4.fbx">
+      <Name>player4</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Items\Branch.fbx">
+      <Name>Branch</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Items\GreenSlime.fbx">
+      <Name>GreenSlime</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Items\Pig.fbx">
+      <Name>Pig</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
