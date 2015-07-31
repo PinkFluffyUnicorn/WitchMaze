@@ -10,49 +10,54 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.MapStuff;
-using WitchMaze.Items;
+using WitchMaze.ItemStuff.Items;
 using WitchMaze.Player;
+using WitchMaze.ItemStuff;
 
 namespace WitchMaze.GameStates.InGameStates
 {
     class SingleTime : InGameState
     {
         //basicly a test
-        static MapCreator mapCreator;
-        static Map map;
-
-        public static Map getMap() { return map; }
+        public SingleTime() { }
 
         Player.Player player1;
-        public void initialize()
+        public override void initialize()
         {
             mapCreator = new MapCreator();
             mapCreator.initialize();
             map = mapCreator.generateMap();
 
+            itemMap = new ItemMap();
+            itemSpawner = new ItemSpawner();
+            itemSpawner.initialSpawn(itemMap);
+
             player1 = new Player.Player();
         }
 
-        public void loadContent()
+        public override void loadContent()
         {
             //throw new NotImplementedException();
         }
 
-        public void unloadContent()
+        public override void unloadContent()
         {
             //throw new NotImplementedException();
         }
 
-        public EInGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override EInGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             player1.update(gameTime);
+            itemSpawner.update(itemMap, gameTime);
             return EInGameState.SingleTime;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             player1.draw(gameTime);
+            itemMap.draw();
             map.draw();
+
         }
     }
 }

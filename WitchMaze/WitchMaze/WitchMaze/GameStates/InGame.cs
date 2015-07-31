@@ -19,14 +19,16 @@ namespace WitchMaze.GameStates
         EInGameState prevInGameState;
 
         InGameState inGameState = new WitchMaze.GameStates.InGameStates.SingleTime();
-        
+
         public void initialize()
         {
+            Console.Out.Write("InGame Initialize");
             inGameState.initialize();
         }
 
         public void loadContent()
         {
+            Console.Out.Write("InGame loadContent");
             inGameState.loadContent();
         }
 
@@ -37,38 +39,32 @@ namespace WitchMaze.GameStates
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            Console.Out.Write("InGame update");
             prevInGameState = currentInGameState;
             currentInGameState = inGameState.update(gameTime);
-            if(currentInGameState != prevInGameState)
-
+            if (currentInGameState != prevInGameState)
+                handleInGameState();
 
             if (currentInGameState == EInGameState.ExitInGame)
                 return EGameState.MainMenu;
-            if (currentInGameState == EInGameState.ExitInGame)
-                return EGameState.Exit;
             return EGameState.InGame;
 
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            
             inGameState.Draw(gameTime);
-           
         }
 
         /// <summary>
         /// Handles the GameStateChange, pretty basic
         /// </summary>
-        public void handleGameState()
+        public void handleInGameState()
         {
-            Console.Out.Write("GameState change! \n");
+            Console.Out.Write("InGameState change! \n");
 
             switch (currentInGameState)
             {
-                case EInGameState.CharacterSelection:
-                    inGameState = new InGameStates.CharacterSelection();
-                    break;
                 case EInGameState.SingleTime:
                     inGameState = new InGameStates.SingleTime();
                     break;
@@ -80,9 +76,9 @@ namespace WitchMaze.GameStates
                     throw new NotImplementedException();
             }
 
-            inGameState.loadContent();
-
             inGameState.initialize();
+
+            inGameState.loadContent();
 
             prevInGameState = currentInGameState;
         }
