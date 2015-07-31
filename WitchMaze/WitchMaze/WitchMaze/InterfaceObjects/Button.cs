@@ -59,9 +59,9 @@ namespace WitchMaze.InterfaceObjects
         public override float getWidth()
         {
             if(selected)
-                return buttonTextureSelected.Width;
+                return buttonTextureSelected.Width * scale;
             else
-                return buttonTextureNotSelected.Width;
+                return buttonTextureNotSelected.Width * scale;
         }
         /// <summary>
         /// Returns the Height of the Button
@@ -70,9 +70,9 @@ namespace WitchMaze.InterfaceObjects
         public override float getHeight()
         {
             if (selected)
-                return buttonTextureSelected.Height;
+                return buttonTextureSelected.Height * scale;
             else
-                return buttonTextureNotSelected.Height;
+                return buttonTextureNotSelected.Height * scale;
         }
         /// <summary>
         /// draws the Button
@@ -82,13 +82,13 @@ namespace WitchMaze.InterfaceObjects
             if (selected)
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                spriteBatch.Draw(buttonTextureSelected, position, Color.White);
+                spriteBatch.Draw(buttonTextureSelected, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 spriteBatch.End();
             }
             else
             {//!selected
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                spriteBatch.Draw(buttonTextureNotSelected, position, Color.White);
+                spriteBatch.Draw(buttonTextureNotSelected, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
                 spriteBatch.End();
             }
         }

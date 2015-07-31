@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WitchMaze.ItemStuff.Items.Serius
+namespace WitchMaze.ItemStuff.Items
 {
     class UselessStick
     {

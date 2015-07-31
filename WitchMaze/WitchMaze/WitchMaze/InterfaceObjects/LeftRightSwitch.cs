@@ -27,7 +27,9 @@ namespace WitchMaze.InterfaceObjects
             Left = new Button(new Vector2(position.X, position.Y), "Textures/CharacterSelection/LeftNotSelected", "Textures/CharacterSelection/LeftSelected");
             for (int i = 0; i < texturePaths.Length; i++)
                 iconsInside[i] = new Icon(new Vector2(position.X + Left.getWidth(), position.Y), texturePaths[i]);
-            Right = new Button(new Vector2(position.X + iconsInside[0].getWidth() + Left.getWidth(), position.Y), "Textures/CharacterSelection/RightNotSelected", "Textures/CharacterSelection/RightSelected");
+            Left.setPosition(new Vector2(position.X, position.Y + (iconsInside[pointer].getHeight() / 2) - Left.getHeight() / 2));
+
+            Right = new Button(new Vector2(position.X + iconsInside[0].getWidth() + Left.getWidth(), position.Y + (iconsInside[pointer].getHeight() / 2) - Left.getHeight() / 2), "Textures/CharacterSelection/RightNotSelected", "Textures/CharacterSelection/RightSelected");
 
         }
 

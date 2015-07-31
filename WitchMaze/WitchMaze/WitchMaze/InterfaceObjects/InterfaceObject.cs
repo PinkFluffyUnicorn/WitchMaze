@@ -10,6 +10,10 @@ namespace WitchMaze.InterfaceObjects
     {
         //Klasse existiert im moment nur, damit man InterfacePbjects zusammen in eine Liste oder so tun kann... 
         protected Vector2 position;
+        protected float scale = Settings.getInterfaceScale();
+
+        public Vector2 getPosition() { return position; }
+        public void setPosition(Vector2 p) { position = p; }
         /// <summary>
         /// returns the width of the interfaceObject
         /// </summary>

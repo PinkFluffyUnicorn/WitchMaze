@@ -11,12 +11,10 @@ namespace WitchMaze.GameStates
     class CharacterSelection : GameState
     {
         KeyboardState keyboard = Keyboard.GetState();
-
+        float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
+        float offset = 10;//offset zwischen Icons und Switches
+        
         Vector2 gameModeIconPosition = new Vector2(0, 0);
-        Vector2 player1Position = new Vector2(0, 300);
-        Vector2 player2Position = new Vector2(0, 500);
-        Vector2 player3Position = new Vector2(0, 700);
-        Vector2 player4Position = new Vector2(0, 900);
 
         Icon gameModeIcon;
 
@@ -39,22 +37,26 @@ namespace WitchMaze.GameStates
 
         public void loadContent() 
         {
+            
             if (Game1.getGraphics() != null)
             {
+                Console.WriteLine(Settings.getInterfaceScale());
+                distY *= Settings.getInterfaceScale();
+                offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
-                player1 = new Icon(player1Position, "Textures/CharacterSelection/Player1NotSelected");
-                player2 = new Icon(player2Position, "Textures/CharacterSelection/Player2NotSelected");
-                player3 = new Icon(player3Position, "Textures/CharacterSelection/Player3NotSelected");
-                player4 = new Icon(player4Position, "Textures/CharacterSelection/Player4NotSelected");
+                player1 = new Icon(new Vector2(0, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
+                player2 = new Icon(new Vector2(0, (player1.getPosition().Y + player1.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
+                player3 = new Icon(new Vector2(0, (player2.getPosition().Y + player2.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
+                player4 = new Icon(new Vector2(0, (player3.getPosition().Y + player3.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected");
 
-                int offset = 10;//offset zwischen Icons und Switches
+                
                 String[] gameModes = {"Textures/CharacterSelection/SinglePlayerTestNotSelected", "Textures/CharacterSelection/MultyPlayerTestNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
                 GameModeSelected = new LeftRightSwitch(new Vector2(gameModeIconPosition.X + gameModeIcon.getWidth() + offset, gameModeIconPosition.Y), gameModes);
                 String[] playerControlls = { "Textures/CharacterSelection/Join", "Textures/CharacterSelection/Keyboard", "Textures/CharacterSelection/Gamepad" };
-                player1Controlls = new LeftRightSwitch(new Vector2(player1Position.X + player1.getWidth() + offset, player1Position.Y), playerControlls);
-                player2Controlls = new LeftRightSwitch(new Vector2(player2Position.X + player2.getWidth() + offset, player2Position.Y), playerControlls);
-                player3Controlls = new LeftRightSwitch(new Vector2(player3Position.X + player3.getWidth() + offset, player3Position.Y), playerControlls);
-                player4Controlls = new LeftRightSwitch(new Vector2(player4Position.X + player4.getWidth() + offset, player4Position.Y), playerControlls);
+                player1Controlls = new LeftRightSwitch(new Vector2(player1.getPosition().X + player1.getWidth() + offset, player1.getPosition().Y), playerControlls);
+                player2Controlls = new LeftRightSwitch(new Vector2(player2.getPosition().X + player2.getWidth() + offset, player2.getPosition().Y), playerControlls);
+                player3Controlls = new LeftRightSwitch(new Vector2(player3.getPosition().X + player3.getWidth() + offset, player3.getPosition().Y), playerControlls);
+                player4Controlls = new LeftRightSwitch(new Vector2(player4.getPosition().X + player4.getWidth() + offset, player4.getPosition().Y), playerControlls);
             }
         }
 

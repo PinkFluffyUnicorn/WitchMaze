@@ -30,7 +30,7 @@ namespace WitchMaze.InterfaceObjects
         /// <returns></returns>
         public override float getWidth()
         {
-            return iconTexture.Width;
+            return iconTexture.Width * scale;
         }
         /// <summary>
         /// returns Icon Height
@@ -38,7 +38,7 @@ namespace WitchMaze.InterfaceObjects
         /// <returns></returns>
         public override float getHeight()
         {
-            return iconTexture.Height;
+            return iconTexture.Height * scale;
         }
         /// <summary>
         /// draws the Button
@@ -46,7 +46,7 @@ namespace WitchMaze.InterfaceObjects
         public override void draw()
         {
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-            spriteBatch.Draw(iconTexture, position, Color.White);
+            spriteBatch.Draw(iconTexture, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             spriteBatch.End();        
         }
     }
