@@ -138,14 +138,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="player1.fbx">
-      <Name>player1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\SpecialItems\AcaFigure.fbx">
       <Name>AcaFigure</Name>
       <Importer>FbxImporter</Importer>
@@ -164,8 +156,8 @@
       <Processor>ModelProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Models\Items\blueCrystal.fbx">
-      <Name>blueCrystal</Name>
+    <Compile Include="Models\Items\BlueCrystal.fbx">
+      <Name>BlueCrystal</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -203,7 +195,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\MapStuff\" />
-    <Folder Include="Models\Player\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Items\MonsterEye.fbx">
@@ -214,83 +205,61 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\CharacterSelection\GameMode.png">
-      <Name>GameMode</Name>
+    <Compile Include="Models\Player\player1.fbx">
+      <Name>player1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player2.fbx">
+      <Name>player2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player3.fbx">
+      <Name>player3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Player\player4.fbx">
+      <Name>player4</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Models\Items\Branch.fbx">
+      <Name>Branch</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Items\GreenSlime.fbx">
+      <Name>GreenSlime</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="Models\Items\Pig.fbx">
+      <Name>Pig</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\WallTextures.png">
+      <Name>WallTextures</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\CharacterSelection\Gamepad.png">
-      <Name>Gamepad</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Join.png">
-      <Name>Join</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Keyboard.png">
-      <Name>Keyboard</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\LeftNotSelected.png">
-      <Name>LeftNotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\LeftSelected.png">
-      <Name>LeftSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\MultyPlayerTestNotSelected.png">
-      <Name>MultyPlayerTestNotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Player1NotSelected.png">
-      <Name>Player1NotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Player1Selected.png">
-      <Name>Player1Selected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Player2NotSelected.png">
-      <Name>Player2NotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Player3NotSelected.png">
-      <Name>Player3NotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Player4NotSelected.png">
-      <Name>Player4NotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\RightNotSelected.png">
-      <Name>RightNotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\RightSelected.png">
-      <Name>RightSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\SinglePlayerNotSelected.png">
-      <Name>SinglePlayerNotSelected</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\SinglePlayerTestNotSelected.png">
-      <Name>SinglePlayerTestNotSelected</Name>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\BottomTexture.png">
+      <Name>BottomTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
