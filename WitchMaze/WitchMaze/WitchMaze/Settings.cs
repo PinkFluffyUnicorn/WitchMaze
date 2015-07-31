@@ -12,7 +12,7 @@ namespace WitchMaze
         public static int resolutionX = 340;
         public static int resolutionY = 480;
 
-        bool isFullScreen = false;
+        bool isFullScreen = true;
 
         public static float blockSizeX = 1f;
         public static float blockSizeY = 1f;
