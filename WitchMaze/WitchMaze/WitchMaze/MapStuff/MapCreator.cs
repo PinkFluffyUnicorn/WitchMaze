@@ -67,7 +67,7 @@ namespace WitchMaze.MapStuff
                 }
             }
 
-            //createMaze();
+            createMaze();
 
             // BlackHoles noch hinzufügen, nach gleichem Prinzip
              
@@ -115,8 +115,7 @@ namespace WitchMaze.MapStuff
             int numCellsX = 0;
             int numCellsY = 0;
 
-            // Array to store the Cells in 
-            Cell[,] maze = new Cell[numCellsX,numCellsY];
+            
             
             //determine number of cells 
             if (Settings.mapSizeX % 2 == 1)
@@ -130,6 +129,9 @@ namespace WitchMaze.MapStuff
             else
                 numCellsY = (Settings.mapSizeZ - 2) / 2;
 
+
+            // Array to store the Cells in 
+            Cell[,] maze = new Cell[numCellsX, numCellsY];
  
 
             //index of cells in Map 
@@ -159,11 +161,12 @@ namespace WitchMaze.MapStuff
                     }
                     else
                     {
-                        maze[i, j] = new Cell(CellindexX, CellindexY, true, true, true, true, true, true, true, true);
+                        maze[i + 1, j+1] = new Cell(CellindexX, CellindexY, true, true, true, true, true, true, true, true);
                     }
                     // Corner needs an extra thing
                     CellindexY += 2;
                 }
+                CellindexY = 3;
                 CellindexX += 2;
             }
 
@@ -173,9 +176,17 @@ namespace WitchMaze.MapStuff
             // mit Cellindex arbeiten
             //schon besuchte numCellsX auf Stack ablegen
             Stack<Cell> stack = new Stack<Cell>();
-            Random rnd = new Random();
-            int xStart = rnd.Next(0, numCellsX - 1);
-            int yStart = rnd.Next(0, numCellsY - 1);
+            ownFunctions.ownRandom rnd = new ownFunctions.ownRandom();
+            double nul = 0;
+            double numCellsA = (double)numCellsX - 1;
+            double numCellsB = (double)numCellsY - 1;
+            double xStartHelp = rnd.ownRandomFunction(nul, numCellsA);
+            double yStartHelp = rnd.ownRandomFunction(nul, numCellsB);
+
+
+
+            int xStart = (int)xStartHelp;
+            int yStart = (int)yStartHelp;
 
             stack.Push(maze[xStart, yStart]);
             maze[xStart, yStart].setVisited(true);
@@ -189,7 +200,8 @@ namespace WitchMaze.MapStuff
                 if (n != 0)
                 {
                     
-                    int help = rnd.Next(1, n);
+                    double help1 = rnd.ownRandomFunction(1, n);
+                    int help = (int)Math.Round(help1);
                         
                     while (getNext(help, akt, maze).getVisited() == true )
                     {
@@ -221,19 +233,25 @@ namespace WitchMaze.MapStuff
         }
 
         /// <summary>
-        /// 
+        /// Method which returns the number of neighbour Cells which have not been visited yet
         /// </summary>
         /// <returns></returns>
         private int numOfNotVisited(Cell zelle, Cell[,] array)
         {
             int help = 0;
-            if(array[zelle.getX() +1,zelle.getY()].getVisited() == false)
+            if (zelle.getX() + 1 < array.GetLength(0))
             {
-                help++;
+                if (array[zelle.getX() + 1, zelle.getY()].getVisited() == false)
+                {
+                    help++;
+                }
             }
-            if (array[zelle.getX(), zelle.getY() + 1].getVisited() == false)
+            if (zelle.getY() + 1 < array.GetLength(1))
             {
-                help++;
+                if (array[zelle.getX(), zelle.getY() + 1].getVisited() == false)
+                {
+                    help++;
+                }
             }
             if (array[zelle.getX(), zelle.getY() - 1].getVisited() == false)
             {
@@ -243,6 +261,7 @@ namespace WitchMaze.MapStuff
             {
                 help++;
             }
+            
             return help;
         }
 
@@ -271,20 +290,29 @@ namespace WitchMaze.MapStuff
         void updateMap(Cell cell)
         {
             //linke obere Ecke berechnen
-            int xFinale = 1 + cell.getX() * 2;
-            int yFinale = 1 + cell.getY() * 2;
+            int xFinale = cell.getX();
+            int yFinale = cell.getY();
             // Zelle und alle zugehörigen updaten
           
-            //mapType[xFinale + i, yFinale + j] = 
-            mapType[xFinale , yFinale ] = cell.getWall(5) == true? 1 : 0;
-            mapType[xFinale , yFinale + 1] = cell.getWall(1) == true ? 1 : 0;
-            mapType[xFinale , yFinale + 2] = cell.getWall(6) == true ? 1 : 0;
-            mapType[xFinale + 1, yFinale] = cell.getWall(2) == true ? 1 : 0;
-            mapType[xFinale + 1, yFinale + 1] = 0;
-            mapType[xFinale + 1, yFinale + 2] = cell.getWall(3) == true ? 1 : 0;
-            mapType[xFinale + 2, yFinale] = cell.getWall(7) == true ? 1 : 0;
-            mapType[xFinale + 2, yFinale + 1] = cell.getWall(4) == true ? 1 : 0;
-            mapType[xFinale + 2, yFinale + 2] = cell.getWall(8) == true ? 1 : 0;
+            //mapType[xFinale + i, yFinale + j] = BUg, Bug, Bug
+            //linksoben
+            mapType[xFinale - 1 , yFinale - 1 ] = cell.getWall(5) == true? 1 : 0;
+            //Mitte oben 
+            mapType[xFinale -1, yFinale] = cell.getWall(1) == true ? 1 : 0;
+            //rechts oben 
+            mapType[xFinale -1, yFinale + 1] = cell.getWall(6) == true ? 1 : 0;
+            //linksMItte??
+            mapType[xFinale, yFinale - 1] = cell.getWall(2) == true ? 1 : 0;
+            //Mitte
+            mapType[xFinale, yFinale] = 0;
+            //Mitte rechts??
+            mapType[xFinale , yFinale + 1] = cell.getWall(3) == true ? 1 : 0;
+            //unten links
+            mapType[xFinale + 1, yFinale - 1] = cell.getWall(7) == true ? 1 : 0;
+            //unten MItte
+            mapType[xFinale + 1, yFinale ] = cell.getWall(4) == true ? 1 : 0;
+            //unten links
+            mapType[xFinale + 1, yFinale + 1] = cell.getWall(8) == true ? 1 : 0;
 
         }
 
@@ -334,11 +362,11 @@ public class Cell
     /// <summary>
     /// Position of Cell in x- Direction
     /// </summary>
-    int zeilenPosition;
+    private int X;
     /// <summary>
     /// Position of Cell in y-Direction
     /// </summary>
-    int spaltenPosition;
+    private int Y;
 
     /// <summary>
     /// Boolean whether Cell has already been visited
@@ -357,12 +385,12 @@ public class Cell
 
     public int getX()
     {
-        return zeilenPosition;
+        return X;
     }
 
     public int getY()
     {
-        return spaltenPosition;
+        return Y;
     }
 
     
@@ -401,10 +429,10 @@ public class Cell
     /// <param name="unten">bottom Wall</param>
     /// <param name="rechts">right Wall</param>
     /// <param name="links">left Wall</param>
-    public Cell (int zeile, int spalte, Boolean oben, Boolean unten, Boolean rechts, Boolean links, Boolean linksOben, Boolean rechtsOben, Boolean linksunten, Boolean rechtsunten)
+    public Cell (int _X, int _Y, Boolean oben, Boolean unten, Boolean rechts, Boolean links, Boolean linksOben, Boolean rechtsOben, Boolean linksunten, Boolean rechtsunten)
     {
-        zeilenPosition = zeile;
-        spaltenPosition = spalte;
+        X = _X;
+        Y = _Y;
 
         visited = false;
 
