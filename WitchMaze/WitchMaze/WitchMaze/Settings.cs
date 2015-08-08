@@ -9,10 +9,27 @@ namespace WitchMaze
 {
     class Settings
     {
-        public static int resolutionX = 340;
-        public static int resolutionY = 480;
+        static float formatX = 16;
+        static float formatY = 9;
 
-        bool isFullScreen = false;
+        static int resolutionX = 1920; public static int getResolutionX() { return resolutionX; }
+        static int resolutionY = 1080; public static int getResolutionY() { return resolutionY; }
+        static float interfaceScale = 1f; public static float getInterfaceScale() { return interfaceScale; }
+
+        
+        public static void setResolutionX(int x)
+        {   interfaceScale = (float)x / (float)resolutionX;
+            resolutionX = x;
+            resolutionY = (int)(x / formatX * formatY); 
+        }
+        public static void setResolutionY(int y) 
+        {
+            interfaceScale = (float)resolutionY / (float)y;
+            resolutionX = (int)((y / formatY) * formatX); 
+            resolutionY = y;
+        }
+
+        static bool isFullScreen = false; public static bool isFullscreen() { return isFullScreen; }
 
         public static float blockSizeX = 1f;
         public static float blockSizeY = 1f;
@@ -21,6 +38,8 @@ namespace WitchMaze
 
         public static int mapSizeX = 20;
         public static int mapSizeZ = 20;
+
+        
 
 // if changing GraphicsDeviceManager properties outside 
 // your game constructor also call:
