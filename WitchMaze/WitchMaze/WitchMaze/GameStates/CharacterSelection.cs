@@ -14,7 +14,7 @@ namespace WitchMaze.GameStates
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
         float offset = 10;//offset zwischen Icons und Switches
         
-        Vector2 gameModeIconPosition = new Vector2(0, 0);
+        Vector2 gameModeIconPosition = new Vector2(20, 10);
 
         Icon gameModeIcon;
 
@@ -44,10 +44,10 @@ namespace WitchMaze.GameStates
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
-                player1 = new Icon(new Vector2(0, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
-                player2 = new Icon(new Vector2(0, (player1.getPosition().Y + player1.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
-                player3 = new Icon(new Vector2(0, (player2.getPosition().Y + player2.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
-                player4 = new Icon(new Vector2(0, (player3.getPosition().Y + player3.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected");
+                player1 = new Icon(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
+                player2 = new Icon(new Vector2(20, (player1.getPosition().Y + player1.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
+                player3 = new Icon(new Vector2(20, (player2.getPosition().Y + player2.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
+                player4 = new Icon(new Vector2(20, (player3.getPosition().Y + player3.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected");
 
                 
                 String[] gameModes = {"Textures/CharacterSelection/SinglePlayerTestNotSelected", "Textures/CharacterSelection/MultyPlayerTestNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
@@ -66,11 +66,16 @@ namespace WitchMaze.GameStates
         { 
             if(keyboard.IsKeyDown(Keys.Enter))
                 return EGameState.InGame;
-            return EGameState.CharacterSelection; 
+            else 
+                return EGameState.CharacterSelection; 
         }
 
         public void Draw(GameTime gameTime) 
         {
+            Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
+            Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            Game1.getGraphics().GraphicsDevice.Clear(Color.DarkGreen);
+
             gameModeIcon.draw();
             player1.draw();
             player2.draw();

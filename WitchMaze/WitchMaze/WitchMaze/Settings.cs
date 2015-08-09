@@ -17,6 +17,7 @@ namespace WitchMaze
         static float interfaceScale = 1f; public static float getInterfaceScale() { return interfaceScale; }
 
         
+        
         public static void setResolutionX(int x)
         {   interfaceScale = (float)x / (float)resolutionX;
             resolutionX = x;

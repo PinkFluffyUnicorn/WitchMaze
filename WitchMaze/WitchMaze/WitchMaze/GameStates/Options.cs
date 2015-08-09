@@ -15,16 +15,38 @@ namespace WitchMaze.GameStates
 {
     class Options : GameState 
     {
+        KeyboardState keyboard = Keyboard.GetState();
         
-        public void initialize() { throw new NotImplementedException(); }
+        public void initialize()
+        {
 
-        public void loadContent() { throw new NotImplementedException(); }
+        }
 
-        public void unloadContent() { throw new NotImplementedException(); }
+        public void loadContent() 
+        { 
 
-        public EGameState update(GameTime gameTime) { throw new NotImplementedException(); }
+        }
 
-        public void Draw(GameTime gameTime) { throw new NotImplementedException(); }
+        public void unloadContent() 
+        {
+
+        }
+
+        public EGameState update(GameTime gameTime) 
+        {
+            if(keyboard.IsKeyDown(Keys.Escape))
+                return EGameState.MainMenu;
+            else 
+                return EGameState.Options; 
+        }
+
+        public void Draw(GameTime gameTime) 
+        {
+            Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
+            Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            Game1.getGraphics().GraphicsDevice.Clear(Color.DarkGreen);
+
+        }
 
     }
 }
