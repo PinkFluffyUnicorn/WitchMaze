@@ -17,6 +17,7 @@ namespace WitchMaze.GameStates
         Vector2 gameModeIconPosition = new Vector2(20, 10);
 
         Icon gameModeIcon;
+        Icon spaceNote;
 
         Icon player1;
         Icon player2;
@@ -44,6 +45,7 @@ namespace WitchMaze.GameStates
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
+                spaceNote = new Icon(new Vector2(600,400), "Textures/CharacterSelection/SpaceHinweis");
                 player1 = new Icon(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
                 player2 = new Icon(new Vector2(20, (player1.getPosition().Y + player1.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
                 player3 = new Icon(new Vector2(20, (player2.getPosition().Y + player2.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
@@ -88,6 +90,7 @@ namespace WitchMaze.GameStates
             player2Controlls.draw();
             player3Controlls.draw();
             player4Controlls.draw();
+            spaceNote.draw();
         }
 
     }

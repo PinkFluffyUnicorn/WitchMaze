@@ -37,6 +37,7 @@ namespace WitchMaze.GameStates
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Escape))
                 return EGameState.MainMenu;
             else
