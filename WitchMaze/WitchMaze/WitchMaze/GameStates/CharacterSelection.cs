@@ -63,8 +63,9 @@ namespace WitchMaze.GameStates
         public void unloadContent() { /*throw new NotImplementedException();*/ }
 
         public EGameState update(GameTime gameTime) 
-        { 
-            if(keyboard.IsKeyDown(Keys.Enter))
+        {
+            keyboard = Keyboard.GetState();
+            if(keyboard.IsKeyDown(Keys.Space))
                 return EGameState.InGame;
             else 
                 return EGameState.CharacterSelection; 
