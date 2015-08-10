@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.GameStates
 {
@@ -17,29 +17,40 @@ namespace WitchMaze.GameStates
     {
         public Credits() { }
 
+        Icon credits;
+        KeyboardState keyboard = Keyboard.GetState();
+
         public void initialize()
         {
-            throw new NotImplementedException();
+            
         }
 
         public void loadContent()
         {
-            throw new NotImplementedException();
+            credits = new Icon(new Vector2(411, 20), "Textures/credits/creditsTitel");
         }
 
         public void unloadContent()
         {
-            throw new NotImplementedException();
+
         }
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            throw new NotImplementedException();
+            keyboard = Keyboard.GetState();
+            if (keyboard.IsKeyDown(Keys.Escape))
+                return EGameState.MainMenu;
+            else
+                return EGameState.Credits; 
         }
 
         public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            throw new NotImplementedException();
+            Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
+            Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
+            Game1.getGraphics().GraphicsDevice.Clear(Color.Black);
+
+            credits.draw();
         }
     }
 }
