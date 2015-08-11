@@ -42,11 +42,10 @@ namespace WitchMaze.GameStates
 
     public enum EInGameState
     {
-        SingleTime,
-        MultiTime,
-        MultiNotTime, //dunno good name
-        ExitInGame,
-        ExitGame,
-        GameWon,
+        CharacterSelection,
+        SingleTime,//test
+        MazeRun,
+        Rumble,
+        Exit,
     }
 }

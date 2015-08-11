@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using WitchMaze.ItemStuff.Items;
 
-namespace WitchMaze.Player
+namespace WitchMaze.PlayerStuff
 {
     class Player
     {

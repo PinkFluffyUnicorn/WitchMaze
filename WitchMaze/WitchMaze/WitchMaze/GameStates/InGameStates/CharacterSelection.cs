@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WitchMaze.InterfaceObjects;
-namespace WitchMaze.GameStates
+namespace WitchMaze.GameStates.InGameStates
 {
-    class CharacterSelection : GameState
+    class CharacterSelection : InGameState
     {
         KeyboardState keyboard = Keyboard.GetState();
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
@@ -31,17 +31,16 @@ namespace WitchMaze.GameStates
         LeftRightSwitch player4Controlls;
 
 
-        public void initialize() 
+        public override void initialize() 
         {
             
         }
 
-        public void loadContent() 
+        public override void loadContent() 
         {
             
             if (Game1.getGraphics() != null)
             {
-                Console.WriteLine(Settings.getInterfaceScale());
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
@@ -62,18 +61,18 @@ namespace WitchMaze.GameStates
             }
         }
 
-        public void unloadContent() { /*throw new NotImplementedException();*/ }
+        public override void unloadContent() { /*throw new NotImplementedException();*/ }
 
-        public EGameState update(GameTime gameTime) 
+        public override EInGameState update(GameTime gameTime) 
         {
             keyboard = Keyboard.GetState();
             if(keyboard.IsKeyDown(Keys.Space))
-                return EGameState.InGame;
+                return EInGameState.SingleTime;
             else 
-                return EGameState.CharacterSelection; 
+                return EInGameState.CharacterSelection; 
         }
 
-        public void Draw(GameTime gameTime) 
+        public override void Draw(GameTime gameTime) 
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;

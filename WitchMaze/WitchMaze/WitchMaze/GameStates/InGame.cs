@@ -15,20 +15,18 @@ namespace WitchMaze.GameStates
 {
     class InGame : GameState
     {
-        EInGameState currentInGameState = EInGameState.SingleTime; //change back to character selection
+        EInGameState currentInGameState = EInGameState.CharacterSelection; //change back to character selection
         EInGameState prevInGameState;
 
-        InGameState inGameState = new WitchMaze.GameStates.InGameStates.SingleTime();
+        InGameState inGameState = new WitchMaze.GameStates.InGameStates.CharacterSelection();
 
         public void initialize()
         {
-            Console.Out.Write("InGame Initialize");
             inGameState.initialize();
         }
 
         public void loadContent()
         {
-            Console.Out.Write("InGame loadContent");
             inGameState.loadContent();
         }
 
@@ -39,13 +37,12 @@ namespace WitchMaze.GameStates
 
         public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            Console.Out.Write("InGame update");
             prevInGameState = currentInGameState;
             currentInGameState = inGameState.update(gameTime);
             if (currentInGameState != prevInGameState)
                 handleInGameState();
 
-            if (currentInGameState == EInGameState.ExitInGame)
+            if (currentInGameState == EInGameState.Exit)
                 return EGameState.MainMenu;
             return EGameState.InGame;
 
@@ -61,19 +58,23 @@ namespace WitchMaze.GameStates
         /// </summary>
         public void handleInGameState()
         {
-            Console.Out.Write("InGameState change! \n");
-
             switch (currentInGameState)
             {
+                case EInGameState.CharacterSelection:
+                    inGameState = new InGameStates.CharacterSelection();
+                    break;
                 case EInGameState.SingleTime:
                     inGameState = new InGameStates.SingleTime();
                     break;
-                case EInGameState.MultiTime:
+                case EInGameState.MazeRun:
                     throw new NotImplementedException();
-                case EInGameState.ExitInGame:
+                    break;
+                case EInGameState.Rumble:
                     throw new NotImplementedException();
-                case EInGameState.ExitGame:
+                    break;
+                case EInGameState.Exit:
                     throw new NotImplementedException();
+                    break;
             }
 
             inGameState.initialize();

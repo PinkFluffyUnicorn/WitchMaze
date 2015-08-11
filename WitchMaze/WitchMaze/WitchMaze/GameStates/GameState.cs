@@ -31,7 +31,6 @@ namespace WitchMaze
         Credits,
         Options,
         Exit,
-        CharacterSelection,
         InGame,
     }
 }
