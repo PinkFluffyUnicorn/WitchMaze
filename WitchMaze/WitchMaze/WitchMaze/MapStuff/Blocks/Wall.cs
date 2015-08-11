@@ -15,19 +15,19 @@ namespace WitchMaze.MapStuff.Blocks
     class Wall : Block
     {
 
-
+        float rotation;
         /// <summary>
         /// Constructor for Wall - Object
         /// </summary>
         /// <param name="_model">Modell</param>
         /// <param name="_position">Position Vector3, Weltkoordinaten</param>
-        public Wall(Model _model, Vector3 _position)
+        public Wall(Model _model, Vector3 _position, float _rotation )
         {
-
             model = _model;
             position = _position;
             walkable = false;
             transportable = false;
+            rotation = _rotation;
         }
         
        
@@ -37,6 +37,8 @@ namespace WitchMaze.MapStuff.Blocks
         /// </summary>
         public override void draw()
         {
+            
+           
             foreach (ModelMesh mesh in model.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
@@ -50,8 +52,8 @@ namespace WitchMaze.MapStuff.Blocks
 
                     //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                     //effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. 
-
-                    effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                    Console.WriteLine(rotation);
+                    effect.World = mesh.ParentBone.Transform * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(position);
                     effect.View = Player.Player.getCamera();
                     effect.Projection = Player.Player.getProjection();
                 }

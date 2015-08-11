@@ -17,7 +17,7 @@ namespace WitchMaze
         static float interfaceScale = 1f; public static float getInterfaceScale() { return interfaceScale; }
 
         
-        
+       
         public static void setResolutionX(int x)
         {   interfaceScale = (float)x / (float)resolutionX;
             resolutionX = x;
@@ -31,14 +31,58 @@ namespace WitchMaze
         }
 
         static bool isFullScreen = false; public static bool isFullscreen() { return isFullScreen; }
+        /// <summary>
+        /// float how big a block(Wall, Floor, Blackhole) in x- Direction is
+        /// </summary>
+        static float blockSizeX = 1f; 
+       /// <summary>
+       /// getter for Blocksize in x- Direction
+       /// </summary>
+       /// <returns>blocksize in float</returns>
+        public static float getBlockSizeX() { return blockSizeX; }
+        /// <summary>
+        /// float how big a block(Wall, Floor, Blackhole) in y- Direction is
+        /// </summary>
+        static float blockSizeY = 2f; 
+        /// <summary>
+        /// getter for Blocksize in y- Direction 
+        /// </summary>
+        /// <returns>blocksize in float</returns>
+        public static float getBlockSizeY() { return blockSizeY; }
+        /// <summary>
+        /// float how big a block(Wall, Floor, Blackhole) in z- Direction is
+        /// </summary>
+        static float blockSizeZ = 1f; 
+        /// <summary>
+        /// getter for Blocksize in z- Direction 
+        /// </summary>
+        /// <returns>blocksize in float</returns>
+        public static float getBlockSizeZ() { return blockSizeZ; }
 
-        public static float blockSizeX = 1f;
-        public static float blockSizeY = 1f;
-        public static float blockSizeZ = 1f;
+
         
 
-        public static int mapSizeX = 20;
-        public static int mapSizeZ = 20;
+        /// <summary>
+        /// Size of Map in x-Direction integer
+        /// </summary>
+        static int mapSizeX = 20; 
+        /// <summary>
+        /// getter for MapSize in x-Direction
+        /// </summary>
+        /// <returns>mapSize in int</returns>
+        public static int getMapSizeX() { return mapSizeX; }
+        /// <summary>
+        /// Size of Map in z-Direction integer
+        /// </summary>
+        static int mapSizeZ = 20; 
+        /// <summary>
+        /// getter for MapSize in z- Direction
+        /// </summary>
+        /// <returns>MapSize in int </returns>
+        public static int getMapSizeZ() { return mapSizeZ; }
+
+
+        
 
         
 

@@ -26,12 +26,14 @@ namespace WitchMaze.MapStuff
         // Types(weil ich nicht weiß, ob hier ein enum shcon sinn macht ^^
         // 0: Floor, 1: Wall, 2: Blackhole
 
+        private float help = 0;
+
         /// <summary>
         /// Constructor for MapCreator, initializes mapType and map
         /// </summary>
         public MapCreator()
         {
-            mapType = new int[Settings.mapSizeX, Settings.mapSizeZ];
+            mapType = new int[Settings.getMapSizeX(), Settings.getMapSizeZ()];
             map = new Map();
         }
 
@@ -41,9 +43,9 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
             
-            for (int i = 0; i < Settings.mapSizeX; i++)
+            for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
-                for (int j = 0; j < Settings.mapSizeZ; j++)
+                for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
 
                     //chess pattern inside
@@ -58,7 +60,7 @@ namespace WitchMaze.MapStuff
 
 
                     // Edge of Labyrinth 
-                    if (i == 0 || j == 0 || i == Settings.mapSizeX - 1 || j == Settings.mapSizeZ - 1)
+                    if (i == 0 || j == 0 || i == Settings.getMapSizeX() - 1 || j == Settings.getMapSizeZ() - 1)
                     {
                             mapType[i, j] = 2;
                     }
@@ -67,7 +69,7 @@ namespace WitchMaze.MapStuff
                 }
             }
 
-            createMaze();
+            //createMaze();
 
             // BlackHoles noch hinzufügen, nach gleichem Prinzip
              
@@ -79,24 +81,33 @@ namespace WitchMaze.MapStuff
         /// <returns>Map</returns>
         public Map generateMap()
         {
-            
-            for (int i = 0; i < Settings.mapSizeX; i++)
+
+            for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
-                for (int j = 0; j < Settings.mapSizeZ; j++)
+                for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
                     Console.Write(mapType[i, j]);
                     if (mapType[i, j] == 0)
                     {
-                        map.map[i, j] = new Floor(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)),Game1.getContent().Load<Model>("bottom"));
+                        map.map[i, j] = new Floor(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())),Game1.getContent().Load<Model>("bottom"));
                     }
                     else if (mapType[i, j] == 2)
                     {
-                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.blockSizeX), 0.5f /*+ (float)(Settings.blockSizeY)*/, (float)(j * Settings.blockSizeZ)));
-                        
+                        ownFunctions.ownRandom rnd = new ownFunctions.ownRandom();
+                        Random rand = new Random();
+                        float rotation = (float)Math.Round(rnd.ownRandomFunction(-0.49, 3.5));
+                        while(help == rotation)//same rotation as before 
+                        {
+                            rotation = rotation + 1;
+                            rotation = rotation % 4;
+                        }
+                        rotation = rotation % 4;
+                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * 90);
+                        help = rotation;
                     }    
                     else //if (mapType[i,j] == 1)
                     {
-                        map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.blockSizeX), 0.0f, (float)(j * Settings.blockSizeZ)), Game1.getContent().Load<Model>("bottom"));
+                        map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.getBlockSizeX()) , 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
                     }
                         
 
@@ -118,16 +129,16 @@ namespace WitchMaze.MapStuff
             
             
             //determine number of cells 
-            if (Settings.mapSizeX % 2 == 1)
-                numCellsX = (Settings.mapSizeX - 2) / 2;
+            if (Settings.getMapSizeX() % 2 == 1)
+                numCellsX = (Settings.getMapSizeX() - 2) / 2;
             else
-                numCellsX = (Settings.mapSizeX - 2) / 2;
+                numCellsX = (Settings.getMapSizeX() - 2) / 2;
 
 
-            if (Settings.mapSizeZ % 2 == 1)
-                numCellsY = (Settings.mapSizeZ-2) / 2;
+            if (Settings.getMapSizeZ() % 2 == 1)
+                numCellsY = (Settings.getMapSizeZ()-2) / 2;
             else
-                numCellsY = (Settings.mapSizeZ - 2) / 2;
+                numCellsY = (Settings.getMapSizeZ() - 2) / 2;
 
 
             // Array to store the Cells in 
@@ -145,17 +156,17 @@ namespace WitchMaze.MapStuff
                 for(int j = 0;j < numCellsY; j++)
                 {
                     //Cse corner left down 
-                    if (i == numCellsX - 1 && Settings.mapSizeX % 2 == 0 && j == numCellsY - 1 && Settings.mapSizeZ % 2 == 0)
+                    if (i == numCellsX - 1 && Settings.getMapSizeX() % 2 == 0 && j == numCellsY - 1 && Settings.getMapSizeZ() % 2 == 0)
                     {
                         maze[i, j] = new Cell(CellindexX, CellindexY, true, false, false, true, true, false, false, false);
                     }
                     //case: when number of Tiles in x Direction is straight and the last Cell misses the last third (upright, right, downright
-                    if (i == numCellsX - 1 && Settings.mapSizeX % 2 == 0)
+                    if (i == numCellsX - 1 && Settings.getMapSizeX() % 2 == 0)
                     {
                         maze[i, j] = new Cell(CellindexX, CellindexY, true, true, false, true, true, false, true, false);
                     }
                     //same case for y - Direction, missing (bottom, bottomleft, bottomright)
-                    else if (j == numCellsY - 1 && Settings.mapSizeZ % 2 == 0)
+                    else if (j == numCellsY - 1 && Settings.getMapSizeZ() % 2 == 0)
                     {
                         maze[i, j] = new Cell(CellindexX, CellindexY, true, false, true, true, true, true, false, false);
                     }
@@ -177,7 +188,7 @@ namespace WitchMaze.MapStuff
             //schon besuchte numCellsX auf Stack ablegen
             Stack<Cell> stack = new Stack<Cell>();
             ownFunctions.ownRandom rnd = new ownFunctions.ownRandom();
-            double nul = 0;
+            double nul = 1;
             double numCellsA = (double)numCellsX - 1;
             double numCellsB = (double)numCellsY - 1;
             double xStartHelp = rnd.ownRandomFunction(nul, numCellsA);
@@ -239,9 +250,9 @@ namespace WitchMaze.MapStuff
         private int numOfNotVisited(Cell zelle, Cell[,] array)
         {
             int help = 0;
-            if (zelle.getX() + 1 < array.GetLength(0))
+            if (zelle.getX() - 1 < array.GetLength(0))
             {
-                if (array[zelle.getX() + 1, zelle.getY()].getVisited() == false)
+                if (array[zelle.getX() + 1, zelle.getY()].getVisited() == false)//exception !!
                 {
                     help++;
                 }
@@ -253,13 +264,19 @@ namespace WitchMaze.MapStuff
                     help++;
                 }
             }
-            if (array[zelle.getX(), zelle.getY() - 1].getVisited() == false)
+            if (zelle.getY() - 1 < 0)
             {
-                help++;
+                if (array[zelle.getX(), zelle.getY() - 1].getVisited() == false)
+                {
+                    help++;
+                }
             }
-            if (array[zelle.getX() - 1, zelle.getY()].getVisited() == false)
+            if (zelle.getX() - 1 < 0)
             {
-                help++;
+                if (array[zelle.getX() - 1, zelle.getY()].getVisited() == false)
+                {
+                    help++;
+                }
             }
             
             return help;
@@ -300,7 +317,7 @@ namespace WitchMaze.MapStuff
             //Mitte oben 
             mapType[xFinale -1, yFinale] = cell.getWall(1) == true ? 1 : 0;
             //rechts oben 
-            mapType[xFinale -1, yFinale + 1] = cell.getWall(6) == true ? 1 : 0;
+            mapType[xFinale -1, yFinale + 1] = cell.getWall(6) == true ? 1 : 0;//exception
             //linksMItte??
             mapType[xFinale, yFinale - 1] = cell.getWall(2) == true ? 1 : 0;
             //Mitte
