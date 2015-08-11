@@ -26,11 +26,18 @@ namespace WitchMaze.MapStuff
         // Types(weil ich nicht weiß, ob hier ein enum shcon sinn macht ^^
         // 0: Floor, 1: Wall, 2: Blackhole
 
+        /// <summary>
+        /// float for rotating the blocks in different directions 
+        /// </summary>
         private float help = 0;
 
         /// <summary>
         /// Constructor for MapCreator, initializes mapType and map
         /// </summary>
+        /// 
+
+
+        Random rnd = new Random();
         public MapCreator()
         {
             mapType = new int[Settings.getMapSizeX(), Settings.getMapSizeZ()];
@@ -93,9 +100,7 @@ namespace WitchMaze.MapStuff
                     }
                     else if (mapType[i, j] == 2)
                     {
-                        ownFunctions.ownRandom rnd = new ownFunctions.ownRandom();
-                        Random rand = new Random();
-                        float rotation = (float)Math.Round(rnd.ownRandomFunction(-0.49, 3.5));
+                        float rotation = (float)rnd.Next(3);
                         while(help == rotation)//same rotation as before 
                         {
                             rotation = rotation + 1;
@@ -112,7 +117,6 @@ namespace WitchMaze.MapStuff
                         
 
                 }
-                Console.WriteLine();
             }
             return map;
         }

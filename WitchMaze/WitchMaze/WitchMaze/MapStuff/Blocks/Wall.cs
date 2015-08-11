@@ -52,7 +52,6 @@ namespace WitchMaze.MapStuff.Blocks
 
                     //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                     //effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. 
-                    Console.WriteLine(rotation);
                     effect.World = mesh.ParentBone.Transform * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(position);
                     effect.View = Player.Player.getCamera();
                     effect.Projection = Player.Player.getProjection();
