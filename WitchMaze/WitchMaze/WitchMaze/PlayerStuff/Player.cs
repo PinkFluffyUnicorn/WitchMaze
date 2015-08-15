@@ -65,10 +65,10 @@ namespace WitchMaze.PlayerStuff
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
 
-            position = new Vector3(10, 1, 10);
+            position = new Vector3(1, 1, 1);
             //position = new Vector3(5, 1, 5);
-            lookAt = new Vector3(0, 1, 1);
-            upDirection = new Vector3(0, 1, 0);
+            lookAt = new Vector3(0, 1, 1);//vorher 0, 1, 1
+            upDirection = new Vector3(0, 1, 0);//vorher : 0, 1, 0
 
             //draufsicht
            /* position = new Vector3(5, -40, 5);
