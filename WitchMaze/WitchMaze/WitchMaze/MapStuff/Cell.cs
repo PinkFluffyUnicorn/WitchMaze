@@ -62,6 +62,26 @@ namespace WitchMaze.MapStuff
             return visited;
         }
 
+        public int getMapIndexX()
+        {
+            return MapIndexX;
+        }
+
+        public int getMapIndexY()
+        {
+            return MapIndexY;
+        }
+
+        public int getCellIndexX()
+        {
+            return CellindexX;
+        }
+
+        public int getCellindexY()
+        {
+            return CellindexY;
+        }
+
 
         public bool getWall(int index)
         {

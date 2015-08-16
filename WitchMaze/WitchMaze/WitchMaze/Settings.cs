@@ -65,7 +65,7 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in x-Direction integer
         /// </summary>
-        static int mapSizeX = 10; 
+        static int mapSizeX = 20; 
         /// <summary>
         /// getter for MapSize in x-Direction
         /// </summary>
@@ -74,7 +74,7 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in z-Direction integer
         /// </summary>
-        static int mapSizeZ = 10; 
+        static int mapSizeZ = 20; 
         /// <summary>
         /// getter for MapSize in z- Direction
         /// </summary>
