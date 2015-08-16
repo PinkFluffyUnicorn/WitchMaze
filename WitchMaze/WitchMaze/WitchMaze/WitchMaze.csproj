@@ -148,6 +148,7 @@
     <Compile Include="MapStuff\Blocks\Block.cs" />
     <Compile Include="MapStuff\Blocks\Floor.cs" />
     <Compile Include="MapStuff\Blocks\Wall.cs" />
+    <Compile Include="MapStuff\Cell.cs" />
     <Compile Include="MapStuff\Map.cs" />
     <Compile Include="MapStuff\MapCreator.cs" />
     <Compile Include="ownFunctions\ownRandom.cs" />
