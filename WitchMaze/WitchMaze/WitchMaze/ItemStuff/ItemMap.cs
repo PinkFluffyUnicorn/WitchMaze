@@ -19,7 +19,7 @@ namespace WitchMaze.ItemStuff
         public ItemMap()
         {
             random = new Random();
-            itemMap = new Item[Settings.mapSizeX, Settings.mapSizeZ];
+            itemMap = new Item[Settings.getMapSizeX(), Settings.getMapSizeZ()];
         }
 
         /// <summary>
@@ -75,9 +75,9 @@ namespace WitchMaze.ItemStuff
         public void draw()
         {
             
-            for (int i = 0; i < Settings.mapSizeX; i++)
+            for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
-                for (int j = 0; j < Settings.mapSizeZ; j++)
+                for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
                     if (itemMap[i, j] != null)
                     {

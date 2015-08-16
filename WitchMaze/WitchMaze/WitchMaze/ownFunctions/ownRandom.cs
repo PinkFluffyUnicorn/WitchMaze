@@ -7,6 +7,11 @@ namespace WitchMaze.ownFunctions
 {
     class ownRandom
     {
+
+
+        Random rnd = new Random();
+
+
         public ownRandom()
         {
 
@@ -41,15 +46,18 @@ namespace WitchMaze.ownFunctions
         /// <returns></returns>
         private double randomFunction()
         {
-            Random rnd = new Random();
-            Int32 w = rnd.Next(0, Int32.MaxValue);
-            Int32 x = rnd.Next(0, Int32.MaxValue);
-            Int32 y = rnd.Next(0, Int32.MaxValue);
+
+            Int32 w = 352617;//rnd.Next(0, Int32.MaxValue);
+            Int32 x = 7352849;// rnd.Next(0, Int32.MaxValue);
+            Int32 y = 1253802;// rnd.Next(0, Int32.MaxValue);
             Int32 z = rnd.Next(0, Int32.MaxValue);
 
-            Int32 t = x ^ (x << 11);
+           
+
+            Int32 t = x ^ (x << 19);
             x = y; y = z; z = w;
-            w = w ^ (w >> 19) ^ t ^ (t >> 8);
+            w = w ^ (w >> 7) ^ t ^ (z >> 13);
+
 
             return (double)w / (double)Int32.MaxValue;
         }

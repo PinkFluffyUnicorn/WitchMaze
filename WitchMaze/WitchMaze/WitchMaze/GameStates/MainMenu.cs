@@ -128,7 +128,7 @@ namespace WitchMaze.GameStates
 
             //switch the GameState
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 0)
-                return EGameState.CharacterSelection;
+                return EGameState.InGame;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 2)
                 return EGameState.Options;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 3)

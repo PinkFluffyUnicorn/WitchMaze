@@ -25,7 +25,7 @@ namespace WitchMaze.MapStuff
         /// </summary>
         public Map()
         {
-            map = new Block[Settings.mapSizeX, Settings.mapSizeZ];
+            map = new Block[Settings.getMapSizeX(), Settings.getMapSizeZ()];
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace WitchMaze.MapStuff
         public void draw()
         {
 
-            for (int i = 0; i < Settings.mapSizeX; i++)
+            for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
-                for ( int j = 0; j < Settings.mapSizeZ; j++)
+                for ( int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
                     map[i,j].draw();
 

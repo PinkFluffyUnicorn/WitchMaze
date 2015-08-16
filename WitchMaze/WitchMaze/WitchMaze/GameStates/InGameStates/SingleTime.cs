@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.MapStuff;
 using WitchMaze.ItemStuff.Items;
-using WitchMaze.Player;
+using WitchMaze.PlayerStuff;
 using WitchMaze.ItemStuff;
 
 namespace WitchMaze.GameStates.InGameStates
@@ -21,7 +21,7 @@ namespace WitchMaze.GameStates.InGameStates
         //basicly a test
         public SingleTime() { }
 
-        Player.Player player1;
+        Player player1;
         public override void initialize()
         {
             mapCreator = new MapCreator();
@@ -32,7 +32,7 @@ namespace WitchMaze.GameStates.InGameStates
             itemSpawner = new ItemSpawner();
             itemSpawner.initialSpawn(itemMap);
 
-            player1 = new Player.Player();
+            player1 = new Player();
         }
 
         public override void loadContent()

@@ -160,8 +160,8 @@ namespace WitchMaze
                 case EGameState.MainMenu:
                     gameState = new GameStates.MainMenu();
                     break;
-                case EGameState.CharacterSelection:
-                    gameState = new GameStates.CharacterSelection();
+                case EGameState.InGame:
+                    gameState = new GameStates.InGame();
                     break;
                 case EGameState.Credits:
                     gameState = new GameStates.Credits();
@@ -169,9 +169,8 @@ namespace WitchMaze
                 case EGameState.Options:
                     gameState = new GameStates.Options();
                     break;
-                case EGameState.InGame:
-                    gameState = new GameStates.InGame();
-                    break;
+                case EGameState.Exit:
+                    throw new NotImplementedException();
             }
 
             gameState.initialize();

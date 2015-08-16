@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze.PlayerStuff;
 
 namespace WitchMaze.MapStuff.Blocks
 {
@@ -53,8 +54,8 @@ namespace WitchMaze.MapStuff.Blocks
                      effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
                     effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
-                     effect.View = Player.Player.getCamera();
-                     effect.Projection = Player.Player.getProjection();
+                     effect.View = Player.getCamera();
+                     effect.Projection = Player.getProjection();
                 }
 
                 mesh.Draw();

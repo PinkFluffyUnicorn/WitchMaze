@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WitchMaze.PlayerStuff;
 
 namespace WitchMaze.ItemStuff.Items
 {
@@ -30,8 +31,8 @@ namespace WitchMaze.ItemStuff.Items
                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
                     effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
-                    effect.View = Player.Player.getCamera();
-                    effect.Projection = Player.Player.getProjection();
+                    effect.View = Player.getCamera();
+                    effect.Projection = Player.getProjection();
                 }
 
                 mesh.Draw();
