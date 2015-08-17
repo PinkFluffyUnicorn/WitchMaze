@@ -65,14 +65,9 @@ namespace WitchMaze.MapStuff
                     {
                         mapType[i, j] = 1;
                     }
-                    Console.Write(mapType[i, j]);
-
                 }
-                Console.WriteLine();
             }
-            int x = 0;
-            // BlackHoles noch hinzufügen, nach gleichem Prinzip
-
+            insertBlackHoles();
         }
 
         /// <summary>
@@ -104,7 +99,8 @@ namespace WitchMaze.MapStuff
                     }
                     if (mapType[i, j] == 2)
                     {
-                        map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
+                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
+                        map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
                     }
 
 
@@ -418,7 +414,78 @@ namespace WitchMaze.MapStuff
                 Console.WriteLine();
             }
         }
+
+
+        private void insertBlackHoles()
+        {
+            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 30;
+            for ( int i = 0; i < anzahl; i++)
+            {
+                int x = 0;
+                int y = 0;
+                bool swap = true;
+                while( mapType[x,y] == (int)tiles.wall || mapType[x,y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || distanceToBlackHole(x,y))
+                {
+                    if (swap)
+                    {
+                        x = rnd.Next(Settings.getMapSizeX());
+                        swap = false;
+                    }
+                    else
+                    {
+                        y = rnd.Next(Settings.getMapSizeZ());
+                        swap = true;
+                    }
+                }
+                mapType[x, y] = (int)tiles.blackhole;
+            }
+        }
+
+        private bool distanceToBlackHole(int x, int y)
+        {
+            bool result = false;
+            for (int i = -3; i < 4; i++ )
+            {
+                for(int j = -3; j < 4; j++)
+                {
+                    if(x + i >= 0 && y + j >= 0 && x+i <Settings.getMapSizeX() && y+j < Settings.getMapSizeZ()) 
+                    {
+                        if(mapType[x+i, y+j] == (int)tiles.blackhole) 
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+            return result;
+        }
+
+        private Vector3 findTransportPoint(Vector3 position)
+        {
+            Vector3  result = new Vector3();
+            result.Y = 0;
+            int x = 0;
+            int y = 0;
+            bool swap = true;
+            while (mapType[x, y] == (int)tiles.wall || mapType[x, y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || Math.Abs(x - position.X) < 8 || Math.Abs(y - position.Z) < 8)
+            {
+                if (swap)
+                {
+                    x = rnd.Next(Settings.getMapSizeX());
+                    swap = false;
+                }
+                else
+                {
+                    y = rnd.Next(Settings.getMapSizeZ());
+                    swap = true;
+                }
+            }
+            result.X = x;
+            result.Z = y;
+            return result; 
+
+        }
     }
 }
-
-       
