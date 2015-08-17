@@ -32,11 +32,19 @@ namespace WitchMaze.MapStuff.Blocks
             transportPosition = _transportPosition;
         }
 
+        /// <summary>
+        /// getter for the Position the Blackhole transports the Player to
+        /// </summary>
+        /// <returns>new Position of player as a Vector3</returns>
         public Vector3 getTransportPosition()
         {
             return transportPosition;
         }
 
+        /// <summary>
+        /// setter for the transportposition, is set in Mapcreator
+        /// </summary>
+        /// <param name="value">Vector3 with the position of the blackhole</param>
         public void setTransportPosition(Vector3 value)
         {
             transportPosition = value;

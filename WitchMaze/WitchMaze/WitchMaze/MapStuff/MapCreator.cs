@@ -80,7 +80,6 @@ namespace WitchMaze.MapStuff
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-                    Console.Write(mapType[i, j]);
                     if (mapType[i, j] == 0)
                     {
                         map.map[i, j] = new Floor(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
@@ -102,10 +101,7 @@ namespace WitchMaze.MapStuff
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
                         map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
                     }
-
-
                 }
-                Console.WriteLine();
             }
             return map;
         }
@@ -133,11 +129,10 @@ namespace WitchMaze.MapStuff
             // Array to store the Cells in 
             Cell[,] maze = new Cell[numCellsX, numCellsY];
 
-
             int MapIndexX = 1;
             int MapIndexY = 1;
 
-            //überalle Cells laufen und initialisieren 
+            //initialize all Cells
             for (int i = 0; i < numCellsX; i++)
             {
                 for (int j = 0; j < numCellsY; j++)
@@ -150,10 +145,7 @@ namespace WitchMaze.MapStuff
                 MapIndexX += 2;
             }
 
-            //Stack<Cell> stack = new Stack<Cell>();
-            Queue<Cell> queue = new Queue<Cell>();
-
-            //Random Anfang finden, kann auch noch mehr in die Mitte verlegt werden 
+            //find random begin in the middleof the map 
             int thirdX = numCellsX / 3;
             int thirdY = numCellsY / 3;
             int StartX = rnd.Next(thirdX) + thirdX;
@@ -161,48 +153,116 @@ namespace WitchMaze.MapStuff
 
             Cell akt = maze[StartX, StartY];
             akt.setVisited(true);
-            //stack.Push(akt);
-            queue.Enqueue(akt);
+ 
+            Stack<Cell> stack = new Stack<Cell>();
+            stack.Push(akt);
+            int lastTurn = 0;
 
-            while(queue.Count != 0)//stack.Count != 0)
+            while (stack.Count != 0)//stack.Count != 0)
             {
-                akt = queue.Peek();
-                //akt = stack.Peek();
+                akt = stack.Peek();
                 int n = numOfNotVisited(maze, akt);
-                if(n == 0)
+                if (n == 0)
                 {
                     updateMap(akt);
-                    //stack.Pop();
-                    queue.Dequeue();
+                    stack.Pop();
+                }
+                else if(n == 1)
+                {
+                    int[] index = notVisited(maze, akt, n);
+                    int finaleIndex = index[0];
+                    lastTurn = finaleIndex;
+                    Cell next = getNext(maze, akt, finaleIndex);
+                    next.setVisited(true);
+                    updateWall(ref akt, ref next, finaleIndex);
+                    updateMap(akt);
+                    stack.Push(next);
                 }
                 else
                 {
-                    
                     // find next neighbour
                     int[] index = notVisited(maze, akt, n);
-                    //int random = rnd.Next(n - 1);
-                    //int finaleIndex = index[random];
+                    int random = rnd.Next(n - 1);
+                    int finaleIndex = index[random];
 
-                    for( int i = 0; i < n; i++)
+                    while(finaleIndex == lastTurn)
                     {
-                        int finaleIndex = index[i];
-                        Cell next = getNext(maze, akt, finaleIndex);
-                        next.setVisited(true);
+                        finaleIndex = (index[random + 1 % n]);
+                    }
+                        
+                    Cell next = getNext(maze, akt, finaleIndex);
+                    next.setVisited(true);
 
-                        // Wand von eigener & next updaten
-                        updateWall(ref akt, ref next, finaleIndex);
+                    // Wand von eigener & next updaten
+                    updateWall(ref akt, ref next, finaleIndex);
 
-                        updateMap(akt);
-                        //stack.Push(next);
-                        queue.Enqueue(next);
+                    updateMap(akt);
+                    stack.Push(next);
+                    
+                }
+            }
+            // insert random floor tiles, to make it more interesting
+            int AnzExtraFloor = 20;
+            int[] arrayX = new int[AnzExtraFloor];
+            int[] arrayY = new int[AnzExtraFloor];
+            for (int i = 0; i < AnzExtraFloor; i++)
+            {
+                    
+                int x = rnd.Next(Settings.getMapSizeX() - 1);
+                int y = rnd.Next(Settings.getMapSizeZ() - 1);
+                bool swap = true;
+                while(mapType[x, y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole || distance(arrayX, x,arrayY, y, i) == true) //|| distance(arrayY,y, i) == true))
+                {
+                    if(swap)
+                    {
+                        x = rnd.Next(Settings.getMapSizeX() - 1);
+                        swap = false;
+                    }
+                    else
+                    {
+                        y = rnd.Next(Settings.getMapSizeZ() - 1);
+                        swap = true;
                     }
                 }
+                mapType[x, y] = (int)tiles.floor;
+                arrayX[i] = x;
+                arrayY[i] = y;
+                
             }
 
 
         }
 
+        /// <summary>
+        /// function to calculate the distance between an already inserted random floortile an dthe new random floortile
+        /// </summary>
+        /// <param name="arrayX">already used x parameters</param>
+        /// <param name="valueX">x value to check</param>
+        /// <param name="arrayY">already used y parameters</param>
+        /// <param name="valueY">y value to check</param>
+        /// <param name="index">index how many cells have been created</param>
+        /// <returns></returns>
+        private bool distance(int[] arrayX, int valueX, int[]arrayY, int valueY, int index)
+        {
+            if (index == 0) return false;
+            bool distance = false;
+            for( int i = 0; i < index ; i++)
+            {
+                if(Math.Abs(arrayX[i] - valueX) < 2 && Math.Abs(arrayY[i] - valueY) < 2)
+                {
+                    distance = true;
+                    break;
+                }
+            }
+            return distance;
+        }
 
+        /// <summary>
+        /// function which returns number of not visited neighbour cells
+        /// </summary>
+        /// <param name="maze">Double Array with all Cells in it </param>
+        /// <param name="cell">current Cell</param>
+        /// <returns>integer</returns>
         private int numOfNotVisited(Cell[,] maze, Cell cell)
         {
             int result = 0;
@@ -213,18 +273,19 @@ namespace WitchMaze.MapStuff
                     if(getNext(maze, cell, i).getVisited() == false)
                     {
                         result++;
-                        //debug ausgabe 
-                        if (i == (int)neighbour.up) Console.WriteLine("upper Cell not visited");
-                        if (i == (int)neighbour.down) Console.WriteLine("lower Cell not visited");
-                        if (i == (int)neighbour.left) Console.WriteLine("left Cell not visited");
-                        if (i == (int)neighbour.right) Console.WriteLine("right Cell not visited");
                     }
                 }
             }
-            Console.WriteLine("Insgesamt wurden "+ result + " Nachbarn von "+cell.getCellIndexX()+" , "+cell.getCellindexY()+" noch nicht besucht");
             return result;
         }
 
+        /// <summary>
+        /// function which returns an array with the indices of all neighbour cells which have not been visited yet 
+        /// </summary>
+        /// <param name="maze">double array with all cells </param>
+        /// <param name="cell">current cell</param>
+        /// <param name="length">number of neighbour cells which have not been visited yet </param>
+        /// <returns>array of integer</returns>
         private int[] notVisited(Cell[,] maze, Cell cell, int length)
         {
             int[] result= new int[length];
@@ -237,23 +298,20 @@ namespace WitchMaze.MapStuff
                     {
                         result[index] = i;
                         index++;
-                        if (i == (int)neighbour.up) Console.WriteLine("upper Cell in neighbourList");
-                        if (i == (int)neighbour.down) Console.WriteLine("lower Cell in neighbourList");
-                        if (i == (int)neighbour.left) Console.WriteLine("left Cell in neighbourList");
-                        if (i == (int)neighbour.right) Console.WriteLine("right Cell in neighbourList ");
                     }
                 }
             }
-            Console.Write("Ergebnis aus notVisited() : ");
-            for(int i = 0; i < length; i++)
-            {
-                Console.Write(result[i] + ", ");
-            }
-            Console.WriteLine();
             return result;
         }
 
-        private Cell getNext(Cell[,] maze, Cell cell, int index) // hier Grenzen abfangen, und umrechnen, bei Index Fehlern ist hier eine Quelle ! 
+        /// <summary>
+        /// function which returns the next cell in a given direction
+        /// </summary>
+        /// <param name="maze">double array with all cells</param>
+        /// <param name="cell">current cell</param>
+        /// <param name="index">index in which directio next Cell lies </param>
+        /// <returns>neighbour Cell in wanted direction</returns>
+        private Cell getNext(Cell[,] maze, Cell cell, int index) 
         {
             int newX = 0;
             int newY = 0;
@@ -261,135 +319,119 @@ namespace WitchMaze.MapStuff
             {
                 newX = cell.getCellIndexX() - 1;
                 newY = cell.getCellindexY();
-                Console.WriteLine("Die obere Zelle ("+newX+","+newY+") von "+cell.getCellIndexX()+ ", "+cell.getCellindexY()+"wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.down && cell.getCellIndexX() + 1 < maze.GetLength(0))
             {
                 newX = cell.getCellIndexX() + 1;
                 newY = cell.getCellindexY();
-                Console.WriteLine("Die untere Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.left && cell.getCellindexY() - 1 >= 0)
             {
                 newX = cell.getCellIndexX();
                 newY = cell.getCellindexY() - 1;
-                Console.WriteLine("Die linke Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.right && cell.getCellindexY() + 1 < maze.GetLength(1))
             {
                 newX = cell.getCellIndexX();
                 newY = cell.getCellindexY() + 1;
-                Console.WriteLine("Die rechte Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.upLeft && cell.getCellIndexX() - 1 >= 0 && cell.getCellindexY() - 1 >= 0)
             {
                 newX = cell.getCellIndexX() - 1;
                 newY = cell.getCellindexY() - 1;
-                Console.WriteLine("Die linke obere Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.upRight && cell.getCellIndexX() - 1 >= 0 && cell.getCellindexY() + 1 < maze.GetLength(1))
             {
                 newX = cell.getCellIndexX() - 1;
                 newY = cell.getCellindexY() + 1;
-                Console.WriteLine("Die rechte obere Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.downRight && cell.getCellIndexX() + 1 < maze.GetLength(0) && cell.getCellindexY() + 1 < maze.GetLength(1))
             {
                 newX = cell.getCellIndexX() + 1;
                 newY = cell.getCellindexY() + 1;
-                Console.WriteLine("Die rechte untere Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else if (index == (int)neighbour.downLeft && cell.getCellIndexX() + 1 < maze.GetLength(0) && cell.getCellindexY() - 1 >= 0)
             {
                 newX = cell.getCellIndexX() + 1;
                 newY = cell.getCellindexY() - 1;
-                Console.WriteLine("Die linke untere Zelle (" + newX + "," + newY + ") von " + cell.getCellIndexX() + ", " + cell.getCellindexY() + "wird zurückgegeben.");
                 return maze[newX, newY];
             }
             else
             {
                 newX = cell.getCellIndexX() + 1;
                 newY = cell.getCellindexY();
-                Console.WriteLine("Nächste Zelle (" + newX + "," + newY + ") lag ausserhalb vom Feld, oder es wurde ein falscher Index"+index+" in die Funktion gegeben");
                 return null;
             }
         }
 
+        /// <summary>
+        /// function to update the Walls of two neighbour Cells 
+        /// </summary>
+        /// <param name="akt">reference of current cell</param>
+        /// <param name="next">reference of next cell</param>
+        /// <param name="index">index which cell to update</param>
         private void updateWall(ref Cell akt, ref Cell next, int index)//später noch auf Diagonale Zellen erweitern, bis jetzt noch keine Diagonalen
         {
             if (next == null)
             {
-                Console.WriteLine(" Die nächste Zelle ist null.");
-                if(akt == null)
+                if(akt != null)
                 {
-                    Console.WriteLine("auch die aktuelle Zelle ist null, somit wird nichts geupdatet");
-                }
-                else
-                {
-                    Console.WriteLine("Die aktuelle Zelle ist nicht null, somit wird nur sie geupdatet.");
                     akt.setWall(index, false);
                 }
             }
             else if (akt == null)
             {
-                Console.WriteLine(" Nur die aktuelle zelle ist Null, nicht die nächste. Nur die nächste wird geupdatet.");
                 if (index == (int)neighbour.up)
                 {
-                    Console.WriteLine("Von der nächsten Zelle wurde die untere Wall auf false gesetzt");
                     next.setWall((int)neighbour.down, false);
                 }
                 else if (index == (int)neighbour.down)
                 {
-                    Console.WriteLine("Von der nächsten Zelle wurde die obere Wall auf false gesetzt");
                     next.setWall((int)neighbour.up, false);
                 }
                 else if (index == (int)neighbour.left)
                 {
-                    Console.WriteLine("Von der nächsten Zelle wurde die rechte Wall auf false gesetzt");
                     next.setWall((int)neighbour.right, false);
                 }
                 else if (index == (int)neighbour.right)
                 {
-                    Console.WriteLine("Von der nächsten Zelle wurde die linke Wall auf false gesetzt");
                     next.setWall((int)neighbour.left, false);
                 }
-                else Console.WriteLine("Mehr ist momentan noch nicht implementiert");
             }
             else
             {
                 akt.setWall(index, false);
                 if (index == (int)neighbour.up)
                 {
-                    Console.WriteLine("Von der aktuellen Zelle wurde die obere Wall auf false gesetzt");
                     next.setWall((int)neighbour.down, false);
                 }
                 else if (index == (int)neighbour.down)
                 {
-                    Console.WriteLine("Von der aktuellen Zelle wurde die untere Wall auf false gesetzt");
                     next.setWall((int)neighbour.up, false);
                 }
                 else if (index == (int)neighbour.left)
                 {
-                    Console.WriteLine("Von der aktuellen Zelle wurde die linke Wall auf false gesetzt");
                     next.setWall((int)neighbour.right, false);
                 }
                 else if (index == (int)neighbour.right)
                 {
-                    Console.WriteLine("Von der aktuellen Zelle wurde die rechte Wall auf false gesetzt");
                     next.setWall((int)neighbour.left, false);
                 }
-                else Console.WriteLine("Mehr ist momentan noch nicht implementiert");
             }
         }
 
-        private void updateMap(Cell cell)// hier ist auch eine Fehlerquelle für Index kram 
+        /// <summary>
+        /// function to update the map with the Walls of the Cell
+        /// </summary>
+        /// <param name="cell">cell with which map is updated</param>
+        private void updateMap(Cell cell)
         {
             int x = cell.getMapIndexX();
             int y = cell.getMapIndexY();
@@ -404,21 +446,14 @@ namespace WitchMaze.MapStuff
             mapType[x - 1, y + 1] = cell.getWall((int)neighbour.upRight) == true ? 1 : 0;
             mapType[x + 1, y + 1] = cell.getWall((int)neighbour.downRight) == true ? 1 : 0;
             mapType[x + 1, y - 1] = cell.getWall((int)neighbour.downLeft) == true ? 1 : 0;
-
-            for (int i = 0; i < Settings.getMapSizeX(); i++)
-            {
-                for(int j = 0; j < Settings.getMapSizeZ(); j++)
-                {
-                    Console.Write(mapType[i, j]);
-                }
-                Console.WriteLine();
-            }
         }
 
-
+        /// <summary>
+        /// function to insert blackholes into the map
+        /// </summary>
         private void insertBlackHoles()
         {
-            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 30;
+            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 40;
             for ( int i = 0; i < anzahl; i++)
             {
                 int x = 0;
@@ -441,6 +476,12 @@ namespace WitchMaze.MapStuff
             }
         }
 
+        /// <summary>
+        /// function which returns if the new blackhole is to near to an old blackhole
+        /// </summary>
+        /// <param name="x">x parameter of new blackhole</param>
+        /// <param name="y">y parameter of new blackhole</param>
+        /// <returns></returns>
         private bool distanceToBlackHole(int x, int y)
         {
             bool result = false;
@@ -462,6 +503,11 @@ namespace WitchMaze.MapStuff
             return result;
         }
 
+        /// <summary>
+        /// function to find the transportpoints for the blackholes
+        /// </summary>
+        /// <param name="position">position of Blackhole, Vector3</param>
+        /// <returns>Vector3, transportpoint </returns>
         private Vector3 findTransportPoint(Vector3 position)
         {
             Vector3  result = new Vector3();
