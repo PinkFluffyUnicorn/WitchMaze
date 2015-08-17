@@ -17,6 +17,7 @@ namespace WitchMaze.GameStates
     {
         public Credits() { }
 
+        Icon creditsTitel;
         Icon credits;
         KeyboardState keyboard = Keyboard.GetState();
 
@@ -27,7 +28,8 @@ namespace WitchMaze.GameStates
 
         public void loadContent()
         {
-            credits = new Icon(new Vector2(411, 20), "Textures/credits/creditsTitel");
+            creditsTitel = new Icon(new Vector2(750 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/credits/creditsTitel");
+            credits = new Icon(new Vector2(560 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/credits/CreditsFilled");
         }
 
         public void unloadContent()
@@ -49,7 +51,8 @@ namespace WitchMaze.GameStates
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game1.getGraphics().GraphicsDevice.Clear(Color.Black);
-
+            
+            creditsTitel.draw();
             credits.draw();
         }
     }
