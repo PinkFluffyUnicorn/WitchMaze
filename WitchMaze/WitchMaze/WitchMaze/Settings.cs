@@ -81,6 +81,8 @@ namespace WitchMaze
         /// <returns>MapSize in int </returns>
         public static int getMapSizeZ() { return mapSizeZ; }
 
+        public static Color acaOrange = new Color(255, 144, 1);
+
 
         
 

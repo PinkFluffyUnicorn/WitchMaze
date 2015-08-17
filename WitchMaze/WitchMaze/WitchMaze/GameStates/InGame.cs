@@ -58,16 +58,17 @@ namespace WitchMaze.GameStates
         /// </summary>
         public void handleInGameState()
         {
+            List<PlayerStuff.Player> newPlayerList = inGameState.getPlayerList();
             switch (currentInGameState)
             {
                 case EInGameState.CharacterSelection:
                     inGameState = new InGameStates.CharacterSelection();
                     break;
                 case EInGameState.SingleTime:
-                    inGameState = new InGameStates.SingleTime();
+                    
+                    inGameState = new InGameStates.SingleTime(newPlayerList);
                     break;
                 case EInGameState.MazeRun:
-                    List<PlayerStuff.Player> newPlayerList = inGameState.getPlayerList();
                     inGameState = new InGameStates.MazeRun(newPlayerList);
                     break;
                 case EInGameState.Rumble:

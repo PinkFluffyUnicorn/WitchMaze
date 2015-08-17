@@ -30,6 +30,7 @@ namespace WitchMaze.GameStates.InGameStates
         LeftRightSwitch GameModeSelected;
         LeftRightSwitch player1ControllsLRS, player2ControllsLRS, player3ControllsLRS, player4ControllsLRS;//LRS for LeftRightSwitch
 
+        Clock clock;
 
         public override void initialize() 
         {
@@ -41,6 +42,8 @@ namespace WitchMaze.GameStates.InGameStates
             
             if (Game1.getGraphics() != null)
             {
+                clock = new Clock(new Vector2(0,0));
+                clock.start();
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
@@ -69,10 +72,10 @@ namespace WitchMaze.GameStates.InGameStates
         public override EInGameState update(GameTime gameTime) 
         {
             updatePlayer();
-            Console.WriteLine(playerList.Count);
+            clock.update(gameTime);
             keyboard = Keyboard.GetState();
             if(keyboard.IsKeyDown(Keys.Space))
-                return EInGameState.MazeRun;
+                return EInGameState.SingleTime;
             else 
                 return EInGameState.CharacterSelection; 
         }
@@ -159,7 +162,6 @@ namespace WitchMaze.GameStates.InGameStates
 
             //delete all player
             playerList.Clear();
-            Console.WriteLine(playerList.Count);
             //now create all needet Player Objects
             //player updaten und in playerList einfügen
             if (player1ControllsLRS.isSelected())
@@ -214,6 +216,7 @@ namespace WitchMaze.GameStates.InGameStates
             player3ControllsLRS.draw();
             player4ControllsLRS.draw();
             spaceNote.draw();
+            clock.draw();
         }
 
     }
