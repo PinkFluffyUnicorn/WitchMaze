@@ -46,7 +46,7 @@ namespace WitchMaze.GameStates
             {
                 GraphicsDevice graphicsDevice = Game1.getGraphics().GraphicsDevice;
 
-                float distY = 105* Settings.getInterfaceScale();
+                float distY = 105 * Settings.getInterfaceScale();
                 float distX = 400 * Settings.getInterfaceScale();//float distX = 822.5f* Settings.getInterfaceScale();
                 start = new Button(new Vector2(distX, distY), "Textures/mainmenu/startGame", "Textures/mainmenu/startGameIsPressed");
                 help = new Button(new Vector2(distX, start.getPosition().Y + start.getHeight() + distY), "Textures/mainmenu/help", "Textures/mainmenu/helpIsPressed");
@@ -54,7 +54,7 @@ namespace WitchMaze.GameStates
                 credits = new Button(new Vector2(distX, option.getPosition().Y + option.getHeight() + distY), "Textures/mainmenu/credits", "Textures/mainmenu/creditsIsPressed");
                 exit = new Button(new Vector2(distX, credits.getPosition().Y + credits.getHeight() + distY), "Textures/mainmenu/exit", "Textures/mainmenu/exitIsPressed");
 
-                titel = new Icon(new Vector2(450, 150), "Textures/mainmenu/titel");
+                titel = new Icon(new Vector2(0.5f* start.getPosition().X + start.getWidth() + distX, start.getPosition().Y + start.getHeight() + distY), "Textures/mainmenu/titel");
             }
         }
 
