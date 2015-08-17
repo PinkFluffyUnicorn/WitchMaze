@@ -72,7 +72,7 @@ namespace WitchMaze.ItemStuff
         /// <summary>
         /// draw the itemMap
         /// </summary>
-        public void draw()
+        public void draw(Matrix projection, Matrix camera)
         {
             
             for (int i = 0; i < Settings.getMapSizeX(); i++)
@@ -81,8 +81,7 @@ namespace WitchMaze.ItemStuff
                 {
                     if (itemMap[i, j] != null)
                     {
-                        itemMap[i, j].draw();
-                        //Console.WriteLine("Draw Item At: " + i + ","+j);
+                        itemMap[i, j].draw(projection, camera);
                     }
                         
                 }

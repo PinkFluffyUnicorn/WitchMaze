@@ -42,14 +42,14 @@ namespace WitchMaze.MapStuff
         /// draws the Map
         /// </summary>
         /// <param name="gameTime"></param>
-        public void draw()
+        public void draw(Matrix projection, Matrix camera)
         {
 
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for ( int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-                    map[i,j].draw();
+                    map[i,j].draw(projection, camera);
 
                 }
             }

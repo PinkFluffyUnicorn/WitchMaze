@@ -65,7 +65,7 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in x-Direction integer
         /// </summary>
-        static int mapSizeX = 20; 
+        static int mapSizeX = 48; //64:36 laggt, 50:50 laggt, 40:40 ist spielmar(ohne items und so...) , 48:27 auch spielbar(kleine map für 4...) 
         /// <summary>
         /// getter for MapSize in x-Direction
         /// </summary>
@@ -74,12 +74,14 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in z-Direction integer
         /// </summary>
-        static int mapSizeZ = 20; 
+        static int mapSizeZ = 36; 
         /// <summary>
         /// getter for MapSize in z- Direction
         /// </summary>
         /// <returns>MapSize in int </returns>
         public static int getMapSizeZ() { return mapSizeZ; }
+
+        public static Color acaOrange = new Color(255, 144, 1);
 
 
         

@@ -30,6 +30,7 @@ namespace WitchMaze
         MainMenu,
         Credits,
         Options,
+        Help,//Implementier das mal Tobi!!
         Exit,
         InGame,
     }

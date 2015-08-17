@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,15 @@ namespace WitchMaze.InterfaceObjects
         public bool isSelected()
         {
             return selected;
+        }
+
+        /// <summary>
+        /// returns the index of the array of the LeftRightSwitch
+        /// </summary>
+        /// <returns></returns>
+        public int getDisplayedIndex()
+        {
+            return pointer;
         }
 
         public override float getWidth()

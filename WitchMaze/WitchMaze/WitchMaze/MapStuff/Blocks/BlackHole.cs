@@ -37,7 +37,7 @@ namespace WitchMaze.MapStuff.Blocks
         /// Own Draw Method
         /// Calculates world, view and Projection Matrix and sets the Lighting 
         /// </summary>
-        public override void draw()
+        public override void draw(Matrix projection, Matrix camera)
         {
             foreach (ModelMesh mesh in model.Meshes)
             {
@@ -54,8 +54,8 @@ namespace WitchMaze.MapStuff.Blocks
                      effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
                     effect.World =  mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
-                    effect.View = Player.getCamera();
-                    effect.Projection = Player.getProjection();
+                    effect.View = camera;
+                    effect.Projection = projection;
                 }
 
                 mesh.Draw();

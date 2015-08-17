@@ -50,7 +50,7 @@ namespace WitchMaze.MapStuff.Blocks
         /// <summary>
         /// abstract draw Class for every Blocktype implemented differently
         /// </summary>
-        public abstract void draw();
+        public abstract void draw(Matrix projection, Matrix camera);
 
         
 
