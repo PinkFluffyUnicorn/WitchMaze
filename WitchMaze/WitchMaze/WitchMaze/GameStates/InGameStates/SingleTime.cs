@@ -32,7 +32,7 @@ namespace WitchMaze.GameStates.InGameStates
             itemSpawner = new ItemSpawner();
             itemSpawner.initialSpawn(itemMap);
 
-            player1 = new Player();
+            //player1 = new Player();
         }
 
         public override void loadContent()
@@ -54,9 +54,9 @@ namespace WitchMaze.GameStates.InGameStates
 
         public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
-            player1.draw(gameTime);
-            itemMap.draw();
-            map.draw();
+            player1.draw();
+            //itemMap.draw();
+            //map.draw();
 
         }
     }

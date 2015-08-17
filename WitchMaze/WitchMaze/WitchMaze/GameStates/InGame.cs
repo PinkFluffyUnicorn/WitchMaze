@@ -67,7 +67,8 @@ namespace WitchMaze.GameStates
                     inGameState = new InGameStates.SingleTime();
                     break;
                 case EInGameState.MazeRun:
-                    throw new NotImplementedException();
+                    List<PlayerStuff.Player> newPlayerList = inGameState.getPlayerList();
+                    inGameState = new InGameStates.MazeRun(newPlayerList);
                     break;
                 case EInGameState.Rumble:
                     throw new NotImplementedException();

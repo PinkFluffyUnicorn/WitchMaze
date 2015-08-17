@@ -42,7 +42,6 @@ namespace WitchMaze.ItemStuff
                 timeToNewItem = 0;
             }
             //timeToNewItem = timeToNewItem % timeForNewItem;
-            Console.WriteLine(timeToNewItem);
         }
 
         public void spawnItem(int x, int y)
