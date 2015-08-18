@@ -17,6 +17,54 @@ namespace WitchMaze.PlayerStuff
 {
     class Player
     {
+        public enum EPlayerViewportPosition
+        {
+            fullscreen,
+
+            left, //or up/down ist better?
+            right,
+
+            topLeft,
+            topRight,
+            botLeft,
+            botRight,
+        }
+
+        public enum EPlayerControlls
+        {
+            none,
+
+            Keyboard1,
+            Keyboard2,
+
+            Gamepad1,
+            Gamepad2,
+            Gamepad3,
+            Gamepad4,
+        }
+
+        //for debugging purpose ->
+        public enum EPlayerIndex
+        {
+            one,
+            two,
+            three,
+            vour,
+        }
+        public EPlayerIndex eplayerIndex;
+        //<- for debugging
+
+        EPlayerControlls playerControlls;
+        EPlayerViewportPosition playerViewportPosition;
+
+        Viewport viewport;
+        /// <summary>
+        /// Returns the Viewport of the Player
+        /// </summary>
+        /// <returns>Viewport</returns>
+        public Viewport getViewport(){return viewport; }
+        public EPlayerViewportPosition getViewportPosition() { return playerViewportPosition; }
+         
         Vector3 newPosition;
         Vector3 position;
         Vector3 lookAt;
@@ -47,72 +95,171 @@ namespace WitchMaze.PlayerStuff
             Console.WriteLine(itemsCollected.Count);
         }
 
-        public static Matrix getProjection() { return projection; }
-        public static Matrix getCamera() { return camera; }
-        public static Matrix getWorld() { return world; }
+        public Matrix getProjection() { return projection; }
+        public Matrix getCamera() { return camera; }
+        public Matrix getWorld() { return world; }
         public Vector3 getPosition() { return this.position; }
         //public Vector2[,] getBoundingBox { return null;}
         public Model getModel() { return this.model; }
 
+        //Write Constructors here
+        //public Player()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public Player()
-        {
+        /// <summary>
+        /// Creates a Player that already has the possible Controlls Set for him, he misses everything else, set that too!
+        /// </summary>
+        /// <param name="_playerControlls">sets the way of conrolling the Player</param>
+        public Player(EPlayerControlls _playerControlls, EPlayerIndex pi){
+            playerControlls = _playerControlls;
+            eplayerIndex = pi;
+
+        }
+
+        public void setFinalPlayer(Vector3 spawnPosition, EPlayerViewportPosition viewportPosition){
+            playerViewportPosition = viewportPosition;
+            this.setViewport();
+
             itemsCollected = new List<Item>();
             keyboard = Keyboard.GetState();
             aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
-             // params : position, forward,up, matrix out 
+            // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
 
-            position = new Vector3(1, 1, 1);
+            position = spawnPosition;
             //position = new Vector3(5, 1, 5);
-            lookAt = new Vector3(0, 1, 1);//vorher 0, 1, 1
-            upDirection = new Vector3(0, 1, 0);//vorher : 0, 1, 0
+            lookAt = new Vector3(0, 1, 1);//sollte neu berechnet werden //immer zur mitte der Map?
+            upDirection = new Vector3(0, 1, 0);
 
             //draufsicht
-           /* position = new Vector3(5, -40, 5);
-            lookAt = new Vector3(0, 1, 1);
-            upDirection = new Vector3(0, 0, 1);*/
+            /* position = new Vector3(5, -40, 5);
+             lookAt = new Vector3(0, 1, 1);
+             upDirection = new Vector3(0, 0, 1);*/
 
 
             GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
-            //camera = Matrix.CreateLookAt(position, lookAt, upDirection);
-            camera = Matrix.CreateWorld(position,lookAt , upDirection);
+            //camera = Matrix.CreateLookAt(new Vector3(position.X - Settings.getResolutionX() / 2, position.Y, position.Z), lookAt, upDirection);
+            camera = Matrix.CreateWorld(position, lookAt, upDirection);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
             world = Matrix.Identity;
-            model = Game1.getContent().Load<Model>("cube");
+            model = Game1.getContent().Load<Model>("Models/Player/player2");
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
         }
 
+        /// <summary>
+        /// this method sets the viewport of the player screen dependent on the ViewportPosition, aswell as the projection and Camera for the player
+        /// </summary>
+        private void setViewport()
+        {
+            Viewport defaultViewport = Game1.getGraphics().GraphicsDevice.Viewport;
+            switch (playerViewportPosition)
+            {
+                case EPlayerViewportPosition.fullscreen:
+                    viewport = defaultViewport;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.left:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 2, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.right:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    viewport.X = defaultViewport.Width / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 2, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.topLeft:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    viewport.Height = viewport.Height / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.botLeft:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    viewport.Height = viewport.Height / 2;
+                    viewport.Y = defaultViewport.Height / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.topRight:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    viewport.Height = viewport.Height / 2;
+                    viewport.X = defaultViewport.Width / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    break;
+                case EPlayerViewportPosition.botRight:
+                    viewport = defaultViewport;
+                    viewport.Width = viewport.Width / 2;
+                    viewport.Height = viewport.Height / 2;
+                    viewport.X = defaultViewport.Width / 2;
+                    viewport.Y = defaultViewport.Height / 2;
+                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
 
         public void update(GameTime gameTime)
         {
-            this.reportStatus();
+            //this.reportStatus();
 
-            this.moveG(gameTime); //GamePad
-
-            this.moveK(gameTime); //Keyboard
+            this.move(gameTime);
 
             this.itemCollision();
            
+        }
+
+        private void move(GameTime gameTime)
+        {
+            //ToDo kollieion dierekt hier einbauen...
+            switch (playerControlls)
+            {
+                case EPlayerControlls.Keyboard1:
+                    this.moveK(gameTime, Keys.W, Keys.S, Keys.A, Keys.D, Keys.Q, Keys.E);
+                    break;
+                case EPlayerControlls.Keyboard2:
+                    this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
+                    break;
+                case EPlayerControlls.Gamepad1:
+                    moveG(gameTime, PlayerIndex.One);
+                    break;
+                case EPlayerControlls.Gamepad2:
+                    moveG(gameTime, PlayerIndex.Two);
+                    break;
+                case EPlayerControlls.Gamepad3:
+                    moveG(gameTime, PlayerIndex.Three);
+                    break;
+                case EPlayerControlls.Gamepad4:
+                    moveG(gameTime, PlayerIndex.Four);
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         /// <summary>
         /// Keyboard Movement
         /// </summary>
         /// <param name="gameTime">GameTime for correct movement dependent on Time not FPS</param>
-        private void moveK(GameTime gameTime)
+        private void moveK(GameTime gameTime, Keys moveUp, Keys moveDown, Keys moveLeft, Keys moveRight, Keys lookLeft, Keys lookRight)
         {
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
+
             ///kack steuerung auf mehr hatte ich grad keine lust
-            if (keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S))
+            if (keyboard.IsKeyDown(moveUp) && !keyboard.IsKeyDown(moveDown))
             {//forward
                 //position.Z = position.Z * (timeSinceLastMove / timescale);
                 newPosition = position + direction * (timeSinceLastMove / timescale);
@@ -122,7 +269,7 @@ namespace WitchMaze.PlayerStuff
                     lookAt = position + direction;
                 }
             }
-            if (keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.W))
+            if (keyboard.IsKeyDown(moveDown) && !keyboard.IsKeyDown(moveUp))
             {//backward
                 newPosition = position - direction * (timeSinceLastMove / timescale);
                 if (!this.mapCollision(newPosition))
@@ -131,7 +278,7 @@ namespace WitchMaze.PlayerStuff
                     lookAt = position + direction;
                 }
             }
-            if (keyboard.IsKeyDown(Keys.D) && !keyboard.IsKeyDown(Keys.A))
+            if (keyboard.IsKeyDown(moveRight) && !keyboard.IsKeyDown(moveLeft))
             {//right
                 newPosition = position + ortoDirection * (timeSinceLastMove / timescale);
                 if (!this.mapCollision(newPosition))
@@ -140,7 +287,7 @@ namespace WitchMaze.PlayerStuff
                     lookAt = position + direction;
                 }
             }
-            if (keyboard.IsKeyDown(Keys.A) && !keyboard.IsKeyDown(Keys.D))
+            if (keyboard.IsKeyDown(moveLeft) && !keyboard.IsKeyDown(moveRight))
             {//left
                 newPosition = position - ortoDirection * (timeSinceLastMove / timescale);
                 if (!this.mapCollision(newPosition))
@@ -149,11 +296,11 @@ namespace WitchMaze.PlayerStuff
                     lookAt = position + direction;
                 }
             }
-            if (keyboard.IsKeyDown(Keys.Q) && !keyboard.IsKeyDown(Keys.E) || keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
+            if (keyboard.IsKeyDown(lookLeft) && !keyboard.IsKeyDown(lookRight) /*|| keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right)*/)
             {//rotate left / look left
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(timeSinceLastMove /  timescale)));
             }
-            if (keyboard.IsKeyDown(Keys.E) && !keyboard.IsKeyDown(Keys.Q) || keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(lookRight) && !keyboard.IsKeyDown(lookLeft) /*|| keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Left)*/)
             {//rotate rigth / look right
                 lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(-timeSinceLastMove /  timescale)));
             }
@@ -183,50 +330,52 @@ namespace WitchMaze.PlayerStuff
         }
 
         //GamePad
-        private void moveG(GameTime gameTime)
+        private void moveG(GameTime gameTime, PlayerIndex playerIndex)
         {
-            // Get the current gamepad state.
-            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
-            
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y > 0.0f)
-            {// Player one has pressed the left thumbstick up.
 
-                position = position + direction * (currentState.ThumbSticks.Left.Y/20);
-                lookAt = position + direction;
-            }
+                // Get the current gamepad state.
+                GamePadState currentState = GamePad.GetState(playerIndex);
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.Y < 0.0f)
-            {// Player one has pressed the left thumbstick down.
 
-                position = position + direction * (currentState.ThumbSticks.Left.Y/20);
-                lookAt = position + direction;
-            }
+                if (currentState.ThumbSticks.Left.Y > 0.0f)
+                {// Player one has pressed the left thumbstick up.
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X > 0.0f)
-            {// Player one has pressed the left thumbstick right.
+                    position = position + direction * (currentState.ThumbSticks.Left.Y / 20);
+                    lookAt = position + direction;
+                }
 
-                position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
-                lookAt = position + direction;
-            }
+                if (currentState.ThumbSticks.Left.Y < 0.0f)
+                {// gamepadState one has pressed the left thumbstick down.
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Left.X < 0.0f)
-            {// Player one has pressed the left thumbstick left.
+                    position = position + direction * (currentState.ThumbSticks.Left.Y / 20);
+                    lookAt = position + direction;
+                }
 
-                position = position + ortoDirection * (currentState.ThumbSticks.Left.X/20);
-                lookAt = position + direction;
-            }
-            
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X > 0.0f)
-            {// Player one has pressed the right thumbstick right.
+                if (currentState.ThumbSticks.Left.X > 0.0f)
+                {// Player one has pressed the left thumbstick right.
 
-                lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
-            }
+                    position = position + ortoDirection * (currentState.ThumbSticks.Left.X / 20);
+                    lookAt = position + direction;
+                }
 
-            if (GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.X < 0.0f)
-            {// Player one has pressed the right thumbstick left.
+                if (currentState.ThumbSticks.Left.X < 0.0f)
+                {// Player one has pressed the left thumbstick left.
 
-                lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X/50)));
-            }
+                    position = position + ortoDirection * (currentState.ThumbSticks.Left.X / 20);
+                    lookAt = position + direction;
+                }
+
+                if (currentState.ThumbSticks.Right.X > 0.0f)
+                {// Player one has pressed the right thumbstick right.
+
+                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X )));
+                }
+
+                if (currentState.ThumbSticks.Right.X < 0.0f)
+                {// Player one has pressed the right thumbstick left.
+
+                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X )));
+                }
 
         }
 
@@ -239,7 +388,6 @@ namespace WitchMaze.PlayerStuff
             //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
             playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
-            Console.WriteLine(playerMapPosition);
             //PlayerMapCollision
             if (WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return false;
@@ -261,20 +409,45 @@ namespace WitchMaze.PlayerStuff
 
 
         /// <summary>
-        /// handles the player draw
+        /// dunno what it does but without it it does not work
         /// </summary>
         /// <param name="gametime"></param>
-        public void draw(GameTime gametime)
+        public void doStuff()
+        {
+            //kann der ganze update kram in update?
+
+
+        }
+
+        /// <summary>
+        /// draws the player
+        /// </summary>
+        public void draw()
         {
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
-            effect.VertexColorEnabled = true;
-            effect.View = camera;
-            effect.Projection = projection;
-            effect.World = world;
-            effect.CurrentTechnique.Passes[0].Apply();
+
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
-            Game1.getEffect().World = Matrix.Identity;
-            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect _effect in mesh.Effects)
+                {
+                    _effect.EnableDefaultLighting();
+                    _effect.LightingEnabled = true; // Turn on the lighting subsystem.
+
+                    _effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+                    _effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+                    _effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+
+                    /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+                    effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
+
+                    _effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                    _effect.View = camera;
+                    _effect.Projection = projection;
+                }
+
+                mesh.Draw();
+            }
         }
 
     }

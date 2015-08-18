@@ -13,6 +13,8 @@ namespace WitchMaze.GameStates
     abstract class InGameState
     {
 
+        protected List<PlayerStuff.Player> playerList; public List<PlayerStuff.Player> getPlayerList() { return playerList; }//here to create the player in CharacterSelection and avalable for the in game
+
         static protected MapCreator mapCreator;
         static protected Map map;
 

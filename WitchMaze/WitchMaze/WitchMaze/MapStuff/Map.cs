@@ -38,19 +38,19 @@ namespace WitchMaze.MapStuff
             return map[(int)p.X, (int)p.Y].walkable;
         }
 
-        /// <summary>
-        /// draws the Map
-        /// </summary>
-        /// <param name="gameTime"></param>
-        public void draw()
+     /// <summary>
+     /// function to draw the map
+     /// </summary>
+     /// <param name="projection">ProjectionMatrix</param>
+     /// <param name="camera">CameraMatrix</param>
+        public void draw(Matrix projection, Matrix camera)
         {
 
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for ( int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-                    map[i,j].draw();
-
+                    map[i,j].draw(projection, camera);
                 }
             }
         }

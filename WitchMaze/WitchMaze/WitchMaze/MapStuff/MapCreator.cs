@@ -55,7 +55,6 @@ namespace WitchMaze.MapStuff
         {
 
             createMaze();
-            Console.WriteLine();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -80,11 +79,12 @@ namespace WitchMaze.MapStuff
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-                    if (mapType[i, j] == 0)
+                    
+                    if (mapType[i, j] == (int)tiles.floor)
                     {
                         map.map[i, j] = new Floor(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
                     }
-                    if (mapType[i, j] == 1)
+                    else if (mapType[i, j] == (int)tiles.wall)
                     {
                         float rotation = (float)rnd.Next(3);
                         while (rotate == rotation)//same rotation as before 
@@ -96,7 +96,7 @@ namespace WitchMaze.MapStuff
                         map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * 90);
                         rotate = rotation;
                     }
-                    if (mapType[i, j] == 2)
+                    else
                     {
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
                         map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
