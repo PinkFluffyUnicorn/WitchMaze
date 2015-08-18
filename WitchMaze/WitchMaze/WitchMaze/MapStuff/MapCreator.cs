@@ -27,7 +27,7 @@ namespace WitchMaze.MapStuff
 
         // Types(weil ich nicht weiß, ob hier ein enum shcon sinn macht ^^
         // 0: Floor, 1: Wall, 2: Blackhole
-        enum tiles { floor, wall, blackhole };
+        public enum tiles { floor, wall, blackhole };
 
         enum neighbour { up, right, down, left, upLeft, upRight, downRight, downLeft };
 
@@ -54,7 +54,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            //createMaze();
+            createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -66,7 +66,7 @@ namespace WitchMaze.MapStuff
                     }
                 }
             }
-            //insertBlackHoles();
+            insertBlackHoles();
         }
 
         /// <summary>
@@ -82,10 +82,13 @@ namespace WitchMaze.MapStuff
                     
                     if (mapType[i, j] == (int)tiles.floor)
                     {
-                        map.map[i, j] = new Floor(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
+                        Console.Write((int)tiles.floor);
+                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
+                        map.map[i, j] = new Floor(position, Game1.getContent().Load<Model>("bottom"));
                     }
                     else if (mapType[i, j] == (int)tiles.wall)
                     {
+                        Console.Write((int)tiles.wall);
                         float rotation = (float)rnd.Next(3);
                         while (rotate == rotation)//same rotation as before 
                         {
@@ -98,10 +101,12 @@ namespace WitchMaze.MapStuff
                     }
                     else
                     {
+                        Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
                         map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
                     }
                 }
+                Console.WriteLine();
             }
             return map;
         }

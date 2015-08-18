@@ -19,6 +19,7 @@ namespace WitchMaze.MapStuff
         /// </summary>
         public Block[,] map;
 
+        
 
         /// <summary>
         /// Constructor for Map

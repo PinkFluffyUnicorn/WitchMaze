@@ -78,7 +78,7 @@ namespace WitchMaze.GameStates
                     throw new NotImplementedException();
                     break;
             }
-
+            Console.WriteLine(inGameState);
             inGameState.initialize();
 
             inGameState.loadContent();

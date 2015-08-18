@@ -152,13 +152,13 @@ namespace WitchMaze.GameStates.InGameStates
             //}
 
             player1ControllsLRS.setSelected();
-            player2ControllsLRS.setSelected();
-            player3ControllsLRS.setSelected();
-            player4ControllsLRS.setSelected();
+            //player2ControllsLRS.setSelected();
+            //player3ControllsLRS.setSelected();
+            //player4ControllsLRS.setSelected();
             player1Controlls = Player.EPlayerControlls.Keyboard1;
-            player2Controlls = Player.EPlayerControlls.Keyboard2;
-            player3Controlls = Player.EPlayerControlls.Gamepad1;
-            player4Controlls = Player.EPlayerControlls.Gamepad2;
+            //player2Controlls = Player.EPlayerControlls.Keyboard2;
+            //player3Controlls = Player.EPlayerControlls.Gamepad1;
+            //player4Controlls = Player.EPlayerControlls.Gamepad2;
 
             //delete all player
             playerList.Clear();

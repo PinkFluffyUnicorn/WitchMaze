@@ -30,7 +30,10 @@ namespace WitchMaze.MapStuff.Blocks
         /// Model for the Block
         /// </summary>
         public Model model { get; protected set; }
-       
+
+        public MapCreator.tiles name { get; protected set; }
+
+        protected float rotation = 0;
         /// <summary>
         /// 1. Constructor for Block - Class
         /// </summary>
@@ -50,7 +53,23 @@ namespace WitchMaze.MapStuff.Blocks
         /// <summary>
         /// abstract draw Class for every Blocktype implemented differently
         /// </summary>
-        public abstract void draw(Matrix projection, Matrix camera);
+        public void draw(Matrix projection, Matrix camera)
+        {
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.View = camera;
+                    effect.Projection = projection;
+                    effect.World = Matrix.CreateRotationZ(rotation)  * transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(position);
+                }
+                mesh.Draw();
+            }
+        }
 
         
 

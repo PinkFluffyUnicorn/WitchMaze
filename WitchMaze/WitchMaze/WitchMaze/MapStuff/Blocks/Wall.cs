@@ -16,7 +16,6 @@ namespace WitchMaze.MapStuff.Blocks
     class Wall : Block
     {
 
-        float rotation;
         /// <summary>
         /// Constructor for Wall - Object
         /// </summary>
@@ -29,6 +28,7 @@ namespace WitchMaze.MapStuff.Blocks
             walkable = false;
             transportable = false;
             rotation = _rotation;
+            name = MapCreator.tiles.wall;
         }
         
        
@@ -36,47 +36,46 @@ namespace WitchMaze.MapStuff.Blocks
         /// Own Draw Method
         /// Calculates world, view and Projection Matrix and sets the Lighting 
         /// </summary>
-        public override void draw(Matrix projection, Matrix camera)
-        {
-            
+        //public override void draw(Matrix projection, Matrix camera)
+        //{
            
-            //foreach (ModelMesh mesh in model.Meshes)
-            //{
-            //    foreach (BasicEffect effect in mesh.Effects)
-            //    {
-            //        effect.EnableDefaultLighting();
-            //        effect.LightingEnabled = true; // Turn on the lighting subsystem.
+        //    //foreach (ModelMesh mesh in model.Meshes)
+        //    //{
+        //    //    foreach (BasicEffect effect in mesh.Effects)
+        //    //    {
+        //    //        effect.EnableDefaultLighting();
+        //    //        effect.LightingEnabled = true; // Turn on the lighting subsystem.
 
-            //        effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-            //        effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
-            //        effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights*
+        //    //        effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
+        //    //        effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
+        //    //        effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights*
 
-            //        //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
-            //        //effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. 
-            //        effect.World = mesh.ParentBone.Transform * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(position);
-            //        effect.View = camera;
-            //        effect.Projection = projection;
-            //    }
+        //    //        //effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
+        //    //        //effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. 
+        //    //        effect.World = mesh.ParentBone.Transform * Matrix.CreateRotationY(rotation) * Matrix.CreateTranslation(position);
+        //    //        effect.View = camera;
+        //    //        effect.Projection = projection;
+        //    //    }
 
-            //    mesh.Draw();
-            //}
+        //    //    mesh.Draw();
+        //    //}
 
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
+        //    Matrix[] transforms = new Matrix[model.Bones.Count];
+        //    model.CopyAbsoluteBoneTransformsTo(transforms);
 
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.View = camera;
-                    effect.Projection = projection;
-                    effect.World = Matrix.CreateRotationZ(rotation) * transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(position);
-                }
-                mesh.Draw();
-            }
+        //    foreach (ModelMesh mesh in model.Meshes)
+        //    {
+        //        foreach (BasicEffect effect in mesh.Effects)
+        //        {
+        //            effect.EnableDefaultLighting();
+        //            effect.View = camera;
+        //            effect.Projection = projection;
+        //            effect.World = Matrix.CreateRotationZ(rotation) * transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(position);
+        //        }
+        //        mesh.Draw();
+        //    }
 
-        }
+        //}
 
        
 
