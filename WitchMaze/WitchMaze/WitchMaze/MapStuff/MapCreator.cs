@@ -96,7 +96,8 @@ namespace WitchMaze.MapStuff
                         }
                         rotation = rotation % 4;
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        map.map[i, j] = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57);
+                        Floor floor = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57);
+                        map.setMap(floor, i, j);
                         rotateFloor = rotation;
                     }
                     else if (mapType[i, j] == (int)tiles.wall)
@@ -109,14 +110,16 @@ namespace WitchMaze.MapStuff
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        Wall wall = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        map.setMap(wall, i, j);
                         rotateWall = rotation;
                     }
                     else
                     {
                         Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
+                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
+                        map.setMap(blackhole, i, j);
                     }
                 }
                 Console.WriteLine();

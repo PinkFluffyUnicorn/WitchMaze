@@ -17,7 +17,17 @@ namespace WitchMaze.MapStuff
         /// <summary>
         /// Map
         /// </summary>
-        public Block[,] map;
+        Block[,] map;
+
+        public void setMap(Block _map, int x, int y)
+        {
+            map[x,y] = _map;
+        }
+
+        public Block[,] getMap(int x, int y)
+        {
+            return map;
+        }
 
         
 
