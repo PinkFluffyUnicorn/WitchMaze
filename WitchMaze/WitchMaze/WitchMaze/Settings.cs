@@ -34,7 +34,7 @@ namespace WitchMaze
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in x- Direction is
         /// </summary>
-        static float blockSizeX = 1f; 
+        static float blockSizeX = 2f; 
        /// <summary>
        /// getter for Blocksize in x- Direction
        /// </summary>
@@ -52,7 +52,7 @@ namespace WitchMaze
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in z- Direction is
         /// </summary>
-        static float blockSizeZ = 1f; 
+        static float blockSizeZ = 2f; 
         /// <summary>
         /// getter for Blocksize in z- Direction 
         /// </summary>
@@ -65,7 +65,7 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in x-Direction integer
         /// </summary>
-        static int mapSizeX = 48; //64:36 laggt, 50:50 laggt, 40:40 ist spielmar(ohne items und so...) , 48:27 auch spielbar(kleine map für 4...) 
+        static int mapSizeX = 20; //64:36 laggt, 50:50 laggt, 40:40 ist spielmar(ohne items und so...) , 48:27 auch spielbar(kleine map für 4...) 
         /// <summary>
         /// getter for MapSize in x-Direction
         /// </summary>
@@ -74,7 +74,7 @@ namespace WitchMaze
         /// <summary>
         /// Size of Map in z-Direction integer
         /// </summary>
-        static int mapSizeZ = 36; 
+        static int mapSizeZ = 20; 
         /// <summary>
         /// getter for MapSize in z- Direction
         /// </summary>

@@ -18,19 +18,25 @@ namespace WitchMaze.MapStuff.Blocks
         /// Position of a Block
         /// </summary>
         public Vector3 position { get; protected set; }
+
         /// <summary>
         /// Boolean whether Block is walkable(true) or not (false)
         /// </summary>
         public Boolean walkable { get; protected set; }
+
         /// <summary>
         /// Boolean whether Block can transport you somewhere(true) or not (false)
         /// </summary>
         public Boolean transportable { get; protected set; }
+
         /// <summary>
         /// Model for the Block
         /// </summary>
         public Model model { get; protected set; }
-       
+
+        public MapCreator.tiles name { get; protected set; }
+
+        protected float rotation = 0;
         /// <summary>
         /// 1. Constructor for Block - Class
         /// </summary>
@@ -43,22 +49,31 @@ namespace WitchMaze.MapStuff.Blocks
         /// 2. Constructor for Block - Class with a position
         /// </summary>
         /// <param name="_position"></param>
-        public Block(Vector3 _position)
+        public Block(Vector3 _position, float _rotation)
         {
-            _position = position;
+            position = _position;
+            rotation = _rotation; 
         }
         /// <summary>
-        /// abstract draw Class for every Blocktype implemented differently
+        /// draw Class same for everx blocktype
         /// </summary>
-        public abstract void draw(Matrix projection, Matrix camera);
+        public void draw(Matrix projection, Matrix camera)
+        {
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
 
-        
-
-
-       
-
-
-
-    }
-    
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.View = camera;
+                    effect.Projection = projection;
+                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateTranslation(position);
+                }
+                mesh.Draw();
+            }
+            
+        }
+    } 
 }
