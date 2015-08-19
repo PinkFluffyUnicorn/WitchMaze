@@ -18,14 +18,17 @@ namespace WitchMaze.MapStuff.Blocks
         /// Position of a Block
         /// </summary>
         public Vector3 position { get; protected set; }
+
         /// <summary>
         /// Boolean whether Block is walkable(true) or not (false)
         /// </summary>
         public Boolean walkable { get; protected set; }
+
         /// <summary>
         /// Boolean whether Block can transport you somewhere(true) or not (false)
         /// </summary>
         public Boolean transportable { get; protected set; }
+
         /// <summary>
         /// Model for the Block
         /// </summary>
@@ -46,12 +49,13 @@ namespace WitchMaze.MapStuff.Blocks
         /// 2. Constructor for Block - Class with a position
         /// </summary>
         /// <param name="_position"></param>
-        public Block(Vector3 _position)
+        public Block(Vector3 _position, float _rotation)
         {
-            _position = position;
+            position = _position;
+            rotation = _rotation; 
         }
         /// <summary>
-        /// abstract draw Class for every Blocktype implemented differently
+        /// draw Class same for everx blocktype
         /// </summary>
         public void draw(Matrix projection, Matrix camera)
         {
@@ -65,19 +69,11 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.EnableDefaultLighting();
                     effect.View = camera;
                     effect.Projection = projection;
-                    effect.World = Matrix.CreateRotationZ(rotation)  * transforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(position);
+                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateTranslation(position);
                 }
                 mesh.Draw();
             }
+            
         }
-
-        
-
-
-       
-
-
-
-    }
-    
+    } 
 }

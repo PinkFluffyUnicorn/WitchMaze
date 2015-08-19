@@ -20,13 +20,14 @@ namespace WitchMaze.MapStuff.Blocks
         /// </summary>
         /// <param name="_position">Position Vector3, Weltkoordinaten</param>
         /// <param name="_model">Modell</param>
-        public Floor(Vector3 _position, /*Color color,*/ Model _model )
+        public Floor(Vector3 _position, /*Color color,*/ Model _model, float _rotation )
         {
             model = _model;
             position = _position;
             walkable = true;
             transportable = false;
             name = MapCreator.tiles.floor;
+            rotation = _rotation; 
 
         }
 

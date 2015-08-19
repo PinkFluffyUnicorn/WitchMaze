@@ -33,9 +33,14 @@ namespace WitchMaze.MapStuff
 
 
         /// <summary>
-        /// float for rotating the blocks in different directions 
+        /// float for rotating the walls in different directions 
         /// </summary>
-        private float rotate = 0;
+        private float rotateWall = 0;
+
+        /// <summary>
+        /// float for rotating the floors in different directions 
+        /// </summary>
+        private float rotateFloor = 0;
 
         Random rnd = new Random();
 
@@ -83,21 +88,29 @@ namespace WitchMaze.MapStuff
                     if (mapType[i, j] == (int)tiles.floor)
                     {
                         Console.Write((int)tiles.floor);
-                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        map.map[i, j] = new Floor(position, Game1.getContent().Load<Model>("bottom"));
-                    }
-                    else if (mapType[i, j] == (int)tiles.wall)
-                    {
-                        Console.Write((int)tiles.wall);
                         float rotation = (float)rnd.Next(3);
-                        while (rotate == rotation)//same rotation as before 
+                        while (rotateFloor == rotation)//same rotation as before 
                         {
                             rotation = rotation + 1;
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * 90);
-                        rotate = rotation;
+                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
+                        map.map[i, j] = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57);
+                        rotateFloor = rotation;
+                    }
+                    else if (mapType[i, j] == (int)tiles.wall)
+                    {
+                        Console.Write((int)tiles.wall);
+                        float rotation = (float)rnd.Next(3);
+                        while (rotateWall == rotation)//same rotation as before 
+                        {
+                            rotation = rotation + 1;
+                            rotation = rotation % 4;
+                        }
+                        rotation = rotation % 4;
+                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        rotateWall = rotation;
                     }
                     else
                     {
@@ -216,7 +229,7 @@ namespace WitchMaze.MapStuff
                 int x = rnd.Next(Settings.getMapSizeX() - 1);
                 int y = rnd.Next(Settings.getMapSizeZ() - 1);
                 bool swap = true;
-                while(mapType[x, y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole || distance(arrayX, x,arrayY, y, i) == true) //|| distance(arrayY,y, i) == true))
+                while(mapType[x, y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole || distance(arrayX, x,arrayY, y, i) == true || neighboorhoud(x,y) == false)
                 {
                     if(swap)
                     {
@@ -236,6 +249,34 @@ namespace WitchMaze.MapStuff
             }
 
 
+        }
+
+        /// <summary>
+        /// function to check if the randomly inserted floor is connected to another floor or blackhole
+        /// </summary>
+        /// <param name="x">position of randomly inserted tile in x direction</param>
+        /// <param name="y">position of randomly inserted tile in y direction</param>
+        /// <returns>true if there is another floor or blackhole in direct neighboorhoud, false if there is not </returns>
+        private bool neighboorhoud(int x, int y)
+        {
+            bool result = false;
+            if(x - 1 > 0)
+            {
+                if (mapType[x - 1, y] != (int)tiles.wall) result = true;
+            }
+            if (x + 1 < Settings.getMapSizeX())
+            {
+                if (mapType[x + 1, y] != (int)tiles.wall) result = true;
+            }
+            if (y - 1 > 0)
+            {
+                if (mapType[x , y - 1] != (int)tiles.wall) result = true;
+            }
+            if (y + 1 < Settings.getMapSizeZ())
+            {
+                if (mapType[x, y + 1] != (int)tiles.wall) result = true;
+            }
+            return result;
         }
 
         /// <summary>

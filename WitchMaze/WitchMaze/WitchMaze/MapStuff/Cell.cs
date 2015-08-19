@@ -191,7 +191,6 @@ namespace WitchMaze.MapStuff
             else if (index == (int)neighbour.upRight) upRight = value;
             else if (index == (int)neighbour.downRight) downRight = value;
             else if (index == (int)neighbour.downLeft) downLeft = value;
-            else Console.WriteLine("Fehler beim setzten der Wall !");
         }
 
     }
