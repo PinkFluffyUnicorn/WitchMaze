@@ -34,13 +34,13 @@ namespace WitchMaze.GameStates.InGameStates
             mapCreator = new MapCreator();
             mapCreator.initialize();
             map = mapCreator.generateMap();
+  
 
             itemMap = new ItemMap();
             itemSpawner = new ItemSpawner();
             itemSpawner.initialSpawn(itemMap);
 
             initializePlayer();
-
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace WitchMaze.GameStates.InGameStates
             //if(won)
             //if (player1.getItemCount() >= 10)
             //    return EInGameState.Exit;
-            return EInGameState.MazeRun;
+            return EInGameState.SingleTime;
         }
 
         public override void Draw(GameTime gameTime)
@@ -161,6 +161,7 @@ namespace WitchMaze.GameStates.InGameStates
                 player.doStuff();
                 itemMap.draw(player.getProjection(), player.getCamera());
                 map.draw(player.getProjection(), player.getCamera());
+                
             }
 
         }

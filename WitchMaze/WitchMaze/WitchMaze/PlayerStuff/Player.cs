@@ -425,11 +425,6 @@ namespace WitchMaze.PlayerStuff
         public void draw()
         {
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
-            effect.VertexColorEnabled = true;
-            effect.View = camera;
-            effect.Projection = projection;
-            effect.World = world;
-            effect.CurrentTechnique.Passes[0].Apply();
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
             foreach (ModelMesh mesh in model.Meshes)
@@ -453,10 +448,6 @@ namespace WitchMaze.PlayerStuff
 
                 mesh.Draw();
             }
-
-
-            Game1.getEffect().World = Matrix.Identity;
-            Game1.getEffect().CurrentTechnique.Passes[0].Apply();
         }
 
     }

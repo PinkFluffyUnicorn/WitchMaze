@@ -19,6 +19,7 @@ namespace WitchMaze.MapStuff
         /// </summary>
         public Block[,] map;
 
+        
 
         /// <summary>
         /// Constructor for Map
@@ -38,10 +39,11 @@ namespace WitchMaze.MapStuff
             return map[(int)p.X, (int)p.Y].walkable;
         }
 
-        /// <summary>
-        /// draws the Map
-        /// </summary>
-        /// <param name="gameTime"></param>
+     /// <summary>
+     /// function to draw the map
+     /// </summary>
+     /// <param name="projection">ProjectionMatrix</param>
+     /// <param name="camera">CameraMatrix</param>
         public void draw(Matrix projection, Matrix camera)
         {
 
@@ -50,7 +52,6 @@ namespace WitchMaze.MapStuff
                 for ( int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
                     map[i,j].draw(projection, camera);
-
                 }
             }
         }

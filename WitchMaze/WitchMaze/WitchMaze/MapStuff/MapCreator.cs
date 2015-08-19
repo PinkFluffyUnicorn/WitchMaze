@@ -13,31 +13,40 @@ using WitchMaze.MapStuff.Blocks;
 
 namespace WitchMaze.MapStuff
 {
-    class MapCreator 
+    class MapCreator
     {
         /// <summary>
         /// double Array to store which Type the Tile is going to be 
         /// </summary>
         public int[,] mapType;
+
         /// <summary>
         /// stores the Map
         /// </summary>
         public Map map;
+
         // Types(weil ich nicht weiß, ob hier ein enum shcon sinn macht ^^
         // 0: Floor, 1: Wall, 2: Blackhole
+        public enum tiles { floor, wall, blackhole };
+
+        enum neighbour { up, right, down, left, upLeft, upRight, downRight, downLeft };
+
 
         /// <summary>
-        /// float for rotating the blocks in different directions 
+        /// float for rotating the walls in different directions 
         /// </summary>
-        private float help = 0;
+        private float rotateWall = 0;
+
+        /// <summary>
+        /// float for rotating the floors in different directions 
+        /// </summary>
+        private float rotateFloor = 0;
+
+        Random rnd = new Random();
 
         /// <summary>
         /// Constructor for MapCreator, initializes mapType and map
         /// </summary>
-        /// 
-
-
-        Random rnd = new Random();
         public MapCreator()
         {
             mapType = new int[Settings.getMapSizeX(), Settings.getMapSizeZ()];
@@ -45,41 +54,24 @@ namespace WitchMaze.MapStuff
         }
 
         /// <summary>
-        /// mapType gets filled here, here is the Place for the fancy random Function ^^
+        /// mapType gets filled here with a fancy random function
         /// </summary>
         public void initialize()
         {
-            
+
+            createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-
-                    //chess pattern inside
-                   /* if ((i % 2 == 1 && j % 2 == 1) || (i % 2 == 0 && j % 2 == 0))
-                    {
-                        mapType[i, j] = 2;
-                    }
-                    if ((i % 2 == 1 && j % 2 == 0) || (i % 2 == 0 && j % 2 == 1))
-                    {
-                        mapType[i, j] = 1;
-                    }*/
-
-
                     // Edge of Labyrinth 
                     if (i == 0 || j == 0 || i == Settings.getMapSizeX() - 1 || j == Settings.getMapSizeZ() - 1)
                     {
-                            mapType[i, j] = 2;
+                        mapType[i, j] = 1;
                     }
-
-
                 }
             }
-
-            //createMaze();
-
-            // BlackHoles noch hinzufügen, nach gleichem Prinzip
-             
+            insertBlackHoles();
         }
 
         /// <summary>
@@ -88,35 +80,46 @@ namespace WitchMaze.MapStuff
         /// <returns>Map</returns>
         public Map generateMap()
         {
-
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
                 {
-                    Console.Write(mapType[i, j]);
-                    if (mapType[i, j] == 0)
+                    
+                    if (mapType[i, j] == (int)tiles.floor)
                     {
-                        map.map[i, j] = new Floor(new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ())),Game1.getContent().Load<Model>("bottom"));
-                    }
-                    else if (mapType[i, j] == 2)
-                    {
+                        Console.Write((int)tiles.floor);
                         float rotation = (float)rnd.Next(3);
-                        while(help == rotation)//same rotation as before 
+                        while (rotateFloor == rotation)//same rotation as before 
                         {
                             rotation = rotation + 1;
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * 90);
-                        help = rotation;
-                    }    
-                    else //if (mapType[i,j] == 1)
-                    {
-                        map.map[i, j] = new BlackHole(new Vector3((float)(i * Settings.getBlockSizeX()) , 0.0f, (float)(j * Settings.getBlockSizeZ())), Game1.getContent().Load<Model>("bottom"));
+                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
+                        map.map[i, j] = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57);
+                        rotateFloor = rotation;
                     }
-                        
-
+                    else if (mapType[i, j] == (int)tiles.wall)
+                    {
+                        Console.Write((int)tiles.wall);
+                        float rotation = (float)rnd.Next(3);
+                        while (rotateWall == rotation)//same rotation as before 
+                        {
+                            rotation = rotation + 1;
+                            rotation = rotation % 4;
+                        }
+                        rotation = rotation % 4;
+                        map.map[i, j] = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        rotateWall = rotation;
+                    }
+                    else
+                    {
+                        Console.Write((int)tiles.blackhole);
+                        Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
+                        map.map[i, j] = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
+                    }
                 }
+                Console.WriteLine();
             }
             return map;
         }
@@ -125,350 +128,456 @@ namespace WitchMaze.MapStuff
         /// <summary>
         /// function to create random maze, only works with the inner part, 
         /// </summary>
-        public void createMaze()
+        private void createMaze()
         {
             int numCellsX = 0;
             int numCellsY = 0;
 
-            
-            
-            //determine number of cells 
+            //determine number of cells depending on even or odd size of maze
             if (Settings.getMapSizeX() % 2 == 1)
-                numCellsX = (Settings.getMapSizeX() - 2) / 2;
+                numCellsX = (Settings.getMapSizeX() - 1) / 2;
             else
                 numCellsX = (Settings.getMapSizeX() - 2) / 2;
 
-
             if (Settings.getMapSizeZ() % 2 == 1)
-                numCellsY = (Settings.getMapSizeZ()-2) / 2;
+                numCellsY = (Settings.getMapSizeZ() - 1) / 2;
             else
                 numCellsY = (Settings.getMapSizeZ() - 2) / 2;
 
-
             // Array to store the Cells in 
             Cell[,] maze = new Cell[numCellsX, numCellsY];
- 
 
-            //index of cells in Map 
-            int CellindexX = 3;
-            int CellindexY = 3;
+            int MapIndexX = 1;
+            int MapIndexY = 1;
 
-
-            // Create Cells with right number of Walls 
-            for(int i = 0; i < numCellsX; i++)
+            //initialize all Cells
+            for (int i = 0; i < numCellsX; i++)
             {
-                for(int j = 0;j < numCellsY; j++)
+                for (int j = 0; j < numCellsY; j++)
                 {
-                    //Cse corner left down 
-                    if (i == numCellsX - 1 && Settings.getMapSizeX() % 2 == 0 && j == numCellsY - 1 && Settings.getMapSizeZ() % 2 == 0)
-                    {
-                        maze[i, j] = new Cell(CellindexX, CellindexY, true, false, false, true, true, false, false, false);
-                    }
-                    //case: when number of Tiles in x Direction is straight and the last Cell misses the last third (upright, right, downright
-                    if (i == numCellsX - 1 && Settings.getMapSizeX() % 2 == 0)
-                    {
-                        maze[i, j] = new Cell(CellindexX, CellindexY, true, true, false, true, true, false, true, false);
-                    }
-                    //same case for y - Direction, missing (bottom, bottomleft, bottomright)
-                    else if (j == numCellsY - 1 && Settings.getMapSizeZ() % 2 == 0)
-                    {
-                        maze[i, j] = new Cell(CellindexX, CellindexY, true, false, true, true, true, true, false, false);
-                    }
-                    else
-                    {
-                        maze[i + 1, j+1] = new Cell(CellindexX, CellindexY, true, true, true, true, true, true, true, true);
-                    }
-                    // Corner needs an extra thing
-                    CellindexY += 2;
+                    maze[i, j] = new Cell(MapIndexX, MapIndexY, i, j, true, true, true, true, true, true, true, true);
+                    MapIndexY += 2;
+
                 }
-                CellindexY = 3;
-                CellindexX += 2;
+                MapIndexY = 1;
+                MapIndexX += 2;
             }
 
-            
-            //find path through Cells 
-            // start at random Cell
-            // mit Cellindex arbeiten
-            //schon besuchte numCellsX auf Stack ablegen
+            //find random begin in the middleof the map 
+            int thirdX = numCellsX / 3;
+            int thirdY = numCellsY / 3;
+            int StartX = rnd.Next(thirdX) + thirdX;
+            int StartY = rnd.Next(thirdY) + thirdY;
+
+            Cell akt = maze[StartX, StartY];
+            akt.setVisited(true);
+ 
             Stack<Cell> stack = new Stack<Cell>();
-            ownFunctions.ownRandom rnd = new ownFunctions.ownRandom();
-            double nul = 1;
-            double numCellsA = (double)numCellsX - 1;
-            double numCellsB = (double)numCellsY - 1;
-            double xStartHelp = rnd.ownRandomFunction(nul, numCellsA);
-            double yStartHelp = rnd.ownRandomFunction(nul, numCellsB);
+            stack.Push(akt);
+            int lastTurn = 0;
 
-
-
-            int xStart = (int)xStartHelp;
-            int yStart = (int)yStartHelp;
-
-            stack.Push(maze[xStart, yStart]);
-            maze[xStart, yStart].setVisited(true);
-
-            while(stack.Count != 0)
+            while (stack.Count != 0)//stack.Count != 0)
             {
-                Cell akt = stack.Peek();
-                // choose next Cell to visit, if not possible, pop
-                // if eine Nachbarzelle noch unbesucht, tue diese auf den Stack und mach die Wall dazwischn weg, hier auch ggf. Diagonale entfernen 
-                int n = numOfNotVisited(akt, maze);
-                if (n != 0)
+                akt = stack.Peek();
+                int n = numOfNotVisited(maze, akt);
+                if (n == 0)
                 {
-                    
-                    double help1 = rnd.ownRandomFunction(1, n);
-                    int help = (int)Math.Round(help1);
-                        
-                    while (getNext(help, akt, maze).getVisited() == true )
-                    {
-                        help++;
-                        help = help % 4 + 1;
-                    }
-                    //neues Feld gefunden, neues auf Stack  und Wall updaten, iwo muss die Wall vom Nachbarn geupdatet werden 
-
-                    Cell next = getNext(help, akt, maze);
+                    updateMap(akt);
+                    stack.Pop();
+                }
+                else if(n == 1)
+                {
+                    int[] index = notVisited(maze, akt, n);
+                    int finaleIndex = index[0];
+                    lastTurn = finaleIndex;
+                    Cell next = getNext(maze, akt, finaleIndex);
+                    next.setVisited(true);
+                    updateWall(ref akt, ref next, finaleIndex);
+                    updateMap(akt);
                     stack.Push(next);
-                    akt.setWall(help, false);
-                   
                 }
                 else
                 {
-                    Cell help = stack.Pop();
-                    //help.visited = true; wird eigtl nicht gebraucht
+                    // find next neighbour
+                    int[] index = notVisited(maze, akt, n);
+                    int random = rnd.Next(n - 1);
+                    int finaleIndex = index[random];
+
+                    while(finaleIndex == lastTurn)
+                    {
+                        finaleIndex = (index[random + 1 % n]);
+                    }
+                        
+                    Cell next = getNext(maze, akt, finaleIndex);
+                    next.setVisited(true);
+
+                    // Wand von eigener & next updaten
+                    updateWall(ref akt, ref next, finaleIndex);
+
+                    updateMap(akt);
+                    stack.Push(next);
+                    
                 }
-
-                //updaten der richtigen Map
-
-                updateMap(akt);
-
-                // Hier noch das Nachfolgefeld updaten
-
-
             }
+            // insert random floor tiles, to make it more interesting
+            int AnzExtraFloor = 20;
+            int[] arrayX = new int[AnzExtraFloor];
+            int[] arrayY = new int[AnzExtraFloor];
+            for (int i = 0; i < AnzExtraFloor; i++)
+            {
+                    
+                int x = rnd.Next(Settings.getMapSizeX() - 1);
+                int y = rnd.Next(Settings.getMapSizeZ() - 1);
+                bool swap = true;
+                while(mapType[x, y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole || distance(arrayX, x,arrayY, y, i) == true || neighboorhoud(x,y) == false)
+                {
+                    if(swap)
+                    {
+                        x = rnd.Next(Settings.getMapSizeX() - 1);
+                        swap = false;
+                    }
+                    else
+                    {
+                        y = rnd.Next(Settings.getMapSizeZ() - 1);
+                        swap = true;
+                    }
+                }
+                mapType[x, y] = (int)tiles.floor;
+                arrayX[i] = x;
+                arrayY[i] = y;
+                
+            }
+
 
         }
 
         /// <summary>
-        /// Method which returns the number of neighbour Cells which have not been visited yet
+        /// function to check if the randomly inserted floor is connected to another floor or blackhole
         /// </summary>
-        /// <returns></returns>
-        private int numOfNotVisited(Cell zelle, Cell[,] array)
+        /// <param name="x">position of randomly inserted tile in x direction</param>
+        /// <param name="y">position of randomly inserted tile in y direction</param>
+        /// <returns>true if there is another floor or blackhole in direct neighboorhoud, false if there is not </returns>
+        private bool neighboorhoud(int x, int y)
         {
-            int help = 0;
-            if (zelle.getX() - 1 < array.GetLength(0))
+            bool result = false;
+            if(x - 1 > 0)
             {
-                if (array[zelle.getX() + 1, zelle.getY()].getVisited() == false)//exception !!
-                {
-                    help++;
-                }
+                if (mapType[x - 1, y] != (int)tiles.wall) result = true;
             }
-            if (zelle.getY() + 1 < array.GetLength(1))
+            if (x + 1 < Settings.getMapSizeX())
             {
-                if (array[zelle.getX(), zelle.getY() + 1].getVisited() == false)
-                {
-                    help++;
-                }
+                if (mapType[x + 1, y] != (int)tiles.wall) result = true;
             }
-            if (zelle.getY() - 1 < 0)
+            if (y - 1 > 0)
             {
-                if (array[zelle.getX(), zelle.getY() - 1].getVisited() == false)
-                {
-                    help++;
-                }
+                if (mapType[x , y - 1] != (int)tiles.wall) result = true;
             }
-            if (zelle.getX() - 1 < 0)
+            if (y + 1 < Settings.getMapSizeZ())
             {
-                if (array[zelle.getX() - 1, zelle.getY()].getVisited() == false)
-                {
-                    help++;
-                }
+                if (mapType[x, y + 1] != (int)tiles.wall) result = true;
             }
-            
-            return help;
+            return result;
         }
 
         /// <summary>
-        /// Method which returns the next Cell in a certain Direction 
+        /// function to calculate the distance between an already inserted random floortile an dthe new random floortile
         /// </summary>
-        /// <param name="i"></param>
-        /// <param name="akt"></param>
-        /// <param name="maze"></param>
+        /// <param name="arrayX">already used x parameters</param>
+        /// <param name="valueX">x value to check</param>
+        /// <param name="arrayY">already used y parameters</param>
+        /// <param name="valueY">y value to check</param>
+        /// <param name="index">index how many cells have been created</param>
         /// <returns></returns>
-        Cell getNext(int i, Cell akt, Cell[,] maze)
+        private bool distance(int[] arrayX, int valueX, int[]arrayY, int valueY, int index)
         {
-            if (i == 1) return maze[akt.getX(), akt.getY()+1];
-            if (i == 2) return maze[akt.getX(), akt.getY()-1];
-            if (i == 3) return maze[akt.getX()+1, akt.getY()];
-            if (i == 4) return maze[akt.getX()-1, akt.getY()];
-            if (i == 5) return maze[akt.getX()-1, akt.getY()+1];
-            if (i == 6) return maze[akt.getX()+1, akt.getY()+1];
-            if (i == 8) return maze[akt.getX()-1, akt.getY()-1];
-            if (i == 7) return maze[akt.getX() + 1, akt.getY() - 1];
-            else return null;
+            if (index == 0) return false;
+            bool distance = false;
+            for( int i = 0; i < index ; i++)
+            {
+                if(Math.Abs(arrayX[i] - valueX) < 2 && Math.Abs(arrayY[i] - valueY) < 2)
+                {
+                    distance = true;
+                    break;
+                }
+            }
+            return distance;
         }
 
-
-        //Methode um Wände in der richtigen Map upzudaten
-        void updateMap(Cell cell)
+        /// <summary>
+        /// function which returns number of not visited neighbour cells
+        /// </summary>
+        /// <param name="maze">Double Array with all Cells in it </param>
+        /// <param name="cell">current Cell</param>
+        /// <returns>integer</returns>
+        private int numOfNotVisited(Cell[,] maze, Cell cell)
         {
-            //linke obere Ecke berechnen
-            int xFinale = cell.getX();
-            int yFinale = cell.getY();
-            // Zelle und alle zugehörigen updaten
-          
-            //mapType[xFinale + i, yFinale + j] = BUg, Bug, Bug
-            //linksoben
-            mapType[xFinale - 1 , yFinale - 1 ] = cell.getWall(5) == true? 1 : 0;
-            //Mitte oben 
-            mapType[xFinale -1, yFinale] = cell.getWall(1) == true ? 1 : 0;
-            //rechts oben 
-            mapType[xFinale -1, yFinale + 1] = cell.getWall(6) == true ? 1 : 0;//exception
-            //linksMItte??
-            mapType[xFinale, yFinale - 1] = cell.getWall(2) == true ? 1 : 0;
-            //Mitte
-            mapType[xFinale, yFinale] = 0;
-            //Mitte rechts??
-            mapType[xFinale , yFinale + 1] = cell.getWall(3) == true ? 1 : 0;
-            //unten links
-            mapType[xFinale + 1, yFinale - 1] = cell.getWall(7) == true ? 1 : 0;
-            //unten MItte
-            mapType[xFinale + 1, yFinale ] = cell.getWall(4) == true ? 1 : 0;
-            //unten links
-            mapType[xFinale + 1, yFinale + 1] = cell.getWall(8) == true ? 1 : 0;
-
+            int result = 0;
+            for(int i = 0; i < 4; i++)
+            {
+                if(getNext(maze, cell, i) != null)
+                {
+                    if(getNext(maze, cell, i).getVisited() == false)
+                    {
+                        result++;
+                    }
+                }
+            }
+            return result;
         }
 
-          
+        /// <summary>
+        /// function which returns an array with the indices of all neighbour cells which have not been visited yet 
+        /// </summary>
+        /// <param name="maze">double array with all cells </param>
+        /// <param name="cell">current cell</param>
+        /// <param name="length">number of neighbour cells which have not been visited yet </param>
+        /// <returns>array of integer</returns>
+        private int[] notVisited(Cell[,] maze, Cell cell, int length)
+        {
+            int[] result= new int[length];
+            int index = 0;
+            for (int i = 0; i < 4; i++ )
+            {
+                if(getNext(maze, cell, i) != null)
+                {
+                    if(getNext(maze, cell,i).getVisited() == false)
+                    {
+                        result[index] = i;
+                        index++;
+                    }
+                }
+            }
+            return result;
+        }
 
+        /// <summary>
+        /// function which returns the next cell in a given direction
+        /// </summary>
+        /// <param name="maze">double array with all cells</param>
+        /// <param name="cell">current cell</param>
+        /// <param name="index">index in which directio next Cell lies </param>
+        /// <returns>neighbour Cell in wanted direction</returns>
+        private Cell getNext(Cell[,] maze, Cell cell, int index) 
+        {
+            int newX = 0;
+            int newY = 0;
+            if (index == (int)neighbour.up && cell.getCellIndexX() - 1 >= 0)
+            {
+                newX = cell.getCellIndexX() - 1;
+                newY = cell.getCellindexY();
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.down && cell.getCellIndexX() + 1 < maze.GetLength(0))
+            {
+                newX = cell.getCellIndexX() + 1;
+                newY = cell.getCellindexY();
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.left && cell.getCellindexY() - 1 >= 0)
+            {
+                newX = cell.getCellIndexX();
+                newY = cell.getCellindexY() - 1;
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.right && cell.getCellindexY() + 1 < maze.GetLength(1))
+            {
+                newX = cell.getCellIndexX();
+                newY = cell.getCellindexY() + 1;
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.upLeft && cell.getCellIndexX() - 1 >= 0 && cell.getCellindexY() - 1 >= 0)
+            {
+                newX = cell.getCellIndexX() - 1;
+                newY = cell.getCellindexY() - 1;
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.upRight && cell.getCellIndexX() - 1 >= 0 && cell.getCellindexY() + 1 < maze.GetLength(1))
+            {
+                newX = cell.getCellIndexX() - 1;
+                newY = cell.getCellindexY() + 1;
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.downRight && cell.getCellIndexX() + 1 < maze.GetLength(0) && cell.getCellindexY() + 1 < maze.GetLength(1))
+            {
+                newX = cell.getCellIndexX() + 1;
+                newY = cell.getCellindexY() + 1;
+                return maze[newX, newY];
+            }
+            else if (index == (int)neighbour.downLeft && cell.getCellIndexX() + 1 < maze.GetLength(0) && cell.getCellindexY() - 1 >= 0)
+            {
+                newX = cell.getCellIndexX() + 1;
+                newY = cell.getCellindexY() - 1;
+                return maze[newX, newY];
+            }
+            else
+            {
+                newX = cell.getCellIndexX() + 1;
+                newY = cell.getCellindexY();
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// function to update the Walls of two neighbour Cells 
+        /// </summary>
+        /// <param name="akt">reference of current cell</param>
+        /// <param name="next">reference of next cell</param>
+        /// <param name="index">index which cell to update</param>
+        private void updateWall(ref Cell akt, ref Cell next, int index)//später noch auf Diagonale Zellen erweitern, bis jetzt noch keine Diagonalen
+        {
+            if (next == null)
+            {
+                if(akt != null)
+                {
+                    akt.setWall(index, false);
+                }
+            }
+            else if (akt == null)
+            {
+                if (index == (int)neighbour.up)
+                {
+                    next.setWall((int)neighbour.down, false);
+                }
+                else if (index == (int)neighbour.down)
+                {
+                    next.setWall((int)neighbour.up, false);
+                }
+                else if (index == (int)neighbour.left)
+                {
+                    next.setWall((int)neighbour.right, false);
+                }
+                else if (index == (int)neighbour.right)
+                {
+                    next.setWall((int)neighbour.left, false);
+                }
+            }
+            else
+            {
+                akt.setWall(index, false);
+                if (index == (int)neighbour.up)
+                {
+                    next.setWall((int)neighbour.down, false);
+                }
+                else if (index == (int)neighbour.down)
+                {
+                    next.setWall((int)neighbour.up, false);
+                }
+                else if (index == (int)neighbour.left)
+                {
+                    next.setWall((int)neighbour.right, false);
+                }
+                else if (index == (int)neighbour.right)
+                {
+                    next.setWall((int)neighbour.left, false);
+                }
+            }
+        }
+
+        /// <summary>
+        /// function to update the map with the Walls of the Cell
+        /// </summary>
+        /// <param name="cell">cell with which map is updated</param>
+        private void updateMap(Cell cell)
+        {
+            int x = cell.getMapIndexX();
+            int y = cell.getMapIndexY();
+
+            mapType[x, y] = (int)tiles.floor;
+
+            mapType[x - 1, y] = cell.getWall((int)neighbour.up) == true ? 1 : 0;
+            mapType[x + 1, y] = cell.getWall((int)neighbour.down) == true ? 1 : 0;
+            mapType[x, y - 1] = cell.getWall((int)neighbour.left) == true ? 1 : 0;
+            mapType[x, y + 1] = cell.getWall((int)neighbour.right) == true ? 1 : 0;
+            mapType[x - 1, y - 1] = cell.getWall((int)neighbour.upLeft) == true ? 1 : 0;
+            mapType[x - 1, y + 1] = cell.getWall((int)neighbour.upRight) == true ? 1 : 0;
+            mapType[x + 1, y + 1] = cell.getWall((int)neighbour.downRight) == true ? 1 : 0;
+            mapType[x + 1, y - 1] = cell.getWall((int)neighbour.downLeft) == true ? 1 : 0;
+        }
+
+        /// <summary>
+        /// function to insert blackholes into the map
+        /// </summary>
+        private void insertBlackHoles()
+        {
+            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 40;
+            for ( int i = 0; i < anzahl; i++)
+            {
+                int x = 0;
+                int y = 0;
+                bool swap = true;
+                while( mapType[x,y] == (int)tiles.wall || mapType[x,y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || distanceToBlackHole(x,y))
+                {
+                    if (swap)
+                    {
+                        x = rnd.Next(Settings.getMapSizeX());
+                        swap = false;
+                    }
+                    else
+                    {
+                        y = rnd.Next(Settings.getMapSizeZ());
+                        swap = true;
+                    }
+                }
+                mapType[x, y] = (int)tiles.blackhole;
+            }
+        }
+
+        /// <summary>
+        /// function which returns if the new blackhole is to near to an old blackhole
+        /// </summary>
+        /// <param name="x">x parameter of new blackhole</param>
+        /// <param name="y">y parameter of new blackhole</param>
+        /// <returns></returns>
+        private bool distanceToBlackHole(int x, int y)
+        {
+            bool result = false;
+            for (int i = -3; i < 4; i++ )
+            {
+                for(int j = -3; j < 4; j++)
+                {
+                    if(x + i >= 0 && y + j >= 0 && x+i <Settings.getMapSizeX() && y+j < Settings.getMapSizeZ()) 
+                    {
+                        if(mapType[x+i, y+j] == (int)tiles.blackhole) 
+                        {
+                            result = true;
+                            break;
+                        }
+                    }
+
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// function to find the transportpoints for the blackholes
+        /// </summary>
+        /// <param name="position">position of Blackhole, Vector3</param>
+        /// <returns>Vector3, transportpoint </returns>
+        private Vector3 findTransportPoint(Vector3 position)
+        {
+            Vector3  result = new Vector3();
+            result.Y = 0;
+            int x = 0;
+            int y = 0;
+            bool swap = true;
+            while (mapType[x, y] == (int)tiles.wall || mapType[x, y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || Math.Abs(x - position.X) < 8 || Math.Abs(y - position.Z) < 8)
+            {
+                if (swap)
+                {
+                    x = rnd.Next(Settings.getMapSizeX());
+                    swap = false;
+                }
+                else
+                {
+                    y = rnd.Next(Settings.getMapSizeZ());
+                    swap = true;
+                }
+            }
+            result.X = x;
+            result.Z = y;
+            return result; 
+
+        }
     }
-}
-
-/// <summary>
-/// class for Labyrinthgeneration
-/// </summary>
-public class Cell
-{
-    /// <summary>
-    /// Boolean whether the Cell has a top wall 
-    /// </summary>
-    Boolean wand_oben; //1
-    /// <summary>
-    /// Boolean whether Cell has a bottom Wall
-    /// </summary>
-    Boolean wand_unten;//2
-    /// <summary>
-    /// Boolean whether Cell has a right Wall 
-    /// </summary>
-    Boolean wand_rechts;//3
-    /// <summary>
-    /// Boolean whether Cell has left Wall
-    /// </summary>
-    Boolean wand_links;//4
-    /// <summary>
-    /// Boolean whether cell has left top Wall
-    /// </summary>
-    Boolean wand_links_oben;//5
-    /// <summary>
-    /// Boolean whether cell has right rop Wall
-    /// </summary>
-    Boolean wand_rechts_oben;//6
-    /// <summary>
-    /// Boolean whether cell has left down Wall
-    /// </summary>
-    Boolean wand_links_unten;//7
-    /// <summary>
-    /// Boolean whether cell hat right down Wall
-    /// </summary>
-    Boolean wand_rechts_unten;//8
-
-    /// <summary>
-    /// Position of Cell in x- Direction
-    /// </summary>
-    private int X;
-    /// <summary>
-    /// Position of Cell in y-Direction
-    /// </summary>
-    private int Y;
-
-    /// <summary>
-    /// Boolean whether Cell has already been visited
-    /// </summary>
-    Boolean visited;
-
-    public Boolean getVisited()
-    {
-        return visited;
-    }
-
-    public void setVisited(Boolean set)
-    {
-        visited = set;
-    }
-
-    public int getX()
-    {
-        return X;
-    }
-
-    public int getY()
-    {
-        return Y;
-    }
-
-    
-
-    public Boolean getWall(int j)
-    {
-        if (j == 1) return wand_oben;
-        if (j == 2) return wand_unten;
-        if (j == 3) return wand_rechts;
-        if (j == 4) return wand_links;
-        if (j == 5) return wand_links_oben;
-        if (j == 6) return wand_rechts_oben;
-        if (j == 8) return wand_rechts_unten;
-        if (j == 7) return wand_links_unten;
-        else return false;
-    }
-
-    public void setWall(int j, Boolean set)
-    {
-        if (j == 1) wand_oben = set;
-        if (j == 2) wand_unten = set;
-        if (j == 3) wand_rechts = set;
-        if (j == 4) wand_links = set;
-        if (j == 5) wand_links_oben = set;
-        if (j == 6) wand_rechts_oben = set;
-        if (j == 8) wand_rechts_unten = set;
-        if (j == 7) wand_links_unten = set;
-    }
-
-    /// <summary>
-    /// Constructor for Cell 
-    /// </summary>
-    /// <param name="zeile">x-Direction</param>
-    /// <param name="spalte">y-Direction</param>
-    /// <param name="oben">top Wall</param>
-    /// <param name="unten">bottom Wall</param>
-    /// <param name="rechts">right Wall</param>
-    /// <param name="links">left Wall</param>
-    public Cell (int _X, int _Y, Boolean oben, Boolean unten, Boolean rechts, Boolean links, Boolean linksOben, Boolean rechtsOben, Boolean linksunten, Boolean rechtsunten)
-    {
-        X = _X;
-        Y = _Y;
-
-        visited = false;
-
-        //wegen Ecken und so 
-        wand_oben = oben;
-        wand_unten = unten;
-        wand_rechts = rechts;
-        wand_links = links;
-        wand_links_oben = linksOben;
-        wand_rechts_oben = rechtsOben;
-        wand_links_unten = linksunten;
-        wand_rechts_unten = rechtsunten;
-
-    }
-
-
-
 }
