@@ -153,6 +153,7 @@
     <Compile Include="MapStuff\Cell.cs" />
     <Compile Include="MapStuff\Map.cs" />
     <Compile Include="MapStuff\MapCreator.cs" />
+    <Compile Include="MapStuff\Skybox.cs" />
     <Compile Include="ownFunctions\ownRandom.cs" />
     <Compile Include="PlayerStuff\Move.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
