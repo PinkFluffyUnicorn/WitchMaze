@@ -118,7 +118,7 @@ namespace WitchMaze.MapStuff
                     {
                         Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("bottom"), findTransportPoint(position));
+                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models\\MapStuff\\BlackHole"), findTransportPoint(position));
                         map.setMap(blackhole, i, j);
                     }
                 }
