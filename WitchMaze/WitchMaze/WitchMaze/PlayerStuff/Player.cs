@@ -82,7 +82,14 @@ namespace WitchMaze.PlayerStuff
         Vector3 ortoDirection; //für bewegung links rechts
         Model model;
         Vector2 playerMapPosition;
-        List<Item> itemsCollected; 
+        List<Item> itemsCollected;
+        Skybox skybox;
+
+        public Skybox getSkybox()
+        {
+            return skybox;
+        }
+
         
 
         //Shader
@@ -94,7 +101,7 @@ namespace WitchMaze.PlayerStuff
         /// Writes the Player Status in the Console
         /// </summary>
         private void reportStatus() {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("X: " + (int)position.X + " Z: " + (int)position.Z);
             //Console.WriteLine(position);
             Console.WriteLine(itemsCollected.Count);
@@ -141,7 +148,7 @@ namespace WitchMaze.PlayerStuff
              lookAt = new Vector3(0, 1, 1);
              upDirection = new Vector3(0, 0, 1);*/
 
-
+            
             GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
             //camera = Matrix.CreateLookAt(new Vector3(position.X - Settings.getResolutionX() / 2, position.Y, position.Z), lookAt, upDirection);
@@ -152,6 +159,10 @@ namespace WitchMaze.PlayerStuff
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
+
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+
+            skybox.initialize();
         }
 
         /// <summary>
@@ -415,23 +426,12 @@ namespace WitchMaze.PlayerStuff
         }
 
 
-
-        /// <summary>
-        /// dunno what it does but without it it does not work
-        /// </summary>
-        /// <param name="gametime"></param>
-        public void doStuff()
-        {
-            //kann der ganze update kram in update?
-
-
-        }
-
         /// <summary>
         /// draws the player
         /// </summary>
         public void draw()
         {
+
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)

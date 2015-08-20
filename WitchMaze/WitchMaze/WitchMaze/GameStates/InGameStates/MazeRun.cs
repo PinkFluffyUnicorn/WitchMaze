@@ -161,7 +161,6 @@ namespace WitchMaze.GameStates.InGameStates
                 count++;//gibt player an in dem es fehler gibt;
                 Viewport playerViewport = player.getViewport();
                 Game1.getGraphics().GraphicsDevice.Viewport = player.getViewport();
-                player.doStuff();
                 itemMap.draw(player.getProjection(), player.getCamera());
                 map.draw(player.getProjection(), player.getCamera());
             }
