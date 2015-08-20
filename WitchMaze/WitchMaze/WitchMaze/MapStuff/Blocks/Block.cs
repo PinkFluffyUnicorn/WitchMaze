@@ -36,6 +36,8 @@ namespace WitchMaze.MapStuff.Blocks
 
         public MapCreator.tiles name { get; protected set; }
 
+        
+
         protected float rotation = 0;
         /// <summary>
         /// 1. Constructor for Block - Class
