@@ -153,7 +153,10 @@ namespace WitchMaze.GameStates.InGameStates
             {
                 foreach (Player p in playerList) {
                     if (p == player)
+                    {
                         p.draw();
+                        p.getSkybox((int)p.eplayerIndex).draw(p.getCamera(), p.getProjection(), p.getPosition());
+                    }
                 }
                 count++;//gibt player an in dem es fehler gibt;
                 Viewport playerViewport = player.getViewport();

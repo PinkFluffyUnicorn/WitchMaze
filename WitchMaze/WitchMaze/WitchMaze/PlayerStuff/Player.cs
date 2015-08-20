@@ -77,7 +77,20 @@ namespace WitchMaze.PlayerStuff
         Vector3 ortoDirection; //für bewegung links rechts
         Model model;
         Vector2 playerMapPosition;
-        List<Item> itemsCollected; 
+        List<Item> itemsCollected;
+        Skybox skybox0 = new Skybox(Game1.getContent().Load<Texture2D>("skyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
+        Skybox skybox1 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
+        Skybox skybox2 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
+        Skybox skybox3 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
+
+        public Skybox getSkybox(int Player)
+        {
+            if (Player == 0) return skybox0;
+            else if (Player == 1) return skybox1;
+            else if (Player == 2) return skybox2;
+            else return skybox3;
+        }
+
         
 
         //Shader
@@ -101,6 +114,8 @@ namespace WitchMaze.PlayerStuff
         public Vector3 getPosition() { return this.position; }
         //public Vector2[,] getBoundingBox { return null;}
         public Model getModel() { return this.model; }
+
+        
 
         //Write Constructors here
         //public Player()
@@ -150,6 +165,11 @@ namespace WitchMaze.PlayerStuff
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
+
+            skybox0.initialize();
+            skybox1.initialize();
+            skybox2.initialize();
+            skybox3.initialize();
         }
 
         /// <summary>
@@ -424,6 +444,7 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         public void draw()
         {
+
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
