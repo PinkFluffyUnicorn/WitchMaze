@@ -157,6 +157,7 @@
     <Compile Include="PlayerStuff\Move.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
     <Compile Include="PlayerStuff\PlayerInterface.cs" />
+    <Compile Include="PlayerStuff\Skybox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />

@@ -36,6 +36,8 @@ namespace WitchMaze.MapStuff.Blocks
 
         public MapCreator.tiles name { get; protected set; }
 
+        
+
         protected float rotation = 0;
         /// <summary>
         /// 1. Constructor for Block - Class
@@ -69,7 +71,7 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.EnableDefaultLighting();
                     effect.View = camera;
                     effect.Projection = projection;
-                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateTranslation(position);
+                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);
                 }
                 mesh.Draw();
             }

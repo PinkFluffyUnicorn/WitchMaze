@@ -13,6 +13,7 @@ namespace WitchMaze.ItemStuff.Items
         public Vector3 position { get; protected set; }
         public Model model { get; protected set; }
 
+        private Matrix scale = Matrix.CreateScale((float) 0.5);
 
         public void draw(Matrix projection, Matrix camera)
         {

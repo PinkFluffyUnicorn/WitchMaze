@@ -148,17 +148,21 @@ namespace WitchMaze.GameStates.InGameStates
         {
             Viewport defaultViewport = Game1.getGraphics().GraphicsDevice.Viewport;
             //Game1.getGraphics().GraphicsDevice.Clear(Color.CornflowerBlue);
-            int count = 0;
+            //int count = 0;
             foreach (Player player in playerList)
             {
-                foreach (Player p in playerList) {
-                    if (p == player)
-                        p.draw();
-                }
-                count++;//gibt player an in dem es fehler gibt;
-                Viewport playerViewport = player.getViewport();
+                //Viewport playerViewport = player.getViewport();
                 Game1.getGraphics().GraphicsDevice.Viewport = player.getViewport();
-                player.doStuff();
+                player.getSkybox().draw(player.getCamera(), player.getProjection(), player.getPosition());
+                foreach (Player p in playerList)
+                {
+                    if (p == player)
+                    {
+
+                        p.draw();
+                    }
+                }
+                //count++;//gibt player an in dem es fehler gibt;
                 itemMap.draw(player.getProjection(), player.getCamera());
                 map.draw(player.getProjection(), player.getCamera());
                 
