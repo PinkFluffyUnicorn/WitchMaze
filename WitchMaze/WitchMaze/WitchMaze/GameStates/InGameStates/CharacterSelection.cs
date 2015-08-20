@@ -75,17 +75,52 @@ namespace WitchMaze.GameStates.InGameStates
             clock.update(gameTime);
             keyboard = Keyboard.GetState();
             if(keyboard.IsKeyDown(Keys.Space))
-                return EInGameState.SingleTime;
+                return EInGameState.MazeRun;
             else 
                 return EInGameState.CharacterSelection; 
+        }
+
+
+        private void updateColtrolls(Keys set, Player.EPlayerControlls controllType)
+        {
+            keyboard = Keyboard.GetState();
+            if(keyboard.IsKeyDown(set)){
+                if (!player1ControllsLRS.isSelected())
+                {
+                    player1ControllsLRS.setSelected();
+                    player1Controlls = controllType;
+                }
+                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType)
+                {
+                    player2ControllsLRS.setSelected();
+                    player2Controlls = controllType;
+                }
+                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType)
+                {
+                    player3ControllsLRS.setSelected();
+                    player3Controlls = controllType;
+                }
+                if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
+                {
+                    player4ControllsLRS.setSelected();
+                    player4Controlls = controllType;
+                }
+            }
         }
 
         /// <summary>
         /// outsources the update process of the player 1 - 4 to prevent spagetti code
         /// </summary>
-        public void updatePlayer()
+        private void updatePlayer()
         {
+            //Der erste der eine seiner tasten drückt bekommt Player1, der zweite Player 2 und so weiter...
+            //wird eine taste gedrückt welche schon einen spieler ausgewählt hat so wird er wieder unausgewählt
 
+            updateColtrolls(Keys.S, Player.EPlayerControlls.Keyboard1);
+            updateColtrolls(Keys.G, Player.EPlayerControlls.Keyboard2);
+            updateColtrolls(Keys.K, Player.EPlayerControlls.Keyboard3);
+            updateColtrolls(Keys.NumPad2, Player.EPlayerControlls.KeyboardNumPad);
+            //if (keyboard.IsKeyDown(Keys.NumPad5) || keyboard.IsKeyDown(Keys.NumPad1) || keyboard.IsKeyDown(Keys.NumPad2) || keyboard.IsKeyDown(Keys.NumPad3))
             //switch (player1ControllsLRS.getDisplayedIndex())
             //{
             //    case 0:
@@ -151,11 +186,11 @@ namespace WitchMaze.GameStates.InGameStates
             //        break;
             //}
 
-            player1ControllsLRS.setSelected();
+            //player1ControllsLRS.setSelected();
             //player2ControllsLRS.setSelected();
             //player3ControllsLRS.setSelected();
             //player4ControllsLRS.setSelected();
-            player1Controlls = Player.EPlayerControlls.Keyboard1;
+            //player1Controlls = Player.EPlayerControlls.Keyboard1;
             //player2Controlls = Player.EPlayerControlls.Keyboard2;
             //player3Controlls = Player.EPlayerControlls.Gamepad1;
             //player4Controlls = Player.EPlayerControlls.Gamepad2;

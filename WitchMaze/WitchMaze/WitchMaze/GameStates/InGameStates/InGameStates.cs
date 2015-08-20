@@ -7,6 +7,7 @@ using System.Text;
 using WitchMaze.ItemStuff.Items;
 using WitchMaze.MapStuff;
 using WitchMaze.ItemStuff;
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.GameStates
 {
@@ -21,25 +22,23 @@ namespace WitchMaze.GameStates
         static protected ItemMap itemMap;
         static protected ItemSpawner itemSpawner;
 
+        protected Minimap minimap;
+
         public static Map getMap() { return map; }
         public static ItemMap getItemMap() { return itemMap; }
         public static ItemSpawner getItemSpawner() { return itemSpawner; }
         //vllt ItemSpawner, Map, ect schon hier Updaten und Initialisieren, einfacher für folgende GameStates
 
 
+        public virtual void initialize() { }
 
+        public virtual void loadContent() { }
 
+        public virtual void unloadContent() { }
 
-        //standart klassen zum überschreiben
-        public abstract void initialize();
+        public virtual EInGameState update(GameTime gameTime) { throw new NotImplementedException(); }
 
-        public abstract void loadContent();
-
-        public abstract void unloadContent();
-
-        public abstract EInGameState update(GameTime gameTime);
-
-        public abstract void Draw(GameTime gameTime);
+        public virtual void Draw(GameTime gameTime) { }
     }
 
     public enum EInGameState
@@ -49,5 +48,11 @@ namespace WitchMaze.GameStates
         MazeRun,
         Rumble,
         Exit,
+    }
+
+    public enum EWinCondition
+    {
+        RushHour,
+        NeedForIngrediance,
     }
 }

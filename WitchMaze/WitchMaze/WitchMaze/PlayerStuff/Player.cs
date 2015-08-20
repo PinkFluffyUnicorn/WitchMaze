@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WitchMaze.ItemStuff.Items;
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.PlayerStuff
 {
@@ -36,6 +37,8 @@ namespace WitchMaze.PlayerStuff
 
             Keyboard1,
             Keyboard2,
+            Keyboard3,
+            KeyboardNumPad,
 
             Gamepad1,
             Gamepad2,
@@ -56,6 +59,8 @@ namespace WitchMaze.PlayerStuff
 
         EPlayerControlls playerControlls;
         EPlayerViewportPosition playerViewportPosition;
+
+        public Icon playerIcon { get; protected set; }
 
         Viewport viewport;
         /// <summary>
@@ -102,11 +107,6 @@ namespace WitchMaze.PlayerStuff
         //public Vector2[,] getBoundingBox { return null;}
         public Model getModel() { return this.model; }
 
-        //Write Constructors here
-        //public Player()
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// Creates a Player that already has the possible Controlls Set for him, he misses everything else, set that too!
@@ -128,6 +128,8 @@ namespace WitchMaze.PlayerStuff
             // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
+
+            playerIcon = new Icon(new Vector2(0, 0), "Textures/playerIcon");
 
             position = spawnPosition;
             //position = new Vector3(5, 1, 5);
@@ -211,7 +213,7 @@ namespace WitchMaze.PlayerStuff
 
         public void update(GameTime gameTime)
         {
-            //this.reportStatus();
+            this.reportStatus();
 
             this.move(gameTime);
 
@@ -228,6 +230,12 @@ namespace WitchMaze.PlayerStuff
                     this.moveK(gameTime, Keys.W, Keys.S, Keys.A, Keys.D, Keys.Q, Keys.E);
                     break;
                 case EPlayerControlls.Keyboard2:
+                    this.moveK(gameTime, Keys.T, Keys.F, Keys.G, Keys.H, Keys.R, Keys.Z);
+                    break;
+                case EPlayerControlls.Keyboard3:
+                    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
+                    break;
+                case EPlayerControlls.KeyboardNumPad:
                     this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
                     break;
                 case EPlayerControlls.Gamepad1:
@@ -387,7 +395,7 @@ namespace WitchMaze.PlayerStuff
         {
             //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
-            playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
+            playerMapPosition = new Vector2(p.X, p.Z); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             //PlayerMapCollision
             if (WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return false;

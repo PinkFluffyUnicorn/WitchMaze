@@ -40,7 +40,7 @@ namespace WitchMaze.InterfaceObjects
             text = _text;
         }
 
-        public override float getHeight()
+        public override float getHeight() // could be unscaled
         {
             return Font1.MeasureString(text).Y;
         }
@@ -60,7 +60,7 @@ namespace WitchMaze.InterfaceObjects
             //Vector2 FontOrigin = Font1.MeasureString(text) / 2; //punkt in der mitte
 
             spriteBatch.DrawString(Font1, text, position, Settings.acaOrange,
-                0, position, scale, SpriteEffects.None, 0.5f);
+                0, position, globalScale * individualScale, SpriteEffects.None, 0.5f);
 
             spriteBatch.End();
         }

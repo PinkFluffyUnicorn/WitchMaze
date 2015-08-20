@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            createMaze();
+            //createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -71,7 +71,7 @@ namespace WitchMaze.MapStuff
                     }
                 }
             }
-            insertBlackHoles();
+            //insertBlackHoles();
         }
 
         /// <summary>

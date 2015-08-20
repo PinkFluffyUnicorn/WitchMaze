@@ -7,6 +7,7 @@ using System.Text;
 using WitchMaze.ItemStuff;
 using WitchMaze.MapStuff;
 using WitchMaze.PlayerStuff;
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.GameStates.InGameStates
 {
@@ -34,6 +35,13 @@ namespace WitchMaze.GameStates.InGameStates
             itemSpawner.initialSpawn(itemMap);
 
             initializePlayer();
+
+            minimap = new Minimap(new Vector2(0, 0), map);
+            if (playerList.Count == 1)
+                minimap.setPosition(new Vector2(Settings.getResolutionX() - minimap.getWidth(), 0));
+            else
+                minimap.setPosition(new Vector2(Settings.getResolutionX() / 2 - minimap.getWidth() / 2, Settings.getResolutionY() / 2 - minimap.getHeight() / 2));
+            
 
         }
 
@@ -129,6 +137,7 @@ namespace WitchMaze.GameStates.InGameStates
                 player.update(gameTime);
             }
             itemSpawner.update(itemMap, gameTime);
+            minimap.update(itemMap, playerList);
             //if(notWon)
             //if (timer >= 60000)//für 60 sekunden
             //    return EInGameState.Exit;
@@ -156,6 +165,8 @@ namespace WitchMaze.GameStates.InGameStates
                 itemMap.draw(player.getProjection(), player.getCamera());
                 map.draw(player.getProjection(), player.getCamera());
             }
+            Game1.getGraphics().GraphicsDevice.Viewport = defaultViewport;
+            minimap.draw();
 
         }
     }

@@ -127,8 +127,9 @@
     <Compile Include="InterfaceObjects\InterfaceObject.cs" />
     <Compile Include="InterfaceObjects\LeftRightSwitch.cs" />
     <Compile Include="InterfaceObjects\Button.cs" />
+    <Compile Include="InterfaceObjects\Minimap.cs" />
     <Compile Include="InterfaceObjects\Text.cs" />
-    <Compile Include="ItemStuff\Items\Serius\UselessStick.cs" />
+    <Compile Include="ItemStuff\Items\Serius\Branch.cs" />
     <Compile Include="ItemStuff\Items\StatusItems\BlueBottle.cs" />
     <Compile Include="ItemStuff\Items\Serius\Caterpillar.cs" />
     <Compile Include="ItemStuff\Items\Serius\Crystal.cs" />
