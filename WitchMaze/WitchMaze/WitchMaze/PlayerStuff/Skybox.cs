@@ -23,6 +23,7 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         public void initialize()
         {
+
             foreach (ModelMesh mesh in skyboxModel.Meshes)
                 foreach (BasicEffect currentEffect in mesh.Effects)
                     skyboxTextures = currentEffect.Texture;
@@ -35,34 +36,35 @@ namespace WitchMaze.PlayerStuff
 
         public void draw(Matrix view, Matrix projection, Vector3 playerPosition)
         {
-            SamplerState samplerState = new SamplerState();
-            samplerState.AddressU = TextureAddressMode.Clamp;
-            samplerState.AddressV = TextureAddressMode.Clamp;
-            Game1.getGraphics().GraphicsDevice.SamplerStates[0] = samplerState;
+            //SamplerState samplerState = new SamplerState();
+            //samplerState.AddressU = TextureAddressMode.Clamp;
+            //samplerState.AddressV = TextureAddressMode.Clamp;
+            //Game1.getGraphics().GraphicsDevice.SamplerStates[0] = samplerState;
 
-            DepthStencilState dss = new DepthStencilState();
-            dss.DepthBufferEnable = false;
-            Game1.getGraphics().GraphicsDevice.DepthStencilState = dss;
+            //DepthStencilState dss = new DepthStencilState();
+            //dss.DepthBufferEnable = false;
+            //Game1.getGraphics().GraphicsDevice.DepthStencilState = dss;
 
-            Matrix[] skyboxTransforms = new Matrix[skyboxModel.Bones.Count];
-            skyboxModel.CopyAbsoluteBoneTransformsTo(skyboxTransforms);
-            foreach (ModelMesh mesh in skyboxModel.Meshes)
-            {
-                foreach (Effect currentEffect in mesh.Effects)
-                {
-                    Matrix worldMatrix = skyboxTransforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(playerPosition);
-                    currentEffect.CurrentTechnique = currentEffect.Techniques["Textured"];
-                    currentEffect.Parameters["xWorld"].SetValue(worldMatrix);
-                    currentEffect.Parameters["xView"].SetValue(view);
-                    currentEffect.Parameters["xProjection"].SetValue(projection);
-                    currentEffect.Parameters["xTexture"].SetValue(skyboxTextures);
-                }
-                mesh.Draw();
-            }
 
-            dss = new DepthStencilState();
-            dss.DepthBufferEnable = true;
-            Game1.getGraphics().GraphicsDevice.DepthStencilState = dss;
+            //Matrix[] skyboxTransforms = new Matrix[skyboxModel.Bones.Count];
+            //skyboxModel.CopyAbsoluteBoneTransformsTo(skyboxTransforms);
+            //foreach (ModelMesh mesh in skyboxModel.Meshes)
+            //{
+            //    foreach (BasicEffect effect in mesh.Effects)
+            //    {
+            //        Matrix worldMatrix = skyboxTransforms[mesh.ParentBone.Index] * /*Matrix.CreateScale((float)500)*/  Matrix.CreateTranslation(playerPosition);
+            //        //effect.CurrentTechnique = effect.Techniques["Textured"];
+            //        effect.World = worldMatrix;
+            //        effect.View = view;
+            //        effect.Projection = projection;
+            //        effect.Texture = skyboxTextures;
+
+            //    }
+            //    mesh.Draw();
+            //}
+            //dss = new DepthStencilState();
+            //dss.DepthBufferEnable = true;
+            //Game1.getGraphics().GraphicsDevice.DepthStencilState = dss;
         }
     }
 }

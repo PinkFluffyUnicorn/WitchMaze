@@ -34,7 +34,7 @@ namespace WitchMaze
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in x- Direction is
         /// </summary>
-        static float blockSizeX = 2f; 
+        static float blockSizeX = 1f; 
        /// <summary>
        /// getter for Blocksize in x- Direction
        /// </summary>
@@ -43,7 +43,7 @@ namespace WitchMaze
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in y- Direction is
         /// </summary>
-        static float blockSizeY = 2f; 
+        static float blockSizeY = 1f; 
         /// <summary>
         /// getter for Blocksize in y- Direction 
         /// </summary>
@@ -52,7 +52,7 @@ namespace WitchMaze
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in z- Direction is
         /// </summary>
-        static float blockSizeZ = 2f; 
+        static float blockSizeZ = 1f; 
         /// <summary>
         /// getter for Blocksize in z- Direction 
         /// </summary>

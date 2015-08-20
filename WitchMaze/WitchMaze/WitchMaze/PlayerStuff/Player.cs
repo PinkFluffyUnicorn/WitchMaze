@@ -78,17 +78,11 @@ namespace WitchMaze.PlayerStuff
         Model model;
         Vector2 playerMapPosition;
         List<Item> itemsCollected;
-        Skybox skybox0 = new Skybox(Game1.getContent().Load<Texture2D>("skyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
-        Skybox skybox1 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
-        Skybox skybox2 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
-        Skybox skybox3 = new Skybox(Game1.getContent().Load<Texture2D>("Content\\Textures\\SkyboxTexture"), Game1.getContent().Load<Model>("cube.fbx"));
+        Skybox skybox;
 
-        public Skybox getSkybox(int Player)
+        public Skybox getSkybox()
         {
-            if (Player == 0) return skybox0;
-            else if (Player == 1) return skybox1;
-            else if (Player == 2) return skybox2;
-            else return skybox3;
+            return skybox;
         }
 
         
@@ -102,7 +96,7 @@ namespace WitchMaze.PlayerStuff
         /// Writes the Player Status in the Console
         /// </summary>
         private void reportStatus() {
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("X: " + (int)position.X + " Z: " + (int)position.Z);
             //Console.WriteLine(position);
             Console.WriteLine(itemsCollected.Count);
@@ -154,7 +148,7 @@ namespace WitchMaze.PlayerStuff
              lookAt = new Vector3(0, 1, 1);
              upDirection = new Vector3(0, 0, 1);*/
 
-
+            
             GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
             //camera = Matrix.CreateLookAt(new Vector3(position.X - Settings.getResolutionX() / 2, position.Y, position.Z), lookAt, upDirection);
@@ -166,10 +160,9 @@ namespace WitchMaze.PlayerStuff
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
 
-            skybox0.initialize();
-            skybox1.initialize();
-            skybox2.initialize();
-            skybox3.initialize();
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+
+            skybox.initialize();
         }
 
         /// <summary>
@@ -231,7 +224,7 @@ namespace WitchMaze.PlayerStuff
 
         public void update(GameTime gameTime)
         {
-            //this.reportStatus();
+            this.reportStatus();
 
             this.move(gameTime);
 
@@ -426,18 +419,6 @@ namespace WitchMaze.PlayerStuff
             }
         }
 
-
-
-        /// <summary>
-        /// dunno what it does but without it it does not work
-        /// </summary>
-        /// <param name="gametime"></param>
-        public void doStuff()
-        {
-            //kann der ganze update kram in update?
-
-
-        }
 
         /// <summary>
         /// draws the player

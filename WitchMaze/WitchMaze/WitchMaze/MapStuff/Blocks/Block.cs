@@ -69,7 +69,7 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.EnableDefaultLighting();
                     effect.View = camera;
                     effect.Projection = projection;
-                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateTranslation(position);
+                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);
                 }
                 mesh.Draw();
             }
