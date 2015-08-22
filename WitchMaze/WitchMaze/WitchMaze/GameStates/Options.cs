@@ -69,7 +69,7 @@ namespace WitchMaze.GameStates
 
         public void updateOptions()
         {
-            //resolutionLR.setSelected();
+            resolutionLR.setSelected();
 
  
         }

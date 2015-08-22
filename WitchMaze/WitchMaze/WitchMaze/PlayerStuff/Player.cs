@@ -160,7 +160,7 @@ namespace WitchMaze.PlayerStuff
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
 
-            skybox = new Skybox(Game1.getContent().Load<Texture2D>("SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models\\SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
 
             skybox.initialize();
         }
