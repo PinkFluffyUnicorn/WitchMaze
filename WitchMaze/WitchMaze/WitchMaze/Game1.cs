@@ -112,8 +112,11 @@ namespace WitchMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            KeyboardState k = Keyboard.GetState();
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                this.Exit();
+            if (k.IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -161,7 +164,7 @@ namespace WitchMaze
                     gameState = new GameStates.MainMenu();
                     break;
                 case EGameState.InGame:
-                    gameState = new GameStates.InGame();
+                    gameState = new GameStates.InGame(gameState.eInGameState ,gameState.getPlayerList());
                     break;
                 case EGameState.Credits:
                     gameState = new GameStates.Credits();
@@ -170,7 +173,11 @@ namespace WitchMaze
                     gameState = new GameStates.Options();
                     break;
                 case EGameState.Exit:
-                    throw new NotImplementedException();
+                    this.Exit();
+                    break;
+                case EGameState.CharacterSelection:
+                    gameState = new GameStates.CharacterSelection();
+                    break;
             }
 
             gameState.initialize();

@@ -57,56 +57,51 @@ namespace WitchMaze.PlayerStuff
         public EPlayerIndex eplayerIndex;
         //<- for debugging
 
+        //Player Variablen
         EPlayerControlls playerControlls;
+
+        //Zeichnen
         EPlayerViewportPosition playerViewportPosition;
-
-        public Icon playerIcon { get; protected set; }
-
         Viewport viewport;
-        /// <summary>
-        /// Returns the Viewport of the Player
-        /// </summary>
-        /// <returns>Viewport</returns>
-        public Viewport getViewport(){return viewport; }
-        public EPlayerViewportPosition getViewportPosition() { return playerViewportPosition; }
-         
+        float timeSinceLastMove;
+        float timescale = 900;
+        Vector3 direction; //für bewegung vorne hinten
+        Vector3 ortoDirection; //für bewegung links rechts
+        Vector2 playerMapPosition;
         Vector3 newPosition;
         Vector3 position;
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
         float aspectRatio;
-        float timeSinceLastMove;
-        float timescale = 900;
-        Vector3 direction; //für bewegung vorne hinten
-        Vector3 ortoDirection; //für bewegung links rechts
-        Model model;
-        Vector2 playerMapPosition;
-        List<Item> itemsCollected;
-        Skybox skybox;
 
-        public Skybox getSkybox()
-        {
-            return skybox;
-        }
-
-        
+        //Move
+        Move movePlayer;
+        //Keys up;
+        //Keys down;
+        //Keys left;
+        //Keys right;
+        //Keys lookLeft;
+        //Keys kookRight;
 
         //Shader
         BasicEffect effect = Game1.getEffect();
+        private static Matrix projection, camera, world;
+        
+        //to Draw
+        Model model;
+        Skybox skybox;
 
-        private static Matrix projection, camera, world ;
 
-        /// <summary>
-        /// Writes the Player Status in the Console
-        /// </summary>
-        private void reportStatus() {
-            //Console.Clear();
-            Console.WriteLine("X: " + (int)position.X + " Z: " + (int)position.Z);
-            //Console.WriteLine(position);
-            Console.WriteLine(itemsCollected.Count);
-        }
+        //other
+        List<Item> itemsCollected;
+        public Icon playerIcon { get; protected set; }
+        
 
+        //get methods
+        public Viewport getViewport() { return viewport; }
+        public EPlayerViewportPosition getViewportPosition() { return playerViewportPosition; }
+        public Skybox getSkybox(){return skybox;}
         public Matrix getProjection() { return projection; }
         public Matrix getCamera() { return camera; }
         public Matrix getWorld() { return world; }
@@ -115,16 +110,17 @@ namespace WitchMaze.PlayerStuff
         public Model getModel() { return this.model; }
 
 
+        //set
         /// <summary>
         /// Creates a Player that already has the possible Controlls Set for him, he misses everything else, set that too!
         /// </summary>
         /// <param name="_playerControlls">sets the way of conrolling the Player</param>
-        public Player(EPlayerControlls _playerControlls, EPlayerIndex pi){
+        public Player(EPlayerControlls _playerControlls, EPlayerIndex pi)
+        {
             playerControlls = _playerControlls;
             eplayerIndex = pi;
 
         }
-
         public void setFinalPlayer(Vector3 spawnPosition, EPlayerViewportPosition viewportPosition){
             playerViewportPosition = viewportPosition;
             this.setViewport();
@@ -221,10 +217,10 @@ namespace WitchMaze.PlayerStuff
             }
         }
 
-
+        //update
         public void update(GameTime gameTime)
         {
-            this.reportStatus();
+            //this.reportStatus();
 
             this.move(gameTime);
 
@@ -431,7 +427,6 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         public void draw()
         {
-
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
@@ -453,10 +448,18 @@ namespace WitchMaze.PlayerStuff
                     _effect.View = camera;
                     _effect.Projection = projection;
                 }
-
+                
                 mesh.Draw();
             }
         }
+
+        //public void drawInterface()
+        //{
+        //    foreach(InterfaceObject i in playerInterface)
+        //    {
+        //        i.draw();
+        //    }
+        //}
 
     }
 }

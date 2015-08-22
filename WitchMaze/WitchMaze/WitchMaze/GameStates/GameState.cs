@@ -9,28 +9,35 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze.GameStates;
 
 namespace WitchMaze
 {
-    public interface GameState
+
+    abstract class GameState
     {
-        void initialize();
+        protected List<PlayerStuff.Player> playerList= new List<PlayerStuff.Player>();
+        public List<PlayerStuff.Player> getPlayerList() { return playerList; }
+        public EInGameState eInGameState;
 
-        void loadContent();
+        public abstract void initialize();
 
-        void unloadContent();
+        public abstract void loadContent();
 
-        EGameState update(GameTime gameTime);
+        public abstract void unloadContent();
 
-        void Draw(GameTime gameTime);
+        public abstract EGameState update(GameTime gameTime);
+
+        public abstract void Draw(GameTime gameTime);
     }
 
     public enum EGameState
     {
         MainMenu,
+        CharacterSelection,
         Credits,
         Options,
-        Help,//Implementier das mal Tobi!!
+        Help,
         Exit,
         InGame,
     }

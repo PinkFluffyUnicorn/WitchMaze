@@ -41,7 +41,7 @@ namespace WitchMaze.InterfaceObjects
             return iconTexture.Height * globalScale * individualScale;
         }
         /// <summary>
-        /// draws the Button
+        /// draws the Icon
         /// </summary>
         public override void draw()
         {

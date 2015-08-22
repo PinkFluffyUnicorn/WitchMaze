@@ -21,23 +21,23 @@ namespace WitchMaze.GameStates
         Icon credits;
         KeyboardState keyboard = Keyboard.GetState();
 
-        public void initialize()
+        public override void initialize()
         {
             
         }
 
-        public void loadContent()
+        public override void loadContent()
         {
             creditsTitel = new Icon(new Vector2(750 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/credits/creditsTitel");
             credits = new Icon(new Vector2(560 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/credits/CreditsFilled");
         }
 
-        public void unloadContent()
+        public override void unloadContent()
         {
 
         }
 
-        public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.Escape))
@@ -46,7 +46,7 @@ namespace WitchMaze.GameStates
                 return EGameState.Credits; 
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
