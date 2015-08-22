@@ -465,41 +465,56 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SkyboxTexture.png">
+    <Compile Include="Models\SkyboxTexture.png">
       <Name>SkyboxTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\option\playerIcon.png">
-      <Name>playerIcon</Name>
+    <Compile Include="Textures\option\Fullscreen.png">
+      <Name>Fullscreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\option\FullscreenSelected.png">
+      <Name>FullscreenSelected</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\option\Resolution.png">
+      <Name>Resolution</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\option\ResolutionSelected.png">
+      <Name>ResolutionSelected</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\MapIcons\minimapBlackHole.png">
-      <Name>minimapBlackHole</Name>
+    <Compile Include="Textures\option\1080p.png">
+      <Name>1080p</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Textures\MapIcons\minimapFloor.png">
-      <Name>minimapFloor</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\MapIcons\minimapWall.png">
-      <Name>minimapWall</Name>
+    <Compile Include="Textures\option\720p.png">
+      <Name>720p</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\playerIcon.png">
-      <Name>playerIcon</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Models\skybox.fbx">
+      <Name>skybox</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\wallModelTest.fbx">
+      <Name>wallModelTest</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
