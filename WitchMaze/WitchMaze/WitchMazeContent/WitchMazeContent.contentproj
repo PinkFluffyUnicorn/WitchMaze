@@ -465,7 +465,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SkyboxTexture.png">
+    <Compile Include="Models\SkyboxTexture.png">
       <Name>SkyboxTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
