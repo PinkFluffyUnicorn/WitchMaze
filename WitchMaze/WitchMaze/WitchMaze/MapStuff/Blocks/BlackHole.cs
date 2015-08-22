@@ -35,7 +35,7 @@ namespace WitchMaze.MapStuff.Blocks
             walkable = true;
             transportPosition = _transportPosition;
             name = MapCreator.tiles.blackhole;
-            minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MapIcons/minimapBlackHole");
+            minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MiniMapTextures/minimapBlackHole");
         }
 
         /// <summary>

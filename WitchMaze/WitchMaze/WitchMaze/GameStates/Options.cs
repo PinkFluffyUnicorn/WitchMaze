@@ -74,7 +74,7 @@ namespace WitchMaze.GameStates
  
         }
 
-        public void Draw(GameTime gameTime) 
+        public override void Draw(GameTime gameTime) 
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;

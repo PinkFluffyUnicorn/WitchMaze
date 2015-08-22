@@ -28,7 +28,7 @@ namespace WitchMaze.MapStuff.Blocks
             transportable = false;
             name = MapCreator.tiles.floor;
             rotation = _rotation;
-            minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MapIcons/minimapFloor");
+            minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MiniMapTextures/minimapFloor");
         }
     }
 }
