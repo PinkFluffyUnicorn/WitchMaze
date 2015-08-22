@@ -59,9 +59,9 @@ namespace WitchMaze.InterfaceObjects
         public override float getWidth()
         {
             if(selected)
-                return buttonTextureSelected.Width * scale;
+                return buttonTextureSelected.Width * globalScale * individualScale;
             else
-                return buttonTextureNotSelected.Width * scale;
+                return buttonTextureNotSelected.Width * globalScale * individualScale;
         }
         /// <summary>
         /// Returns the Height of the Button
@@ -70,9 +70,9 @@ namespace WitchMaze.InterfaceObjects
         public override float getHeight()
         {
             if (selected)
-                return buttonTextureSelected.Height * scale;
+                return buttonTextureSelected.Height * globalScale * individualScale;
             else
-                return buttonTextureNotSelected.Height * scale;
+                return buttonTextureNotSelected.Height * globalScale * individualScale;
         }
         /// <summary>
         /// draws the Button
@@ -82,13 +82,13 @@ namespace WitchMaze.InterfaceObjects
             if (selected)
             {
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                spriteBatch.Draw(buttonTextureSelected, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(buttonTextureSelected, position, null, Color.White, 0f, Vector2.Zero, globalScale * individualScale, SpriteEffects.None, 0f);
                 spriteBatch.End();
             }
             else
             {//!selected
                 spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
-                spriteBatch.Draw(buttonTextureNotSelected, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(buttonTextureNotSelected, position, null, Color.White, 0f, Vector2.Zero, globalScale * individualScale, SpriteEffects.None, 0f);
                 spriteBatch.End();
             }
         }

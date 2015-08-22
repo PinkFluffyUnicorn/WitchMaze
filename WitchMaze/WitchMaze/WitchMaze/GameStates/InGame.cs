@@ -15,27 +15,37 @@ namespace WitchMaze.GameStates
 {
     class InGame : GameState
     {
-        EInGameState currentInGameState = EInGameState.CharacterSelection; //change back to character selection
+        EInGameState currentInGameState; //change back to character selection
         EInGameState prevInGameState;
 
-        InGameState inGameState = new WitchMaze.GameStates.InGameStates.CharacterSelection();
+        InGameState inGameState;
 
-        public void initialize()
+        public InGame(EInGameState _inGameState, List<PlayerStuff.Player> _playerList)
+        {
+            currentInGameState = _inGameState;
+            
+            Console.WriteLine(_playerList.Count);
+            playerList = _playerList;
+
+            handleInGameState();
+        }
+
+        public override void initialize()
         {
             inGameState.initialize();
         }
 
-        public void loadContent()
+        public override void loadContent()
         {
             inGameState.loadContent();
         }
 
-        public void unloadContent()
+        public override void unloadContent()
         {
             inGameState.unloadContent();
         }
 
-        public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             prevInGameState = currentInGameState;
             currentInGameState = inGameState.update(gameTime);
@@ -48,7 +58,7 @@ namespace WitchMaze.GameStates
 
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             inGameState.Draw(gameTime);
         }
@@ -58,14 +68,10 @@ namespace WitchMaze.GameStates
         /// </summary>
         public void handleInGameState()
         {
-            List<PlayerStuff.Player> newPlayerList = inGameState.getPlayerList();
+            List<PlayerStuff.Player> newPlayerList = playerList;
             switch (currentInGameState)
             {
-                case EInGameState.CharacterSelection:
-                    inGameState = new InGameStates.CharacterSelection();
-                    break;
                 case EInGameState.SingleTime:
-                    
                     inGameState = new InGameStates.SingleTime(newPlayerList);
                     break;
                 case EInGameState.MazeRun:

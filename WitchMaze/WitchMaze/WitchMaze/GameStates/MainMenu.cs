@@ -33,13 +33,13 @@ namespace WitchMaze.GameStates
         Button credits;
         Button exit;
 
-      
-        public void initialize()
+
+        public override void initialize()
         {
 
         }
 
-        public void loadContent()
+        public override void loadContent()
         {
             
             if (Game1.getGraphics() != null)
@@ -58,12 +58,12 @@ namespace WitchMaze.GameStates
             }
         }
 
-        public void unloadContent()
+        public override void unloadContent()
         {
             
         }
 
-        public EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
             //Input
@@ -128,7 +128,7 @@ namespace WitchMaze.GameStates
 
             //switch the GameState
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 0)
-                return EGameState.InGame;
+                return EGameState.CharacterSelection;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 2)
                 return EGameState.Options;
             if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 3)
@@ -139,7 +139,7 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
         }
 
-        public void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;

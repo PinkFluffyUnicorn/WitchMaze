@@ -24,9 +24,9 @@ namespace WitchMaze.MapStuff
             map[x,y] = _map;
         }
 
-        public Block[,] getMap(int x, int y)
+        public Block getMap(int x, int y)
         {
-            return map;
+            return map[x,y];
         }
 
         

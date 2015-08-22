@@ -57,6 +57,7 @@ namespace WitchMaze.GameStates.InGameStates
             Vector3 spawnPosition2 = new Vector3(5, 1, 5);
             Vector3 spawnPosition3 = new Vector3(5, 1,5);
             Vector3 spawnPosition4 = new Vector3(5, 1, 5);
+            Console.WriteLine(playerList.Count);
             switch (playerList.Count)
             {
                 case 1:

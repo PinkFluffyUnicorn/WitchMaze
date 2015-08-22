@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WitchMaze.ItemStuff.Items;
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.PlayerStuff
 {
@@ -36,6 +37,8 @@ namespace WitchMaze.PlayerStuff
 
             Keyboard1,
             Keyboard2,
+            Keyboard3,
+            KeyboardNumPad,
 
             Gamepad1,
             Gamepad2,
@@ -54,54 +57,51 @@ namespace WitchMaze.PlayerStuff
         public EPlayerIndex eplayerIndex;
         //<- for debugging
 
+        //Player Variablen
         EPlayerControlls playerControlls;
-        EPlayerViewportPosition playerViewportPosition;
 
+        //Zeichnen
+        EPlayerViewportPosition playerViewportPosition;
         Viewport viewport;
-        /// <summary>
-        /// Returns the Viewport of the Player
-        /// </summary>
-        /// <returns>Viewport</returns>
-        public Viewport getViewport(){return viewport; }
-        public EPlayerViewportPosition getViewportPosition() { return playerViewportPosition; }
-         
+        float timeSinceLastMove;
+        float timescale = 900;
+        Vector3 direction; //für bewegung vorne hinten
+        Vector3 ortoDirection; //für bewegung links rechts
+        Vector2 playerMapPosition;
         Vector3 newPosition;
         Vector3 position;
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
         float aspectRatio;
-        float timeSinceLastMove;
-        float timescale = 900;
-        Vector3 direction; //für bewegung vorne hinten
-        Vector3 ortoDirection; //für bewegung links rechts
-        Model model;
-        Vector2 playerMapPosition;
-        List<Item> itemsCollected;
-        Skybox skybox;
 
-        public Skybox getSkybox()
-        {
-            return skybox;
-        }
-
-        
+        //Move
+        Move movePlayer;
+        //Keys up;
+        //Keys down;
+        //Keys left;
+        //Keys right;
+        //Keys lookLeft;
+        //Keys kookRight;
 
         //Shader
         BasicEffect effect = Game1.getEffect();
+        private static Matrix projection, camera, world;
+        
+        //to Draw
+        Model model;
+        Skybox skybox;
 
-        private static Matrix projection, camera, world ;
 
-        /// <summary>
-        /// Writes the Player Status in the Console
-        /// </summary>
-        private void reportStatus() {
-            //Console.Clear();
-            Console.WriteLine("X: " + (int)position.X + " Z: " + (int)position.Z);
-            //Console.WriteLine(position);
-            Console.WriteLine(itemsCollected.Count);
-        }
+        //other
+        List<Item> itemsCollected;
+        public Icon playerIcon { get; protected set; }
+        
 
+        //get methods
+        public Viewport getViewport() { return viewport; }
+        public EPlayerViewportPosition getViewportPosition() { return playerViewportPosition; }
+        public Skybox getSkybox(){return skybox;}
         public Matrix getProjection() { return projection; }
         public Matrix getCamera() { return camera; }
         public Matrix getWorld() { return world; }
@@ -109,24 +109,18 @@ namespace WitchMaze.PlayerStuff
         //public Vector2[,] getBoundingBox { return null;}
         public Model getModel() { return this.model; }
 
-        
 
-        //Write Constructors here
-        //public Player()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
+        //set
         /// <summary>
         /// Creates a Player that already has the possible Controlls Set for him, he misses everything else, set that too!
         /// </summary>
         /// <param name="_playerControlls">sets the way of conrolling the Player</param>
-        public Player(EPlayerControlls _playerControlls, EPlayerIndex pi){
+        public Player(EPlayerControlls _playerControlls, EPlayerIndex pi)
+        {
             playerControlls = _playerControlls;
             eplayerIndex = pi;
 
         }
-
         public void setFinalPlayer(Vector3 spawnPosition, EPlayerViewportPosition viewportPosition){
             playerViewportPosition = viewportPosition;
             this.setViewport();
@@ -137,6 +131,8 @@ namespace WitchMaze.PlayerStuff
             // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
+
+            playerIcon = new Icon(new Vector2(0, 0), "Textures/playerIcon");
 
             position = spawnPosition;
             //position = new Vector3(5, 1, 5);
@@ -160,7 +156,7 @@ namespace WitchMaze.PlayerStuff
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
 
-            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models\\SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
 
             skybox.initialize();
         }
@@ -221,10 +217,10 @@ namespace WitchMaze.PlayerStuff
             }
         }
 
-
+        //update
         public void update(GameTime gameTime)
         {
-            this.reportStatus();
+            //this.reportStatus();
 
             this.move(gameTime);
 
@@ -241,6 +237,12 @@ namespace WitchMaze.PlayerStuff
                     this.moveK(gameTime, Keys.W, Keys.S, Keys.A, Keys.D, Keys.Q, Keys.E);
                     break;
                 case EPlayerControlls.Keyboard2:
+                    this.moveK(gameTime, Keys.T, Keys.F, Keys.G, Keys.H, Keys.R, Keys.Z);
+                    break;
+                case EPlayerControlls.Keyboard3:
+                    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
+                    break;
+                case EPlayerControlls.KeyboardNumPad:
                     this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
                     break;
                 case EPlayerControlls.Gamepad1:
@@ -400,7 +402,7 @@ namespace WitchMaze.PlayerStuff
         {
             //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
-            playerMapPosition = new Vector2(p.X , p.Z ); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
+            playerMapPosition = new Vector2(p.X, p.Z); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             //PlayerMapCollision
             if (WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return false;
@@ -425,7 +427,6 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         public void draw()
         {
-
             camera = Matrix.CreateLookAt(position, lookAt, upDirection);
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
@@ -447,10 +448,18 @@ namespace WitchMaze.PlayerStuff
                     _effect.View = camera;
                     _effect.Projection = projection;
                 }
-
+                
                 mesh.Draw();
             }
         }
+
+        //public void drawInterface()
+        //{
+        //    foreach(InterfaceObject i in playerInterface)
+        //    {
+        //        i.draw();
+        //    }
+        //}
 
     }
 }

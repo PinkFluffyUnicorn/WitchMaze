@@ -9,11 +9,13 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze.InterfaceObjects;
 
 namespace WitchMaze.MapStuff.Blocks
 {
     abstract class Block
     {
+        public Icon minimapIcon { get; protected set; }
         /// <summary>
         /// Position of a Block
         /// </summary>

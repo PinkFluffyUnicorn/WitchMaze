@@ -23,7 +23,7 @@ namespace WitchMaze.ItemStuff
             itemsToSpawn = new List<Item>();
             timeToNewItem = 0;
             timeForNewItem *= 50000; //für Millisekunden
-            itemMap.insertItem(new GreenBottle(new Vector3(5,0,5)), 5, 5);
+            itemMap.insertItem(new WingOfABat(new Vector3(5,0,5)), 5, 5);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace WitchMaze.ItemStuff
         {
             //Random Funktion einfügen(vllt abhöngig oder immer abwechselnd oder so spawnen für besseres balancing
             Vector3 position = new Vector3(x, 0, y);
-            itemsToSpawn.Add(new GreenBottle(position));
+            itemsToSpawn.Add(new Eye(position));
         }
     }
 }

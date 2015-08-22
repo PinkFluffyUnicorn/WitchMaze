@@ -111,13 +111,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameStates\GameState.cs" />
-    <Compile Include="GameStates\InGameStates\CharacterSelection.cs" />
+    <Compile Include="GameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\Credits.cs" />
     <Compile Include="GameStates\InGame.cs" />
     <Compile Include="GameStates\InGameStates\GameWon.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
     <Compile Include="GameStates\InGameStates\MazeRun.cs" />
     <Compile Include="GameStates\InGameStates\SingleTime.cs" />
+    <Compile Include="GameStates\InGameStates\WinConditions\WinCondition.cs" />
     <Compile Include="GameStates\MainMenu.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
@@ -127,8 +128,9 @@
     <Compile Include="InterfaceObjects\InterfaceObject.cs" />
     <Compile Include="InterfaceObjects\LeftRightSwitch.cs" />
     <Compile Include="InterfaceObjects\Button.cs" />
+    <Compile Include="InterfaceObjects\Minimap.cs" />
     <Compile Include="InterfaceObjects\Text.cs" />
-    <Compile Include="ItemStuff\Items\Serius\UselessStick.cs" />
+    <Compile Include="ItemStuff\Items\Serius\Branch.cs" />
     <Compile Include="ItemStuff\Items\StatusItems\BlueBottle.cs" />
     <Compile Include="ItemStuff\Items\Serius\Caterpillar.cs" />
     <Compile Include="ItemStuff\Items\Serius\Crystal.cs" />

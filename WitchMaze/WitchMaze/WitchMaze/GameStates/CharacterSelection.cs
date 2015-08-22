@@ -9,11 +9,13 @@ using WitchMaze.InterfaceObjects;
 using WitchMaze.PlayerStuff;
 
 
-namespace WitchMaze.GameStates.InGameStates
+namespace WitchMaze.GameStates
     
 {
-    class CharacterSelection : InGameState
+    class CharacterSelection : GameState
     {
+        bool isPressed;
+
         Player player1, player2, player3, player4;
         PlayerStuff.Player.EPlayerControlls player1Controlls, player2Controlls, player3Controlls, player4Controlls;
 
@@ -30,11 +32,9 @@ namespace WitchMaze.GameStates.InGameStates
         LeftRightSwitch GameModeSelected;
         LeftRightSwitch player1ControllsLRS, player2ControllsLRS, player3ControllsLRS, player4ControllsLRS;//LRS for LeftRightSwitch
 
-        Clock clock;
-
         public override void initialize() 
         {
-            playerList = new List<Player>();
+            
         }
 
         public override void loadContent() 
@@ -42,8 +42,6 @@ namespace WitchMaze.GameStates.InGameStates
             
             if (Game1.getGraphics() != null)
             {
-                clock = new Clock(new Vector2(0,0));
-                clock.start();
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
@@ -55,7 +53,10 @@ namespace WitchMaze.GameStates.InGameStates
 
                 
                 String[] gameModes = {"Textures/CharacterSelection/SinglePlayerTestNotSelected", "Textures/CharacterSelection/MultyPlayerTestNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
+                //0 = test;
+                //1 = rushHour;
                 GameModeSelected = new LeftRightSwitch(new Vector2(gameModeIconPosition.X + gameModeIcon.getWidth() + offset, gameModeIconPosition.Y), gameModes);
+                GameModeSelected.setSelected();
                 String[] playerControlls = { "Textures/CharacterSelection/Join", "Textures/CharacterSelection/Keyboard", "Textures/CharacterSelection/Gamepad" };
                 // 1 := join
                 // 2 := Keyboard
@@ -69,23 +70,108 @@ namespace WitchMaze.GameStates.InGameStates
 
         public override void unloadContent() { /*throw new NotImplementedException();*/ }
 
-        public override EInGameState update(GameTime gameTime) 
+        public override EGameState update(GameTime gameTime) 
         {
             updatePlayer();
-            clock.update(gameTime);
-            keyboard = Keyboard.GetState();
+            if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
+                isPressed = false;
+
+            if (keyboard.IsKeyDown(Keys.Left) && !isPressed)
+            {
+                GameModeSelected.switchLeft();
+                isPressed = true;
+            }
+
+            if (keyboard.IsKeyDown(Keys.Right) && !isPressed)
+            {
+                GameModeSelected.switchRight();
+                isPressed = true;
+            }
+            //set selected GameMode
+            switch (GameModeSelected.getDisplayedIndex())
+            {
+                case 0:
+                    this.eInGameState = EInGameState.SingleTime;
+                    break;
+                case 1:
+                    this.eInGameState = EInGameState.MazeRun;
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+
             if(keyboard.IsKeyDown(Keys.Space))
-                return EInGameState.SingleTime;
+                return EGameState.InGame; // GameState InGame braucht übergabeparameter!
             else 
-                return EInGameState.CharacterSelection; 
+                return EGameState.CharacterSelection; 
+        }
+
+
+        private void updateColtrolls(Keys set, Keys unset, Player.EPlayerControlls controllType)
+        {
+            keyboard = Keyboard.GetState();
+            if(keyboard.IsKeyDown(set)){
+                //Player setzen
+                if (!player1ControllsLRS.isSelected())
+                {
+                    player1ControllsLRS.setSelected();
+                    player1Controlls = controllType;
+                }
+                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType)
+                {
+                    player2ControllsLRS.setSelected();
+                    player2Controlls = controllType;
+                }
+                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType)
+                {
+                    player3ControllsLRS.setSelected();
+                    player3Controlls = controllType;
+                }
+                if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
+                {
+                    player4ControllsLRS.setSelected();
+                    player4Controlls = controllType;
+                }
+            }
+            if (keyboard.IsKeyDown(unset))
+            {
+                //Player zurück setzen 
+                if (player1ControllsLRS.isSelected() && player1Controlls == controllType)
+                {
+                    player1ControllsLRS.setNotSelected();
+                    player1Controlls = Player.EPlayerControlls.none;
+                }
+                if (player2ControllsLRS.isSelected() && player2Controlls == controllType)
+                {
+                    player2ControllsLRS.setNotSelected();
+                    player2Controlls = Player.EPlayerControlls.none;
+                }
+                if (player3ControllsLRS.isSelected() && player3Controlls == controllType)
+                {
+                    player3ControllsLRS.setNotSelected();
+                    player3Controlls = Player.EPlayerControlls.none;
+                }
+                if (player4ControllsLRS.isSelected() && player4Controlls == controllType)
+                {
+                    player4ControllsLRS.setNotSelected();
+                    player4Controlls = Player.EPlayerControlls.none;
+                }
+            }
         }
 
         /// <summary>
         /// outsources the update process of the player 1 - 4 to prevent spagetti code
         /// </summary>
-        public void updatePlayer()
+        private void updatePlayer()
         {
+            //Der erste der eine seiner tasten drückt bekommt Player1, der zweite Player 2 und so weiter...
+            //wird eine taste gedrückt welche schon einen spieler ausgewählt hat so wird er wieder unausgewählt
 
+            updateColtrolls(Keys.S, Keys.W, Player.EPlayerControlls.Keyboard1);
+            updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
+            updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
+            updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
+            //if (keyboard.IsKeyDown(Keys.NumPad5) || keyboard.IsKeyDown(Keys.NumPad1) || keyboard.IsKeyDown(Keys.NumPad2) || keyboard.IsKeyDown(Keys.NumPad3))
             //switch (player1ControllsLRS.getDisplayedIndex())
             //{
             //    case 0:
@@ -151,11 +237,11 @@ namespace WitchMaze.GameStates.InGameStates
             //        break;
             //}
 
-            player1ControllsLRS.setSelected();
+            //player1ControllsLRS.setSelected();
             //player2ControllsLRS.setSelected();
             //player3ControllsLRS.setSelected();
             //player4ControllsLRS.setSelected();
-            player1Controlls = Player.EPlayerControlls.Keyboard1;
+            //player1Controlls = Player.EPlayerControlls.Keyboard1;
             //player2Controlls = Player.EPlayerControlls.Keyboard2;
             //player3Controlls = Player.EPlayerControlls.Gamepad1;
             //player4Controlls = Player.EPlayerControlls.Gamepad2;
@@ -216,7 +302,6 @@ namespace WitchMaze.GameStates.InGameStates
             player3ControllsLRS.draw();
             player4ControllsLRS.draw();
             spaceNote.draw();
-            clock.draw();
         }
 
     }

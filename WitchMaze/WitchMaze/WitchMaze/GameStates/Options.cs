@@ -28,12 +28,12 @@ namespace WitchMaze.GameStates
         Icon resolutionIcon, fullscreenIcon;
         LeftRightSwitch resolutionLR, fullscreenLR;
         
-        public void initialize()
+        public override void initialize()
         {
 
         }
 
-        public void loadContent() 
+        public override void loadContent() 
         {
             if (Game1.getGraphics() != null)
             {
@@ -52,12 +52,12 @@ namespace WitchMaze.GameStates
             }
         }
 
-        public void unloadContent() 
+        public override void unloadContent() 
         {
 
         }
 
-        public EGameState update(GameTime gameTime) 
+        public override EGameState update(GameTime gameTime) 
         {
             keyboard = Keyboard.GetState();
             if(keyboard.IsKeyDown(Keys.Escape))
@@ -74,7 +74,7 @@ namespace WitchMaze.GameStates
  
         }
 
-        public void Draw(GameTime gameTime) 
+        public override void Draw(GameTime gameTime) 
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
