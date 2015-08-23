@@ -152,12 +152,13 @@ namespace WitchMaze.GameStates.InGameStates
             //int count = 0;
             foreach (Player player in playerList)
             {
+                player.updateCamera();
                 //Viewport playerViewport = player.getViewport();
                 Game1.getGraphics().GraphicsDevice.Viewport = player.getViewport();
                 player.getSkybox().draw(player.getCamera(), player.getProjection(), player.getPosition());
                 foreach (Player p in playerList)
                 {
-                    if (p == player)
+                    if (p != player)
                     {
 
                         p.draw();

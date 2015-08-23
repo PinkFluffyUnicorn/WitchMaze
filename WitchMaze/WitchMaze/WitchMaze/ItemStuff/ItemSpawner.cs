@@ -23,7 +23,7 @@ namespace WitchMaze.ItemStuff
             itemsToSpawn = new List<Item>();
             timeToNewItem = 0;
             timeForNewItem *= 50000; //für Millisekunden
-            itemMap.insertItem(new WingOfABat(new Vector3(5,0,5)), 5, 5);
+            itemMap.insertItem(new WingOfABat(new Vector3(5,1,5)), 5, 5);
         }
 
         /// <summary>

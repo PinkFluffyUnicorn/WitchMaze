@@ -74,9 +74,10 @@ namespace WitchMaze.PlayerStuff
         Vector3 upDirection;
         KeyboardState keyboard;
         float aspectRatio;
+        
 
         //Move
-        Move movePlayer;
+        //Move movePlayer;
         //Keys up;
         //Keys down;
         //Keys left;
@@ -91,7 +92,7 @@ namespace WitchMaze.PlayerStuff
         //to Draw
         Model model;
         Skybox skybox;
-
+        private Matrix scale = Matrix.CreateScale((float)0.002);
 
         //other
         List<Item> itemsCollected;
@@ -127,7 +128,7 @@ namespace WitchMaze.PlayerStuff
 
             itemsCollected = new List<Item>();
             keyboard = Keyboard.GetState();
-            aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
+            aspectRatio = viewport.AspectRatio;
             // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
@@ -155,6 +156,7 @@ namespace WitchMaze.PlayerStuff
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
+            
 
             skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
 
@@ -225,7 +227,6 @@ namespace WitchMaze.PlayerStuff
             this.move(gameTime);
 
             this.itemCollision();
-           
         }
 
         private void move(GameTime gameTime)
@@ -422,12 +423,17 @@ namespace WitchMaze.PlayerStuff
         }
 
 
+        public void updateCamera()
+        {
+            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+        }
+
         /// <summary>
         /// draws the player
         /// </summary>
         public void draw()
         {
-            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
             foreach (ModelMesh mesh in model.Meshes)
@@ -444,7 +450,7 @@ namespace WitchMaze.PlayerStuff
                     /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
-                    _effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                    _effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateTranslation(position);
                     _effect.View = camera;
                     _effect.Projection = projection;
                 }
