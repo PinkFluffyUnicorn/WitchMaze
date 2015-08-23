@@ -71,6 +71,12 @@ namespace WitchMaze.MapStuff.Blocks
                 foreach (BasicEffect effect in mesh.Effects)
                 {
                     effect.EnableDefaultLighting();
+                    effect.LightingEnabled = true;
+                    effect.AmbientLightColor = new Vector3(0, 0, 1);
+                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(0, 0, 1);
+                    effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
+                    effect.DirectionalLight1.DiffuseColor = new Vector3(0, 1, 0);
                     effect.View = camera;
                     effect.Projection = projection;
                     effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);

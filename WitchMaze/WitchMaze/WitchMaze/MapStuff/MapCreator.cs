@@ -110,7 +110,7 @@ namespace WitchMaze.MapStuff
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        Wall wall = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        Wall wall = new Wall(Game1.getContent().Load<Model>("Models/wallModelTest"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
                         map.setMap(wall, i, j);
                         rotateWall = rotation;
                     }
