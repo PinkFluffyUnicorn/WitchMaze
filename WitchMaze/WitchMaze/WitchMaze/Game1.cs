@@ -114,10 +114,10 @@ namespace WitchMaze
         {
             KeyboardState k = Keyboard.GetState();
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-            if (k.IsKeyDown(Keys.Escape))
-                this.Exit();
+            //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            //    this.Exit();
+            //if (k.IsKeyDown(Keys.Escape))
+            //    this.Exit();
 
             // TODO: Add your update logic here
             currentGameState = gameState.update(gameTime);

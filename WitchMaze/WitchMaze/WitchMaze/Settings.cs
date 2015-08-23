@@ -31,6 +31,7 @@ namespace WitchMaze
         }
 
         static bool isFullScreen = false; public static bool isFullscreen() { return isFullScreen; }
+        
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in x- Direction is
         /// </summary>
