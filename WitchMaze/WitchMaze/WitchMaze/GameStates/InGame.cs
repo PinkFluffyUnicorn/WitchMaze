@@ -15,6 +15,7 @@ namespace WitchMaze.GameStates
 {
     class InGame : GameState
     {
+        KeyboardState keyboard = Keyboard.GetState();
         EInGameState currentInGameState; //change back to character selection
         EInGameState prevInGameState;
 
@@ -47,14 +48,21 @@ namespace WitchMaze.GameStates
 
         public override EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
         {
+            keyboard = Keyboard.GetState();
             prevInGameState = currentInGameState;
             currentInGameState = inGameState.update(gameTime);
             if (currentInGameState != prevInGameState)
                 handleInGameState();
-
-            if (currentInGameState == EInGameState.Exit)
+            
+            if (keyboard.IsKeyDown(Keys.Escape))
                 return EGameState.MainMenu;
             return EGameState.InGame;
+            
+            //if (currentInGameState == EInGameState.Exit)
+            //    return EGameState.MainMenu;
+            //return EGameState.InGame;
+
+
 
         }
 
