@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            //createMaze();
+            createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -71,7 +71,8 @@ namespace WitchMaze.MapStuff
                     }
                 }
             }
-            //insertBlackHoles();
+            insertBlackHoles();
+            emptyStartPositions();
         }
 
         /// <summary>
@@ -125,6 +126,55 @@ namespace WitchMaze.MapStuff
                 Console.WriteLine();
             }
             return map;
+        }
+
+
+        /// <summary>
+        /// function which calculates the startpositions of the Players
+        /// </summary>
+        /// <param name="anzahl">number of Players</param>
+        /// <returns>List with startPositions</returns>
+        public List<Vector3> startPositions(int anzahl)
+        {
+            int xMax = Settings.getMapSizeX() - 3;
+            int yMax = Settings.getMapSizeZ() - 3;
+
+            List<Vector3> liste = new List<Vector3>();
+
+            if (anzahl >= 1) //links unten
+            {
+                liste.Add(new Vector3(xMax, (float)0.2, 2));
+            }
+            if (anzahl >= 2) //rechts oben 
+            {
+                liste.Add(new Vector3(2, (float)0.2, yMax));
+            }
+            if (anzahl >= 3) //links oben 
+            {
+                liste.Add(new Vector3(2, (float)0.2, 2));
+            }
+            if (anzahl >= 4) //rechts unten 
+            {
+                liste.Add(new Vector3(xMax, (float)0.2, yMax));
+            }
+            return liste;
+        }
+
+        private void emptyStartPositions()
+        {
+            List<Vector3> liste = startPositions(4);
+            for(int i = 0; i < liste.Count; i++)//Liste mit Startpositionen durchgehen 
+            {
+                int x = (int)liste.ElementAt<Vector3>(i).X;
+                int y = (int)liste.ElementAt<Vector3>(i).Z;
+                for( int j = -1; j < 2; j ++)
+                {
+                    for(int k = -1; k < 2; k++)
+                    {
+                        mapType[x + j, y + k] = (int)tiles.floor;
+                    }
+                }
+            }
         }
 
 
