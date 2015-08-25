@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            createMaze();
+            //createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -143,19 +143,19 @@ namespace WitchMaze.MapStuff
 
             if (anzahl >= 1) //links unten
             {
-                liste.Add(new Vector3(xMax, (float)0.2, 2));
+                liste.Add(new Vector3(xMax, 1, 2));
             }
             if (anzahl >= 2) //rechts oben 
             {
-                liste.Add(new Vector3(2, (float)0.2, yMax));
+                liste.Add(new Vector3(2, 1, yMax));
             }
             if (anzahl >= 3) //links oben 
             {
-                liste.Add(new Vector3(2, (float)0.2, 2));
+                liste.Add(new Vector3(2, 1, 2));
             }
             if (anzahl >= 4) //rechts unten 
             {
-                liste.Add(new Vector3(xMax, (float)0.2, yMax));
+                liste.Add(new Vector3(xMax, 1, yMax));
             }
             return liste;
         }
