@@ -14,7 +14,9 @@ namespace WitchMaze.ItemStuff.Items
         public Vector3 position { get; protected set; }
         public Model model { get; protected set; }
 
-        private Matrix scale = Matrix.CreateScale((float) 0.5);
+        private Matrix scale = Matrix.CreateScale((float) 0.001);
+
+        private float rotation = 0;
 
         public void draw(Matrix projection, Matrix camera)
         {
@@ -32,13 +34,14 @@ namespace WitchMaze.ItemStuff.Items
                     /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
-                    effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                    effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateRotationY(rotation)* Matrix.CreateTranslation(position.X, (float) 0.6, position.Z);
                     effect.View = camera;
                     effect.Projection = projection;
                 }
 
                 mesh.Draw();
             }
+            rotation += (float)0.01;
         }
 
     }

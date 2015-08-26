@@ -31,7 +31,7 @@ namespace WitchMaze.InterfaceObjects
             {
                 for (int z = 0; z < Settings.getMapSizeZ(); z++)
                 {
-                    miniMap[x, z] = map.getMap(x, z).minimapIcon;
+                    miniMap[x, z] = map.getBlockAt(x, z).minimapIcon;
                     miniMap[x, z].setIndividualScale(individualScale);
                     miniMap[x, z].setPosition(new Vector2(position.X + miniMap[0, 0].getWidth() * x, position.Y + miniMap[0, 0].getHeight() * z));
                 }

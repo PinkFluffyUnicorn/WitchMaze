@@ -74,9 +74,10 @@ namespace WitchMaze.PlayerStuff
         Vector3 upDirection;
         KeyboardState keyboard;
         float aspectRatio;
+        
 
         //Move
-        Move movePlayer;
+        //Move movePlayer;
         //Keys up;
         //Keys down;
         //Keys left;
@@ -91,7 +92,7 @@ namespace WitchMaze.PlayerStuff
         //to Draw
         Model model;
         Skybox skybox;
-
+        private Matrix scale = Matrix.CreateScale((float)0.002);
 
         //other
         List<Item> itemsCollected;
@@ -127,7 +128,7 @@ namespace WitchMaze.PlayerStuff
 
             itemsCollected = new List<Item>();
             keyboard = Keyboard.GetState();
-            aspectRatio = Game1.getGraphics().GraphicsDevice.Viewport.AspectRatio;
+            aspectRatio = viewport.AspectRatio;
             // params : position, forward,up, matrix out 
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
@@ -136,7 +137,7 @@ namespace WitchMaze.PlayerStuff
 
             position = spawnPosition;
             //position = new Vector3(5, 1, 5);
-            lookAt = new Vector3(0, 1, 1);//sollte neu berechnet werden //immer zur mitte der Map?
+            lookAt = new Vector3(0, (float)0.2, 1);//sollte neu berechnet werden //immer zur mitte der Map?
             upDirection = new Vector3(0, 1, 0);
 
             //draufsicht
@@ -155,6 +156,7 @@ namespace WitchMaze.PlayerStuff
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
+            
 
             skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
 
@@ -225,7 +227,6 @@ namespace WitchMaze.PlayerStuff
             this.move(gameTime);
 
             this.itemCollision();
-           
         }
 
         private void move(GameTime gameTime)
@@ -397,12 +398,58 @@ namespace WitchMaze.PlayerStuff
         /// <summary>
         /// handles the collision for the player by checking if the maptiles near him are walkable
         /// </summary>
+        /// <param name="p">the position to check</param>
         /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
-        {
+        {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
+            playerMapPosition = new Vector2(p.X - 0.5f, p.Z-0.5f);
+            ////rectangle height and width
+            //Vector2 tilePosition = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)playerMapPosition.X, (int)playerMapPosition.Y).position.X,
+            //                                   GameStates.InGameState.getMap().getBlockAt((int)playerMapPosition.X, (int)playerMapPosition.Y).position.Z);
+            //float width = Settings.getBlockSizeX();
+            //float height = Settings.getBlockSizeZ();// 1
+
+            ////"bonding box" player
+            //Vector2 playerPosition = new Vector2(p.X, p.Z);
+            //float radius = 0.5f;
+
+
+            //if (playerPosition.X < tilePosition.X //linker rand
+            //    && playerPosition.X > tilePosition.X + width //rechter rand
+            //    && playerPosition.Y > tilePosition.Y //unterer rand
+            //    && playerPosition.Y < tilePosition.Y + height)//oberer rand
+            //    return true;
+            //return false;
+
+
+
+            //ich bin IMMER in einer fliese die umliegenden muss ich auf ankratzen prüfen..
+
+            //if()
+            //if()
+            //distance x and y from tile and player
+            //float dx;
+            //float dy;
+            //float d = sqrt(position.X - )
+
+            ////tiles to check //clipping not needet
+            //Vector2 tl; //top left
+            //Vector2 tm; //top middle
+            //Vector2 tr;//top right
+
+            //Vector2 ml;
+            //playerMapPosition = new Vector2(p.X, p.Z);
+            //Vector2 mr;
+
+            //Vector2 bl; //bot left
+            //Vector2 bm; //bot middle
+            //Vector2 br;//bot right
+            //fall 1, kreismittelpunkt ist in rechteck
+
+
             //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
             //maping Player position to MapTile position
-            playerMapPosition = new Vector2(p.X, p.Z); //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
+             //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
             //PlayerMapCollision
             if (WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return false;
@@ -413,8 +460,8 @@ namespace WitchMaze.PlayerStuff
         /// handles player item collision
         /// </summary>
         private void itemCollision()
-        {
-            if (!GameStates.InGameState.getItemMap().isEmpty((int)position.X, (int)position.Z))
+        {//umrechnen da mittelpunkt in der mitte, führt bein castern zu int zu fehlern
+            if (!GameStates.InGameState.getItemMap().isEmpty((int)(position.X - Settings.getBlockSizeX() / 2), (int)(position.Z - Settings.getBlockSizeZ() / 2)))
             {
                 itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)position.X, (int)position.Z));
                 GameStates.InGameState.getItemMap().deleteItem((int)position.X, (int)position.Z);
@@ -422,12 +469,17 @@ namespace WitchMaze.PlayerStuff
         }
 
 
+        public void updateCamera()
+        {
+            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+        }
+
         /// <summary>
         /// draws the player
         /// </summary>
         public void draw()
         {
-            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            
 
             //model.Draw(Matrix.CreateScale(0.05f) * Matrix.CreateTranslation(position), camera, projection); //player model (temporary)
             foreach (ModelMesh mesh in model.Meshes)
@@ -444,7 +496,7 @@ namespace WitchMaze.PlayerStuff
                     /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
                     effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
 
-                    _effect.World = mesh.ParentBone.Transform * Matrix.CreateTranslation(position);
+                    _effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateTranslation(position);
                     _effect.View = camera;
                     _effect.Projection = projection;
                 }
