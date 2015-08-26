@@ -18,7 +18,8 @@ namespace WitchMaze.GameStates
 
         Player player1, player2, player3, player4;
         PlayerStuff.Player.EPlayerControlls player1Controlls, player2Controlls, player3Controlls, player4Controlls;
-
+        
+    
         KeyboardState keyboard = Keyboard.GetState();
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
         float offset = 10;//offset zwischen Icons und Switches
@@ -171,6 +172,7 @@ namespace WitchMaze.GameStates
             updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
             updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
             updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
+            updateColtrolls(Keys.C, Keys.X, Player.EPlayerControlls.Gamepad1); //zum testen
             //if (keyboard.IsKeyDown(Keys.NumPad5) || keyboard.IsKeyDown(Keys.NumPad1) || keyboard.IsKeyDown(Keys.NumPad2) || keyboard.IsKeyDown(Keys.NumPad3))
             //switch (player1ControllsLRS.getDisplayedIndex())
             //{

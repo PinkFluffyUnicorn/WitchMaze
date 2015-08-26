@@ -383,13 +383,13 @@ namespace WitchMaze.PlayerStuff
                 if (currentState.ThumbSticks.Right.X > 0.0f)
                 {// Player one has pressed the right thumbstick right.
 
-                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X )));
+                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X *4)));
                 }
 
                 if (currentState.ThumbSticks.Right.X < 0.0f)
                 {// Player one has pressed the right thumbstick left.
 
-                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X )));
+                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X *4)));
                 }
 
         }
