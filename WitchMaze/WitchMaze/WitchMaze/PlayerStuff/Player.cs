@@ -402,60 +402,163 @@ namespace WitchMaze.PlayerStuff
         /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
         {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
-            playerMapPosition = new Vector2(p.X - 0.5f, p.Z-0.5f);
-            ////rectangle height and width
-            //Vector2 tilePosition = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)playerMapPosition.X, (int)playerMapPosition.Y).position.X,
-            //                                   GameStates.InGameState.getMap().getBlockAt((int)playerMapPosition.X, (int)playerMapPosition.Y).position.Z);
-            //float width = Settings.getBlockSizeX();
-            //float height = Settings.getBlockSizeZ();// 1
-
+            playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
+            Console.WriteLine(playerMapPosition);
+            Console.WriteLine(position +"position");
             ////"bonding box" player
-            //Vector2 playerPosition = new Vector2(p.X, p.Z);
-            //float radius = 0.5f;
+            float radius = 0.5f;
+            
 
+            Vector2 toCheck; //the next tile to ckeck
+            //Vector2 topLeft; //the top left point of the tie to check
 
-            //if (playerPosition.X < tilePosition.X //linker rand
-            //    && playerPosition.X > tilePosition.X + width //rechter rand
-            //    && playerPosition.Y > tilePosition.Y //unterer rand
-            //    && playerPosition.Y < tilePosition.Y + height)//oberer rand
-            //    return true;
-            //return false;
+            //top left tile
+            toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y + 1);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
 
+            //top middle tile
+            toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y + 1);
+            if(checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
 
+            //top right tile
+            toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y + 1);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
 
-            //ich bin IMMER in einer fliese die umliegenden muss ich auf ankratzen prüfen..
+            //middel left tile
+            toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
 
-            //if()
-            //if()
-            //distance x and y from tile and player
-            //float dx;
-            //float dy;
-            //float d = sqrt(position.X - )
-
-            ////tiles to check //clipping not needet
-            //Vector2 tl; //top left
-            //Vector2 tm; //top middle
-            //Vector2 tr;//top right
-
-            //Vector2 ml;
-            //playerMapPosition = new Vector2(p.X, p.Z);
-            //Vector2 mr;
-
-            //Vector2 bl; //bot left
-            //Vector2 bm; //bot middle
-            //Vector2 br;//bot right
-            //fall 1, kreismittelpunkt ist in rechteck
-
-
-            //return false; // Das hier rausnehmen um Kollision wieder drin zu haben 
-            //maping Player position to MapTile position
-             //prototyp, später muss genau ermittelt werden auf welchen tiles der Player genau steht
-            //PlayerMapCollision
-            if (WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
-                return false;
-            else
+            //middle middle tile //Tile i am standing on
+            if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return true;
+            //else
+            //    return true;
+            //toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y);
+            //topLeft = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.X,
+            //                        GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.Z);
+            //if (circleRectangleCollision(toCheck, radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
+            //    return !WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition);
+
+
+            //middle right tile
+            toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
+
+            //bot left tile
+            toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y - 1);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
+
+            //bot middle tile
+            toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y - 1);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
+
+            //bot right tile
+            toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y - 1);
+            if (checkBlockAt(toCheck, p))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
+
+            return false;
         }
+
+        /// <summary>
+        /// returns if the block is colliding
+        /// </summary>
+        /// <param name="toCheck"></param>
+        /// <returns></returns>
+        private bool checkBlockAt(Vector2 toCheck, Vector3 p)
+        {
+            float radius = 0.35f;
+            Vector2 topLeft = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y).position.X - Settings.getBlockSizeX() / 2,
+                        GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y).position.Z + Settings.getBlockSizeZ() / 2);
+
+            if (circleRectangleCollision(new Vector2(p.X, p.Z), radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
+                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
+                    return true;
+            return false;
+        }
+
+        /// <summary>
+        /// returns if a circle is colliding with a rectangle
+        /// </summary>
+        /// <param name="circleCenter">the center point of the circle</param>
+        /// <param name="r">radius of the circle</param>
+        /// <param name="topLeftRectangle">the top left point of the rectangle</param>
+        /// <param name="w">the width of the rectangle</param>
+        /// <param name="h">the height of the rectangle</param>
+        /// <returns></returns>
+        private bool circleRectangleCollision(Vector2 circleCenter, float r, Vector2 topLeftRectangle, float w, float h)
+        {
+            ////Fall 1: Kreismittelpunkt liegt im rechteck //fall passiert in unserem beispiel quasi immer...
+            //if (circleCenter.X < topLeftRectangle.X //linker rand
+            //    && circleCenter.X > topLeftRectangle.X + w //rechter rand
+            //    && circleCenter.Y > topLeftRectangle.Y //unterer rand
+            //    && circleCenter.Y < topLeftRectangle.Y + h)//oberer rand
+            //    return true;
+
+            //Fall2: ein außenpunkt des rechteckes liegt im kreis
+            Vector2 tl = topLeftRectangle;
+            Vector2 tr = new Vector2(tl.X + w, tl.Y);
+            Vector2 bl = new Vector2(tl.X, tl.Y - h);
+            Vector2 br = new Vector2(tl.X + w, tl.Y - h);
+            float bTL = (float)Math.Sqrt((circleCenter.X - tl.X) * (circleCenter.X - tl.X) + (circleCenter.Y - tl.Y) * (circleCenter.Y - tl.Y));
+            float bTR = (float)Math.Sqrt((circleCenter.X - tr.X) * (circleCenter.X - tr.X) + (circleCenter.Y - tr.Y) * (circleCenter.Y - tr.Y));
+            float bBL = (float)Math.Sqrt((circleCenter.X - bl.X) * (circleCenter.X - bl.X) + (circleCenter.Y - bl.Y) * (circleCenter.Y - bl.Y));
+            float bBR = (float)Math.Sqrt((circleCenter.X - br.X) * (circleCenter.X - br.X) + (circleCenter.Y - br.Y) * (circleCenter.Y - br.Y));
+            if (bTL < r || bTR < r || bBL < r || bBR < r)
+                return true;
+
+            //Fall 3: kreis überschneidet eine kante des rechtecks, ohne einen eckpunkt zu treffen
+            //obere kante
+            //untere kante
+            if (circleCenter.X > topLeftRectangle.X && circleCenter.X < topLeftRectangle.X + w)//prüfen ob es im richtigen x bereich liegt
+            {
+                //oben
+                float dy = Math.Abs(topLeftRectangle.Y - circleCenter.Y);
+                if (dy < r)
+                    return true;
+                //unten
+                dy = Math.Abs(topLeftRectangle.Y - h - circleCenter.Y);
+                if (dy < r)
+                    return true;
+            }
+            //rechte kante
+            //linke kante
+            if (circleCenter.Y < topLeftRectangle.Y && circleCenter.Y > topLeftRectangle.Y - h)//prüfen ob es im richtigen x bereich liegt
+            {
+                //links
+                float dx = Math.Abs(topLeftRectangle.X - circleCenter.X);
+                Console.WriteLine((dx < r) + "left");
+                if (dx < r)
+                    return true;
+                //rechts
+                dx = Math.Abs(topLeftRectangle.X + w - circleCenter.X);//- oder +, das st hier die frage
+
+                //Console.WriteLine(topLeftRectangle.X + ", " + circleCenter.X);
+                //Console.WriteLine(dx);
+                Console.WriteLine((dx < r) + "right");
+                if (dx < r)
+                    return true;
+            }
+
+            return false;
+        }
+
+
         /// <summary>
         /// handles player item collision
         /// </summary>
