@@ -53,10 +53,11 @@ namespace WitchMaze.GameStates.InGameStates
             Player player2;
             Player player3;
             Player player4;
-            Vector3 spawnPosition1 = new Vector3(5,1,5);
-            Vector3 spawnPosition2 = new Vector3(5, 1, 5);
-            Vector3 spawnPosition3 = new Vector3(5, 1,5);
-            Vector3 spawnPosition4 = new Vector3(5, 1, 5);
+            List<Vector3> position = mapCreator.startPositions(4);
+            Vector3 spawnPosition1 = position.ElementAt<Vector3>(0);
+            Vector3 spawnPosition2 = /*new Vector3(5,(float) 0.5, 5);*/position.ElementAt<Vector3>(1);
+            Vector3 spawnPosition3 = position.ElementAt<Vector3>(2);
+            Vector3 spawnPosition4 = position.ElementAt<Vector3>(3);
             Console.WriteLine(playerList.Count);
             switch (playerList.Count)
             {
@@ -73,7 +74,7 @@ namespace WitchMaze.GameStates.InGameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.left);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.right);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.right);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);
@@ -84,10 +85,10 @@ namespace WitchMaze.GameStates.InGameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.botLeft);
                     player3 = playerList.First();
                     playerList.RemoveAt(0);
-                    player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+                    player3.setFinalPlayer(spawnPosition3, Player.EPlayerViewportPosition.topRight);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);
@@ -99,13 +100,13 @@ namespace WitchMaze.GameStates.InGameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.botLeft);
                     player3 = playerList.First();
                     playerList.RemoveAt(0);
-                    player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+                    player3.setFinalPlayer(spawnPosition3, Player.EPlayerViewportPosition.topRight);
                     player4 = playerList.First();
                     playerList.RemoveAt(0);
-                    player4.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botRight);
+                    player4.setFinalPlayer(spawnPosition4, Player.EPlayerViewportPosition.botRight);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);

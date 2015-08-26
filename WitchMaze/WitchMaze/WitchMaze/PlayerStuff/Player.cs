@@ -137,7 +137,7 @@ namespace WitchMaze.PlayerStuff
 
             position = spawnPosition;
             //position = new Vector3(5, 1, 5);
-            lookAt = new Vector3(0, 1, 1);//sollte neu berechnet werden //immer zur mitte der Map?
+            lookAt = new Vector3(0, (float)0.2, 1);//sollte neu berechnet werden //immer zur mitte der Map?
             upDirection = new Vector3(0, 1, 0);
 
             //draufsicht
