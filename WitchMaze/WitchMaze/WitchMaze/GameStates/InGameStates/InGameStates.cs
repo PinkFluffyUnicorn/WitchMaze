@@ -83,21 +83,28 @@ namespace WitchMaze.GameStates
         /// </summary>
         /// <param name="gameTime"></param>
         public virtual void Draw(GameTime gameTime) 
-        {
+        {           
+
             Viewport defaultViewport = Game1.getGraphics().GraphicsDevice.Viewport;
-            int count = 0;
+            //Game1.getGraphics().GraphicsDevice.Clear(Color.CornflowerBlue);
+            //int count = 0;
             foreach (Player player in playerList)
             {
+                player.updateCamera();
+                //Viewport playerViewport = player.getViewport();
+                Game1.getGraphics().GraphicsDevice.Viewport = player.getViewport();
+                player.getSkybox().draw(player.getCamera(), player.getProjection(), player.getPosition());
                 foreach (Player p in playerList)
                 {
-                    if (p == player)
+                    if (p != player)
+                    {
                         p.draw();
+                    }
                 }
-                count++;//gibt player an in dem es fehler gibt;
-                Viewport playerViewport = player.getViewport();
-                Game1.getGraphics().GraphicsDevice.Viewport = player.getViewport();
+                //count++;//gibt player an in dem es fehler gibt;
                 itemMap.draw(player.getProjection(), player.getCamera());
                 map.draw(player.getProjection(), player.getCamera());
+
             }
             Game1.getGraphics().GraphicsDevice.Viewport = defaultViewport;
             minimap.draw();
@@ -109,15 +116,16 @@ namespace WitchMaze.GameStates
         /// </summary>
         private void initializePlayer()
         {
-
             Player player1;
             Player player2;
             Player player3;
             Player player4;
-            Vector3 spawnPosition1 = new Vector3(5, 1, 5);
-            Vector3 spawnPosition2 = new Vector3(5, 1, 5);
-            Vector3 spawnPosition3 = new Vector3(5, 1, 5);
-            Vector3 spawnPosition4 = new Vector3(5, 1, 5);
+            List<Vector3> position = mapCreator.startPositions(4);
+            Vector3 spawnPosition1 = position.ElementAt<Vector3>(0);
+            Vector3 spawnPosition2 = /*new Vector3(5,(float) 0.5, 5);*/position.ElementAt<Vector3>(1);
+            Vector3 spawnPosition3 = position.ElementAt<Vector3>(2);
+            Vector3 spawnPosition4 = position.ElementAt<Vector3>(3);
+            Console.WriteLine(playerList.Count);
             switch (playerList.Count)
             {
                 case 1:
@@ -133,7 +141,7 @@ namespace WitchMaze.GameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.left);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.right);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.right);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);
@@ -144,10 +152,10 @@ namespace WitchMaze.GameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.botLeft);
                     player3 = playerList.First();
                     playerList.RemoveAt(0);
-                    player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+                    player3.setFinalPlayer(spawnPosition3, Player.EPlayerViewportPosition.topRight);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);
@@ -159,13 +167,13 @@ namespace WitchMaze.GameStates
                     player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
                     player2 = playerList.First();
                     playerList.RemoveAt(0);
-                    player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+                    player2.setFinalPlayer(spawnPosition2, Player.EPlayerViewportPosition.botLeft);
                     player3 = playerList.First();
                     playerList.RemoveAt(0);
-                    player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+                    player3.setFinalPlayer(spawnPosition3, Player.EPlayerViewportPosition.topRight);
                     player4 = playerList.First();
                     playerList.RemoveAt(0);
-                    player4.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botRight);
+                    player4.setFinalPlayer(spawnPosition4, Player.EPlayerViewportPosition.botRight);
                     playerList.Clear();
                     playerList.Add(player1);
                     playerList.Add(player2);
@@ -175,6 +183,71 @@ namespace WitchMaze.GameStates
                 default:
                     throw new NotImplementedException();
             }
+            //Player player1;
+            //Player player2;
+            //Player player3;
+            //Player player4;
+            //Vector3 spawnPosition1 = new Vector3(5, 1, 5);
+            //Vector3 spawnPosition2 = new Vector3(5, 1, 5);
+            //Vector3 spawnPosition3 = new Vector3(5, 1, 5);
+            //Vector3 spawnPosition4 = new Vector3(5, 1, 5);
+            //switch (playerList.Count)
+            //{
+            //    case 1:
+            //        player1 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.fullscreen);
+            //        playerList.Clear();
+            //        playerList.Add(player1);
+            //        break;
+            //    case 2:
+            //        player1 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.left);
+            //        player2 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.right);
+            //        playerList.Clear();
+            //        playerList.Add(player1);
+            //        playerList.Add(player2);
+            //        break;
+            //    case 3:
+            //        player1 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
+            //        player2 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+            //        player3 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+            //        playerList.Clear();
+            //        playerList.Add(player1);
+            //        playerList.Add(player2);
+            //        playerList.Add(player3);
+            //        break;
+            //    case 4:
+            //        player1 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player1.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topLeft);
+            //        player2 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player2.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botLeft);
+            //        player3 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player3.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.topRight);
+            //        player4 = playerList.First();
+            //        playerList.RemoveAt(0);
+            //        player4.setFinalPlayer(spawnPosition1, Player.EPlayerViewportPosition.botRight);
+            //        playerList.Clear();
+            //        playerList.Add(player1);
+            //        playerList.Add(player2);
+            //        playerList.Add(player3);
+            //        playerList.Add(player4);
+            //        break;
+            //    default:
+            //        throw new NotImplementedException();
+            //}
 
         }
     }

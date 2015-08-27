@@ -87,6 +87,8 @@ namespace WitchMaze.PlayerStuff
 
         //Shader
         BasicEffect effect = Game1.getEffect();
+        float cameraOffset = 0.025f;
+        private Vector3 cameraPosition;//should be a little behind the actual position
         private static Matrix projection, camera, world;
         
         //to Draw
@@ -149,20 +151,23 @@ namespace WitchMaze.PlayerStuff
             GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
             //camera = Matrix.CreateLookAt(new Vector3(position.X - Settings.getResolutionX() / 2, position.Y, position.Z), lookAt, upDirection);
-            camera = Matrix.CreateWorld(position, lookAt, upDirection);
+            cameraPosition = new Vector3(position.X, position.Y, position.Z);
+            cameraPosition = cameraPosition - (lookAt - position) * cameraOffset;
+            camera = Matrix.CreateWorld(cameraPosition, lookAt, upDirection);
             projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
             world = Matrix.Identity;
-            model = Game1.getContent().Load<Model>("Models/Player/player2");
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
             
+            //switch()
+            //model = Game1.getContent().Load<Model>("Models/Player/player2");
 
             skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
         }
 
         /// <summary>
-        /// this method sets the viewport of the player screen dependent on the ViewportPosition, aswell as the projection and Camera for the player
+        /// this method sets the viewport of the player screen dependent on the ViewportPosition, aswell as the model for the player
         /// </summary>
         private void setViewport()
         {
@@ -171,38 +176,38 @@ namespace WitchMaze.PlayerStuff
             {
                 case EPlayerViewportPosition.fullscreen:
                     viewport = defaultViewport;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player1");
                     break;
                 case EPlayerViewportPosition.left:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 2, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player1");
                     break;
                 case EPlayerViewportPosition.right:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.X = defaultViewport.Width / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 2, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player2");
                     break;
                 case EPlayerViewportPosition.topLeft:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.Height = viewport.Height / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player1");
                     break;
                 case EPlayerViewportPosition.botLeft:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.Height = viewport.Height / 2;
                     viewport.Y = defaultViewport.Height / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player2");
                     break;
                 case EPlayerViewportPosition.topRight:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.Height = viewport.Height / 2;
                     viewport.X = defaultViewport.Width / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player3");
                     break;
                 case EPlayerViewportPosition.botRight:
                     viewport = defaultViewport;
@@ -210,7 +215,7 @@ namespace WitchMaze.PlayerStuff
                     viewport.Height = viewport.Height / 2;
                     viewport.X = defaultViewport.Width / 2;
                     viewport.Y = defaultViewport.Height / 2;
-                    projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio / 4, 0.5f, 1000.0f);
+                    model = Game1.getContent().Load<Model>("Models/Player/player4");
                     break;
                 default:
                     throw new NotImplementedException();
@@ -401,8 +406,6 @@ namespace WitchMaze.PlayerStuff
         public bool mapCollision(Vector3 p)
         {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
             playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
-            Console.WriteLine(playerMapPosition);
-            Console.WriteLine(position +"position");
             ////"bonding box" player
             float radius = 0.5f;
             
@@ -540,15 +543,10 @@ namespace WitchMaze.PlayerStuff
             {
                 //links
                 float dx = Math.Abs(topLeftRectangle.X - circleCenter.X);
-                Console.WriteLine((dx < r) + "left");
                 if (dx < r)
                     return true;
                 //rechts
                 dx = Math.Abs(topLeftRectangle.X + w - circleCenter.X);//- oder +, das st hier die frage
-
-                //Console.WriteLine(topLeftRectangle.X + ", " + circleCenter.X);
-                //Console.WriteLine(dx);
-                Console.WriteLine((dx < r) + "right");
                 if (dx < r)
                     return true;
             }
@@ -572,7 +570,11 @@ namespace WitchMaze.PlayerStuff
 
         public void updateCamera()
         {
-            camera = Matrix.CreateLookAt(position, lookAt, upDirection);
+            //update camera position
+            cameraPosition = position - (lookAt - position) * cameraOffset;
+
+            //update camera matrix
+            camera = Matrix.CreateLookAt(cameraPosition, lookAt, upDirection);
         }
 
         /// <summary>
