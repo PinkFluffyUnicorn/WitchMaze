@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            //createMaze();
+            createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -97,7 +97,7 @@ namespace WitchMaze.MapStuff
                         }
                         rotation = rotation % 4;
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        Floor floor = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57);
+                        Floor floor = new Floor(position, Game1.getContent().Load<Model>("bottom"), rotation * (float)1.57, Game1.getContent().Load<Texture2D>("bottomTexture"));
                         map.setMap(floor, i, j);
                         rotateFloor = rotation;
                     }
@@ -111,7 +111,7 @@ namespace WitchMaze.MapStuff
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        Wall wall = new Wall(Game1.getContent().Load<Model>("Models/wallModelTest"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57);
+                        Wall wall = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57, Game1.getContent().Load<Texture2D>("Textures//WallTextures"));
                         map.setMap(wall, i, j);
                         rotateWall = rotation;
                     }
@@ -119,7 +119,7 @@ namespace WitchMaze.MapStuff
                     {
                         Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models\\MapStuff\\BlackHole"), findTransportPoint(position));
+                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models//MapStuff//BlackHole"), findTransportPoint(position), Game1.getContent().Load<Texture2D>("Models//MapStuff//BlackHoleTexture"));
                         map.setMap(blackhole, i, j);
                     }
                 }

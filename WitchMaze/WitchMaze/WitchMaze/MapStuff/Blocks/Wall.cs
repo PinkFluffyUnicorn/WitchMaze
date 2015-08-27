@@ -21,7 +21,7 @@ namespace WitchMaze.MapStuff.Blocks
         /// </summary>
         /// <param name="_model">Modell</param>
         /// <param name="_position">Position Vector3, Weltkoordinaten</param>
-        public Wall(Model _model, Vector3 _position, float _rotation )
+        public Wall(Model _model, Vector3 _position, float _rotation, Texture2D _texture )
         {
             model = _model;
             position = _position;
@@ -30,6 +30,7 @@ namespace WitchMaze.MapStuff.Blocks
             rotation = _rotation;
             name = MapCreator.tiles.wall;
             minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MiniMapTextures/minimapWall");
+            textur = _texture;
         }
     }
 }

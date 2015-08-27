@@ -18,21 +18,7 @@ namespace WitchMaze.PlayerStuff
             skyboxTextures = _skyboxTextures;
         }
 
-        /// <summary>
-        /// Methode um ka muss mal ausprobiert werden, was das tut 
-        /// </summary>
-        public void initialize()
-        {
-
-            foreach (ModelMesh mesh in skyboxModel.Meshes)
-                foreach (BasicEffect currentEffect in mesh.Effects)
-                    skyboxTextures = currentEffect.Texture;
-
-            foreach (ModelMesh mesh in skyboxModel.Meshes)
-                foreach (ModelMeshPart meshPart in mesh.MeshParts)
-                    meshPart.Effect = Game1.effect.Clone();
-        }
-
+       
 
         public void draw(Matrix view, Matrix projection, Vector3 playerPosition)
         {
@@ -52,14 +38,15 @@ namespace WitchMaze.PlayerStuff
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    Matrix worldMatrix = skyboxTransforms[mesh.ParentBone.Index] * /*Matrix.CreateScale((float)500)*/  Matrix.CreateTranslation(playerPosition);
+                    Matrix worldMatrix = skyboxTransforms[mesh.ParentBone.Index] * Matrix.CreateTranslation(playerPosition);
                     //effect.CurrentTechnique = effect.Techniques["Textured"];
+                    effect.LightingEnabled = true;
+                    effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
                     effect.TextureEnabled = true;
                     effect.Texture = skyboxTextures;
                     effect.World = worldMatrix;
                     effect.View = view;
                     effect.Projection = projection;
-                    effect.Texture = skyboxTextures;
 
                 }
                 mesh.Draw();

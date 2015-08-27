@@ -36,6 +36,8 @@ namespace WitchMaze.MapStuff.Blocks
         /// </summary>
         public Model model { get; protected set; }
 
+        public Texture2D textur { get; protected set; }
+
         public MapCreator.tiles name { get; protected set; }
 
         
@@ -70,14 +72,17 @@ namespace WitchMaze.MapStuff.Blocks
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.LightingEnabled = true;
+                    effect.TextureEnabled = true;
+                    effect.Texture = textur;
+                    //effect.EnableDefaultLighting();
+                    //effect.LightingEnabled = true;
 
-                    effect.AmbientLightColor = new Vector3(0, 0, 1);
+                    effect.AmbientLightColor = new Vector3(1f, 0.2f, 0.2f);
 
-                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(0, 0, 1);
-                    effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
-                    effect.DirectionalLight1.DiffuseColor = new Vector3(0, 1, 0);
+                    //effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
+                    //effect.DirectionalLight0.DiffuseColor = new Vector3(0, 0, 1);
+                    //effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
+                    //effect.DirectionalLight1.DiffuseColor = new Vector3(0, 1, 0);
                     effect.View = camera;
                     effect.Projection = projection;
                     effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);

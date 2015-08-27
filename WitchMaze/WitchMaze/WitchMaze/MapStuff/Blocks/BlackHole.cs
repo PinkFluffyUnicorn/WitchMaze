@@ -27,7 +27,7 @@ namespace WitchMaze.MapStuff.Blocks
         /// </summary>
         /// <param name="_position">Position Vector3, Weltkoordinaten</param>
         /// <param name="_model">Modell</param>
-        public BlackHole(Vector3 _position/*, Color color*/, Model _model, Vector3 _transportPosition)
+        public BlackHole(Vector3 _position/*, Color color*/, Model _model, Vector3 _transportPosition, Texture2D _texture)
         {
             model = _model;
             position = _position;
@@ -36,6 +36,7 @@ namespace WitchMaze.MapStuff.Blocks
             transportPosition = _transportPosition;
             name = MapCreator.tiles.blackhole;
             minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MiniMapTextures/minimapBlackHole");
+            textur = _texture;
         }
 
         /// <summary>
