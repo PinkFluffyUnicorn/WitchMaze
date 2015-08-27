@@ -28,8 +28,7 @@ namespace WitchMaze.GameStates
 
         public override void loadContent()
         {
-            creditsTitel = new Icon(new Vector2(750 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/credits/creditsTitel");
-            credits = new Icon(new Vector2(560 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/credits/CreditsFilled");
+           credits = new Icon(new Vector2(0 * Settings.getInterfaceScale(), 0 * Settings.getInterfaceScale()), "Textures/credits/CreditsFilled");
         }
 
         public override void unloadContent()
@@ -52,7 +51,6 @@ namespace WitchMaze.GameStates
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game1.getGraphics().GraphicsDevice.Clear(Color.Black);
             
-            creditsTitel.draw();
             credits.draw();
         }
     }
