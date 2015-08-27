@@ -199,32 +199,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\Player\player1.fbx">
-      <Name>player1</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Models\Player\player2.fbx">
-      <Name>player2</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Models\Player\player3.fbx">
-      <Name>player3</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="Models\Player\player4.fbx">
-      <Name>player4</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Items\Branch.fbx">
       <Name>Branch</Name>
       <Importer>FbxImporter</Importer>
@@ -553,6 +527,29 @@
       <Name>optionsTitel</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Models\Player\player1.fbx">
+      <Name>player1</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Player\player2.fbx">
+      <Name>player2</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Player\player3.fbx">
+      <Name>player3</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Models\Player\player4.fbx">
+      <Name>player4</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

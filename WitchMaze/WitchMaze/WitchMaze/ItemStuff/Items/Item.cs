@@ -24,17 +24,15 @@ namespace WitchMaze.ItemStuff.Items
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.EnableDefaultLighting();
-                    effect.LightingEnabled = true; // Turn on the lighting subsystem.
+                    effect.LightingEnabled = true;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-                    effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
-                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+                    effect.AmbientLightColor = new Vector3(1, 1, 1);
 
-                    /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
-                    effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f); 
+                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  
+                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); 
 
-                    effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateRotationY(rotation)* Matrix.CreateTranslation(position.X, (float) 0.6, position.Z);
+                    effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateRotationY(rotation)* Matrix.CreateTranslation(position.X, 0.2f, position.Z);
                     effect.View = camera;
                     effect.Projection = projection;
                 }

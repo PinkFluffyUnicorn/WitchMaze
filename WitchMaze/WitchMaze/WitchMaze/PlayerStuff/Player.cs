@@ -487,14 +487,13 @@ namespace WitchMaze.PlayerStuff
                 foreach (BasicEffect _effect in mesh.Effects)
                 {
                     _effect.EnableDefaultLighting();
-                    _effect.LightingEnabled = true; // Turn on the lighting subsystem.
+                    _effect.LightingEnabled = true; 
 
-                    _effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 0.2f, 0.2f); // a reddish light
-                    _effect.DirectionalLight0.Direction = new Vector3(1, 0, 0);  // coming along the x-axis
-                    _effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); // with green highlights
+                    _effect.AmbientLightColor = new Vector3(1, 0,0);
 
-                    /*effect.AmbientLightColor = new Vector3(0.2f, 0.2f, 0.2f); // Add some overall ambient light.
-                    effect.EmissiveColor = new Vector3(1, 0, 0); // Sets some strange emmissive lighting.  This just looks weird. */
+                    _effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); 
+                    _effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  
+                    _effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0); 
 
                     _effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateTranslation(position);
                     _effect.View = camera;
