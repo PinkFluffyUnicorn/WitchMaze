@@ -64,11 +64,10 @@ namespace WitchMaze.PlayerStuff
         EPlayerViewportPosition playerViewportPosition;
         Viewport viewport;
         float timeSinceLastMove;
-        float timescale = 900;
+        float timescale = 2000;
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
-        Vector2 playerMapPosition;
-        Vector3 newPosition;
+        //Vector2 playerMapPosition;
         Vector3 position;
         Vector3 lookAt;
         Vector3 upDirection;
@@ -272,6 +271,7 @@ namespace WitchMaze.PlayerStuff
         /// <param name="gameTime">GameTime for correct movement dependent on Time not FPS</param>
         private void moveK(GameTime gameTime, Keys moveUp, Keys moveDown, Keys moveLeft, Keys moveRight, Keys lookLeft, Keys lookRight)
         {
+            Vector3 newPosition;
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
@@ -405,7 +405,7 @@ namespace WitchMaze.PlayerStuff
         /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
         {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
-            playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
+            Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
             ////"bonding box" player
             float radius = 0.5f;
             
@@ -440,13 +440,6 @@ namespace WitchMaze.PlayerStuff
             //middle middle tile //Tile i am standing on
             if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
                 return true;
-            //else
-            //    return true;
-            //toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y);
-            //topLeft = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.X,
-            //                        GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.Z);
-            //if (circleRectangleCollision(toCheck, radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
-            //    return !WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition);
 
 
             //middle right tile
@@ -560,10 +553,11 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         private void itemCollision()
         {//umrechnen da mittelpunkt in der mitte, führt bein castern zu int zu fehlern
-            if (!GameStates.InGameState.getItemMap().isEmpty((int)(position.X - Settings.getBlockSizeX() / 2), (int)(position.Z - Settings.getBlockSizeZ() / 2)))
+            Vector2 playerMapPosition = new Vector2((int)Math.Round(position.X), (int)Math.Round(position.Z));
+            if (!GameStates.InGameState.getItemMap().isEmpty((int)playerMapPosition.X, (int)playerMapPosition.Y))
             {
-                itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)position.X, (int)position.Z));
-                GameStates.InGameState.getItemMap().deleteItem((int)position.X, (int)position.Z);
+                itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)playerMapPosition.X, (int)playerMapPosition.Y));
+                GameStates.InGameState.getItemMap().deleteItem((int)playerMapPosition.X, (int)playerMapPosition.Y);
             }
         }
 
@@ -576,6 +570,7 @@ namespace WitchMaze.PlayerStuff
             //update camera matrix
             camera = Matrix.CreateLookAt(cameraPosition, lookAt, upDirection);
         }
+
 
         /// <summary>
         /// draws the player

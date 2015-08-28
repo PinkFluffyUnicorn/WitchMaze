@@ -11,7 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     abstract class Item
     {
         public InterfaceObjects.Icon itemIcon { get; protected set; }
-        public Vector3 position { get; protected set; }
+        public Vector3 position { get; set; }
         public Model model { get; protected set; }
 
         private Matrix scale = Matrix.CreateScale((float) 0.001);

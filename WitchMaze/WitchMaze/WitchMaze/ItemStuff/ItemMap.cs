@@ -10,7 +10,6 @@ namespace WitchMaze.ItemStuff
     class ItemMap
     {
         Item[,] itemMap;
-        Random random;
 
 
         /// <summary>
@@ -18,7 +17,6 @@ namespace WitchMaze.ItemStuff
         /// </summary>
         public ItemMap()
         {
-            random = new Random();
             itemMap = new Item[Settings.getMapSizeX(), Settings.getMapSizeZ()];
         }
 
@@ -66,7 +64,7 @@ namespace WitchMaze.ItemStuff
             //delete old one
             itemMap[x, y] = null;
             //spawn new Item //atm at the position it initially spawned...
-            GameStates.InGameState.getItemSpawner().spawnItem(x, y);
+            GameStates.InGameState.getItemSpawner().spawnItem();
         }
 
         /// <summary>
