@@ -11,6 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     {
          public Eye(Vector3 _position)
         {
+            itemIndex = EItemIndex.Eye;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/MonsterEye");
             itemIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/ItemIcons/MonsterEye");

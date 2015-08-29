@@ -10,6 +10,21 @@ namespace WitchMaze.ItemStuff.Items
 {
     abstract class Item
     {
+        public enum EItemIndex
+        {
+            Branch,
+            Caterpillar,
+            Crystal,
+            Eye,
+            Frog,
+            Pig,
+            Slime,
+            Spider,
+            UnicornHorn,
+            WingOfABat,
+        }
+        public EItemIndex itemIndex { get; protected set; }
+
         public InterfaceObjects.Icon itemIcon { get; protected set; }
         public Vector3 position { get; set; }
         public Model model { get; protected set; }

@@ -11,6 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     {
         public Caterpillar(Vector3 _position)
         {
+            itemIndex = EItemIndex.Caterpillar;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/caterpillar");
             itemIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/ItemIcons/Caterpillar");

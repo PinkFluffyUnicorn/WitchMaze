@@ -11,6 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     {
          public Branch(Vector3 _position)
         {
+            itemIndex = EItemIndex.Branch;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/Branch");
             itemIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/ItemIcons/Branch");

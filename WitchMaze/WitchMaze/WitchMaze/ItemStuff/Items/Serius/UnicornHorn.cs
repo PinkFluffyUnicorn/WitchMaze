@@ -11,6 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     {
          public UnicornHorn(Vector3 _position)
         {
+            itemIndex = EItemIndex.UnicornHorn;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/UnicornHorn");
             itemIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/ItemIcons/UnicornHorn");

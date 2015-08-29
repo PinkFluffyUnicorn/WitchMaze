@@ -11,6 +11,7 @@ namespace WitchMaze.ItemStuff.Items
     {
          public Pig(Vector3 _position)
         {
+            itemIndex = EItemIndex.Pig;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/Pig");
             itemIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/ItemIcons/Pig");

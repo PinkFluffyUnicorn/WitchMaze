@@ -47,7 +47,7 @@ namespace WitchMaze.GameStates
 
             itemMap = new ItemMap();
             itemSpawner = new ItemSpawner();
-            itemSpawner.initialSpawn(itemMap, map);
+            itemSpawner.initialSpawn(itemMap, map, playerList);
 
             initializePlayer();
 
