@@ -166,7 +166,9 @@ namespace WitchMaze.PlayerStuff
             movementRotationX = 0;
             movementRotationZ = 0;
 
-            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("Models/skybox"));
+            //lookatRotation = 0;
+
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
         }
 
         /// <summary>
@@ -321,10 +323,10 @@ namespace WitchMaze.PlayerStuff
             //Hier nen dicken Player drehen
             //Roll, Roll, Roll A Witch, Twist It At The End. Light It Up And Take A Puff, And Pass It To Your Friends
             //The Witch in the Maze goes round and round, round and round, round and round, the Witch in the Maze goes round and round all throung Game
-            if(left)
-                movementRotationX += moveVector.Length();
-            if(right)
+            if (left)
                 movementRotationX -= moveVector.Length();
+            if (right)
+                movementRotationX += moveVector.Length();
             if (up)
                 movementRotationZ -= moveVector.Length();
             if (down)
@@ -442,72 +444,90 @@ namespace WitchMaze.PlayerStuff
 
         }
 
-        /// <summary>
-        /// handles the collision for the player by checking if the maptiles near him are walkable
-        /// </summary>
-        /// <param name="p">the position to check</param>
-        /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
+        {
+            List<MapStuff.Blocks.Block> blocksStandingOn = mapBlocksStandingOn(p);
+            //compute if collision
+            foreach(MapStuff.Blocks.Block block in blocksStandingOn){
+                if (!block.walkable)
+                    return true;
+            }
+            //delete all blocks but black holes
+            List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
+            foreach (MapStuff.Blocks.Block block in blocksStandingOn)
+            {
+                if (block.name == MapStuff.MapCreator.tiles.blackhole)
+                    blackHoles.Add((MapStuff.Blocks.BlackHole)block);
+            }
+            //reset player position for black holes
+            foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
+            {
+                if (blackHole.transportable)
+                    position = new Vector3(blackHole.transportPosition.X, position.Y, blackHole.transportPosition.Z);
+                //return (mapCollision(p));
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Computes a List of every MapTile the player is standing on
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public List<MapStuff.Blocks.Block> mapBlocksStandingOn(Vector3 p)
         {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
             Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));           
-
+            List<MapStuff.Blocks.Block> collisionList = new List<MapStuff.Blocks.Block>();
             Vector2 toCheck; //the next tile to ckeck
             //Vector2 topLeft; //the top left point of the tie to check
 
             //top left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y + 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                    collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
+
 
             //top middle tile
             toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y + 1);
             if(checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //top right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y + 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //middel left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //middle middle tile //Tile i am standing on
-            if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
-                return true;
+            toCheck = playerMapPosition;
+            collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
 
             //middle right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot middle tile
             toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
-            return false;
+            return collisionList;
         }
 
         /// <summary>
@@ -534,12 +554,17 @@ namespace WitchMaze.PlayerStuff
         /// </summary>
         private void itemCollision(Vector3 p)
         {
-            Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
-            if (!GameStates.InGameState.getItemMap().isEmpty((int)playerMapPosition.X, (int)playerMapPosition.Y))
+            List<MapStuff.Blocks.Block> blocksStandingOn = mapBlocksStandingOn(p);
+            foreach (MapStuff.Blocks.Block block in blocksStandingOn)
             {
-                itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)playerMapPosition.X, (int)playerMapPosition.Y));
-                GameStates.InGameState.getItemMap().deleteItem((int)playerMapPosition.X, (int)playerMapPosition.Y);
+                Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
+                if (!GameStates.InGameState.getItemMap().isEmpty((int)playerMapPosition.X, (int)playerMapPosition.Y))
+                {
+                    itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)playerMapPosition.X, (int)playerMapPosition.Y));
+                    GameStates.InGameState.getItemMap().deleteItem((int)playerMapPosition.X, (int)playerMapPosition.Y);
+                }
             }
+
         }
 
 
@@ -577,7 +602,7 @@ namespace WitchMaze.PlayerStuff
                     //Matrix.CreateFromAxisAngle(ortoDirection, blabla); //for player roll try this
                     //Matrix.CreateRotationZ(movementRotationX) *
 
-                    Matrix rotation = Matrix.CreateRotationX(movementRotationX) * Matrix.CreateRotationZ(movementRotationZ) * Matrix.CreateRotationY((float)lookatRotation);
+                    Matrix rotation = /*Matrix.CreateFromAxisAngle(ortoDirection, movementRotationX)*/Matrix.CreateRotationX(movementRotationX) * Matrix.CreateRotationZ(movementRotationZ) * Matrix.CreateRotationY((float)lookatRotation);
                     _effect.World = mesh.ParentBone.Transform * rotation *  scale * Matrix.CreateTranslation(position);
                     _effect.View = camera;
                     _effect.Projection = projection;
