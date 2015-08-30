@@ -11,6 +11,16 @@ namespace WitchMaze.ItemStuff.Items
     {
          public Branch(Vector3 _position)
         {
+
+            ambient = new Vector3(1f, 1f, 1f);
+            emissive = new Vector3(1f, 1f, 1f);
+            specularColor = new Vector3(1f, 1f, 1f);
+            directionalDiffuse = new Vector3(1f, 1f, 1f);
+            directionalDirection = new Vector3(1f, 1f, 1f);
+            directionalSpecular = new Vector3(1f, 1f, 1f);
+            specularPower = 0f;
+
+
             itemIndex = EItemIndex.Branch;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/Branch");

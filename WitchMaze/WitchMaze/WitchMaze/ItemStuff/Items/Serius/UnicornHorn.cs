@@ -11,6 +11,15 @@ namespace WitchMaze.ItemStuff.Items
     {
          public UnicornHorn(Vector3 _position)
         {
+            ambient = new Vector3(1f, 1f, 1f);
+            emissive = new Vector3(0.1f, 0.1f, 0.1f);
+            specularColor = new Vector3(1f, 1f, 1f);
+            directionalDiffuse = new Vector3(0.2f, 0.2f, 0.19f);
+            directionalDirection = new Vector3(0, 1f, 0);
+            directionalSpecular = new Vector3(0.3f, 0.3f, 0.29f);
+            specularPower = 2f;
+            rotate = 0.785f;
+
             itemIndex = EItemIndex.UnicornHorn;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/UnicornHorn");
