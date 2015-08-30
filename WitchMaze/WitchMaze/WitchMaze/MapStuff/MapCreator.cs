@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
 
-            //createMaze();
+            createMaze();
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -558,7 +558,7 @@ namespace WitchMaze.MapStuff
                 int x = 0;
                 int y = 0;
                 bool swap = true;
-                while( mapType[x,y] == (int)tiles.wall || mapType[x,y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || distanceToBlackHole(x,y))
+                while( mapType[x,y] == (int)tiles.wall || mapType[x,y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || distanceToBlackHole(x,y) ||cutOff(x,y) == true)
                 {
                     if (swap)
                     {
@@ -604,8 +604,15 @@ namespace WitchMaze.MapStuff
 
         private bool cutOff(int x, int y)
         {
-            bool cutoff = true;
-            return cutoff;
+            int floorx = 0;
+            int floory = 0;
+            for (int i = 0; i < Settings.getMapSizeX(); i++ )
+            {
+                if (mapType[i, y] == (int)tiles.floor) floorx++;
+                if (mapType[x, i] == (int)tiles.floor) floory++;
+            }
+            if (floorx > 1 && floory > 1) return false;
+            else return true;
         }
 
         /// <summary>
