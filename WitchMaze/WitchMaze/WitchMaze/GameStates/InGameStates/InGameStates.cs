@@ -74,6 +74,14 @@ namespace WitchMaze.GameStates
             foreach (Player player in playerList)
             {
                 player.update(gameTime);
+                //are player colliding?
+                foreach (Player p in playerList)
+                {
+                    if(p != player){
+                        if (ownFunctions.Collision.circleCirlceCollision(new Vector2(p.getPosition().X, p.getPosition().Z), p.getRadius(), new Vector2(player.getPosition().X, player.getPosition().Z), player.getRadius()))
+                            player.bounce(player.getPosition() - p.getPosition());
+                    }
+                }
             }
             itemSpawner.update(itemMap, gameTime, playerList);
             minimap.update(itemMap, playerList);

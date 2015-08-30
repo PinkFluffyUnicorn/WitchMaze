@@ -80,9 +80,9 @@ namespace WitchMaze.ownFunctions
         /// <param name="circleCenter2">center of Circle2</param>
         /// <param name="r2">radius of Cirlce2</param>
         /// <returns></returns>
-        public bool corcleCorlceCollision(Vector2 circleCenter1, float r1, Vector2 circleCenter2, float r2)
+        public static bool circleCirlceCollision(Vector2 circleCenter1, float r1, Vector2 circleCenter2, float r2)
         {
-            float dCircles = (float)Math.Sqrt((circleCenter1.X - circleCenter2.X) * (circleCenter1.X - circleCenter1.X) + (circleCenter1.Y - circleCenter2.Y) * (circleCenter1.Y - circleCenter2.Y));
+            float dCircles = (float)Math.Sqrt((circleCenter1.X - circleCenter2.X) * (circleCenter1.X - circleCenter2.X) + (circleCenter1.Y - circleCenter2.Y) * (circleCenter1.Y - circleCenter2.Y));
             if (dCircles < r1 + r2)
                 return true;
             return false;

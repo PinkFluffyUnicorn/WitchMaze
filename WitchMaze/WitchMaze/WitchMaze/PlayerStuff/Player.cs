@@ -68,13 +68,13 @@ namespace WitchMaze.PlayerStuff
         float turningScale = 1;//scale for head turning, more is faster
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
-        //Vector2 playerMapPosition;
         Vector3 position;
-        float radius = 0.35f;
+        float radius = 0.35f; public float getRadius() { return radius; }
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
         float aspectRatio;
+
         
 
         //Move
@@ -99,6 +99,13 @@ namespace WitchMaze.PlayerStuff
         double lookatRotation;//radius
         float movementRotationX;
         float movementRotationZ;
+
+        //bouncing
+        bool isBouncing;
+        float bounceExeleration;
+        Vector3 bounceDirection;
+        float bouncingTimeLeft;
+        float bouncingTime;
 
         //other
         List<Item> itemsCollected;
@@ -166,7 +173,10 @@ namespace WitchMaze.PlayerStuff
             movementRotationX = 0;
             movementRotationZ = 0;
 
-            //lookatRotation = 0;
+            isBouncing = false;
+            bounceExeleration = 2f;
+            bouncingTime = 3;
+            bouncingTimeLeft = 0;
 
             skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
         }
@@ -245,6 +255,14 @@ namespace WitchMaze.PlayerStuff
             this.itemCollision(position);
         }
 
+        
+        public void bounce(Vector3 direction)
+        {
+            isBouncing = true;
+            bounceDirection = direction;
+            bounceDirection.Normalize();
+        }
+
         private void move(GameTime gameTime)
         {
             //ToDo kollieion dierekt hier einbauen...
@@ -294,22 +312,40 @@ namespace WitchMaze.PlayerStuff
             bool down = keyboard.IsKeyDown(moveDown) && !keyboard.IsKeyDown(moveUp);
             bool left = keyboard.IsKeyDown(moveLeft) && !keyboard.IsKeyDown(moveRight);
             bool right = keyboard.IsKeyDown(moveRight) && !keyboard.IsKeyDown(moveLeft);
-            //compute the "new position" for the player after keyboard inputs
-            if (up)
-            {//forward
-                newPosition = newPosition + direction;// * (timeSinceLastMove / timescale);
+            if (isBouncing)
+            {
+                newPosition += bounceDirection * (timeSinceLastMove / timescale) * bouncingTimeLeft;
+
+                if (mapCollision(newPosition) || bouncingTimeLeft < 0){
+                    isBouncing = false;
+                    bouncingTimeLeft = bouncingTime;
+                }    
+                else
+                {
+                    position = newPosition;
+                    bouncingTimeLeft -= (timeSinceLastMove / timescale);
+                    Console.WriteLine(bouncingTimeLeft);
+                }   
             }
-            if (down)
-            {//backward
-                newPosition = newPosition - direction;// * (timeSinceLastMove / timescale);
-            }
-            if (right)
-            {//right
-                newPosition = newPosition + ortoDirection;// * (timeSinceLastMove / timescale);
-            }
-            if (left)
-            {//left
-                newPosition = newPosition - ortoDirection;// *(timeSinceLastMove / timescale);
+            else
+            {
+                //compute the "new position" for the player after keyboard inputs
+                if (up)
+                {//forward
+                    newPosition = newPosition + direction;// * (timeSinceLastMove / timescale);
+                }
+                if (down)
+                {//backward
+                    newPosition = newPosition - direction;// * (timeSinceLastMove / timescale);
+                }
+                if (right)
+                {//right
+                    newPosition = newPosition + ortoDirection;// * (timeSinceLastMove / timescale);
+                }
+                if (left)
+                {//left
+                    newPosition = newPosition - ortoDirection;// *(timeSinceLastMove / timescale);
+                }
             }
 
             //compute the move Vector and ormalize it
@@ -546,9 +582,6 @@ namespace WitchMaze.PlayerStuff
             return false;
         }
 
-        
-
-
         /// <summary>
         /// handles player item collision
         /// </summary>
@@ -611,14 +644,5 @@ namespace WitchMaze.PlayerStuff
                 mesh.Draw();
             }
         }
-
-        //public void drawInterface()
-        //{
-        //    foreach(InterfaceObject i in playerInterface)
-        //    {
-        //        i.draw();
-        //    }
-        //}
-
     }
 }
