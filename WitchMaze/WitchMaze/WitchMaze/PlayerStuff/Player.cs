@@ -142,7 +142,7 @@ namespace WitchMaze.PlayerStuff
             playerIcon = new Icon(new Vector2(0, 0), "Textures/playerIcon");
 
             position = spawnPosition;
-            lookAt = new Vector3(Settings.getMapSizeX() / 2, (float)0.2, Settings.getMapSizeZ() / 2);//sollte neu berechnet werden //immer zur mitte der Map?
+            lookAt = new Vector3(Settings.getMapSizeX() / 2, (float)0.22, Settings.getMapSizeZ() / 2);//sollte neu berechnet werden //immer zur mitte der Map?
             upDirection = new Vector3(0, 1, 0);
 
             //draufsicht
