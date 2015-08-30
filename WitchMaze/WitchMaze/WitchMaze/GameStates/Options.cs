@@ -23,7 +23,7 @@ namespace WitchMaze.GameStates
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
         float offset = 10;//offset zwischen Icons und Switches
 
-        Vector2 optionsTitelPosition = new Vector2(375, 50);
+        Vector2 optionsTitelPosition = new Vector2(710, 100);
         Icon optionsTitel;
         Button resolutionButton, fullscreenButton;
         LeftRightSwitch resolutionLR, fullscreenLR;
@@ -39,11 +39,11 @@ namespace WitchMaze.GameStates
             {
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
-                optionsTitel = new Icon(optionsTitelPosition, "Textures/option/optionsTitel");
-                resolutionButton = new Button(new Vector2(300, (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY), "Textures/option/Resolution", "Textures/option/ResolutionSelected");
-                fullscreenButton = new Button(new Vector2(300, (resolutionButton.getPosition().Y + resolutionButton.getHeight()) + distY), "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
+                optionsTitel = new Icon(optionsTitelPosition * Settings.getInterfaceScale(), "Textures/option/optionsTitel");
+                resolutionButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY), "Textures/option/Resolution", "Textures/option/ResolutionSelected");
+                fullscreenButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (resolutionButton.getPosition().Y + resolutionButton.getHeight()) + distY), "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
 
-                String[] resolutions = { "Textures/option/1024p","Textures/option/720p","Textures/option/1080p" };
+                String[] resolutions = { "Textures/option/1080p", "Textures/option/1366p", "Textures/option/720p", "Textures/option/1024p" };
                 String[] fullscreenmode = { "Textures/option/offButton", "Textures/option/onButton" };
 
                 resolutionLR = new LeftRightSwitch(new Vector2(resolutionButton.getPosition().X + resolutionButton.getWidth() + offset, resolutionButton.getPosition().Y), resolutions);
@@ -109,21 +109,28 @@ namespace WitchMaze.GameStates
 
                 if (resolutionLR.getDisplayedIndex() == 0 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
                 {
-                    Settings.setResolutionX(1024);
+                    Settings.setResolutionX(1920);
                     Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
                     Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
                     isPressed = true;
                 }
                 if (resolutionLR.getDisplayedIndex() == 1 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
                 {
-                    Settings.setResolutionX(1280);
+                    Settings.setResolutionX(1366);
                     Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
                     Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
                     isPressed = true;
                 }
                 if (resolutionLR.getDisplayedIndex() == 2 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
                 {
-                    Settings.setResolutionX(1920);
+                    Settings.setResolutionX(1280);
+                    Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
+                    Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
+                    isPressed = true;
+                }
+                if (resolutionLR.getDisplayedIndex() == 3 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
+                {
+                    Settings.setResolutionX(1024);
                     Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
                     Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
                     isPressed = true;

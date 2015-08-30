@@ -138,7 +138,7 @@ namespace WitchMaze
 
             graphics.GraphicsDevice.BlendState = BlendState.Opaque;
             graphics.GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+            graphics.GraphicsDevice.Clear(Color.DarkGreen);
             //GraphicsDevice.SamplerStates[0] = SamplerState.LinearWrap;
 
             GraphicsDevice.RasterizerState = RasterizerState.CullNone;

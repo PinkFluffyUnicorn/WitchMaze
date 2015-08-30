@@ -59,7 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
             createMaze();
-            insertBlackHoles(8);
+            insertBlackHoles(7);
             insertRandomFloorTiles(15);
             insertWall();
             emptyStartPositions();
@@ -119,7 +119,7 @@ namespace WitchMaze.MapStuff
                             rotation = rotation % 4;
                         }
                         rotation = rotation % 4;
-                        Wall wall = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57, Game1.getContent().Load<Texture2D>("Textures//WallTextures"));
+                        Wall wall = new Wall(Game1.getContent().Load<Model>("cube"), new Vector3((float)(i * Settings.getBlockSizeX()), (float)(Settings.getBlockSizeY()), (float)(j * Settings.getBlockSizeZ())), rotation * (float)1.57, Game1.getContent().Load<Texture2D>("Textures/WallTextures"));
                         map.setMap(wall, i, j);
                         rotateWall = rotation;
                     }
@@ -127,7 +127,7 @@ namespace WitchMaze.MapStuff
                     {
                         Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
-                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models//MapStuff//BlackHole"), findTransportPoint(position), Game1.getContent().Load<Texture2D>("Models//MapStuff//BlackHoleTexture"));
+                        BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models/MapStuff/BlackHole"), findTransportPoint(position), Game1.getContent().Load<Texture2D>("Models/MapStuff/BlackHoleTexture"));
                         map.setMap(blackhole, i, j);
                     }
                 }
@@ -171,18 +171,23 @@ namespace WitchMaze.MapStuff
         private void emptyStartPositions()
         {
             List<Vector3> liste = startPositions(4);
-            for(int i = 0; i < liste.Count; i++)//Liste mit Startpositionen durchgehen 
+            for (int i = 0; i < liste.Count; i++)//Liste mit Startpositionen durchgehen 
             {
                 int x = (int)liste.ElementAt<Vector3>(i).X;
                 int y = (int)liste.ElementAt<Vector3>(i).Z;
-                for( int j = -1; j < 2; j ++)
-                {
-                    for(int k = -1; k < 2; k++)
-                    {
-                        mapType[x + j, y + k] = (int)tiles.floor;
-                    }
-                }
+                //for (int j = -1; j < 2; j++)
+                //{
+                //    for (int k = -1; k < 2; k++)
+                //    {
+                //        mapType[x + j, y + k] = (int)tiles.floor;
+                //    }
+                //}
+                mapType[x, y] = (int)tiles.floor;
+                if(mapType[x+1, y] ==(int)tiles.wall)mapType[x + 1, y] = (int)tiles.floor;
+
             }
+
+            
         }
 
 
@@ -574,7 +579,7 @@ namespace WitchMaze.MapStuff
                 int x = 1;
                 int y = 1;
                 bool swap = true;
-                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) )
+                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) || EndOfWall(x,y)== false)
                 {
                     if (swap)
                     {
@@ -616,6 +621,31 @@ namespace WitchMaze.MapStuff
                 }
             }
             return result;
+        }
+
+        private bool EndOfWall(int x, int y)
+        {
+            int walls = 0;
+
+            if (x - 1 > 0)
+            {
+                if (mapType[x - 1, y] == (int)tiles.wall) walls++;
+            }
+            if (x + 1 < Settings.getMapSizeX())
+            {
+                if (mapType[x + 1, y] == (int)tiles.wall) walls++; ;
+            }
+            if (y - 1 > 0)
+            {
+                if (mapType[x, y - 1] == (int)tiles.wall) walls++;
+            }
+            if (y + 1 < Settings.getMapSizeZ())
+            {
+                if (mapType[x, y + 1] == (int)tiles.wall) walls++;
+            }
+            if (walls > 1) return false;
+            return true;
+
         }
 
 
