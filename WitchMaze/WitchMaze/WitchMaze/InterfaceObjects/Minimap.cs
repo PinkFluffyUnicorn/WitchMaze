@@ -51,7 +51,6 @@ namespace WitchMaze.InterfaceObjects
                 {
                     if (!itemMap.isEmpty(i, j))
                     {
-                        Console.WriteLine(i + "," + j);
                         Icon h = itemMap.getItem(i, j).itemIcon;
                         h.setPosition(new Vector2(miniMap[0, 0].getWidth() * i + position.X, miniMap[0, 0].getHeight() * j + position.Y));
                         h.setIndividualScale(individualScale);

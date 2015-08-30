@@ -188,6 +188,7 @@
       <Name>BlackHoleTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -362,7 +363,6 @@
       <Name>BlackHole</Name>
       <Importer>FbxImporter</Importer>
       <Processor>ModelProcessor</Processor>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -432,17 +432,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Font\Whimsy TT.spritefont">
-      <Name>Whimsy TT</Name>
-      <Importer>FontDescriptionImporter</Importer>
-      <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\SkyboxTexture.png">
       <Name>SkyboxTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -530,18 +524,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\CharacterSelection\Keyboard1.png">
-      <Name>Keyboard1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\CharacterSelection\Keyboard2.png">
-      <Name>Keyboard2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Models\Player\player1.fbx">
       <Name>player1</Name>
       <Importer>FbxImporter</Importer>
@@ -564,42 +546,17 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\CharacterSelection\Gamepad1.png">
-      <Name>Gamepad1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Sound\BackgroundMusic\ThemeFromWitchmaze.wav">
+      <Name>ThemeFromWitchmaze</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\player1Win.png">
-      <Name>player1Win</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\player2Win.png">
-      <Name>player2Win</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\player3Win.png">
-      <Name>player3Win</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\player4Win.png">
-      <Name>player4Win</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\youLose.png">
-      <Name>youLose</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Textures\youWin.png">
-      <Name>youWin</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
+    <Compile Include="Font\Whimsy TT.spritefont">
+      <Name>Whimsy TT</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -610,8 +567,33 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Textures\CharacterSelection\Gamepad1.png">
+      <Name>Gamepad1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\CharacterSelection\Keyboard1.png">
+      <Name>Keyboard1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\CharacterSelection\Keyboard2.png">
+      <Name>Keyboard2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\CharacterSelection\NeedForIngredientsExplanation.png">
+      <Name>NeedForIngredientsExplanation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Textures\CharacterSelection\NeedForIngredientsNotSelected.png">
       <Name>NeedForIngredientsNotSelected</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\CharacterSelection\RushHourExplanation.png">
+      <Name>RushHourExplanation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -622,15 +604,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Textures\CharacterSelection\RushHourExplanation.png">
-      <Name>RushHourExplanation</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Textures\CharacterSelection\NeedForIngredientsExplanation.png">
-      <Name>NeedForIngredientsExplanation</Name>
+    <Compile Include="Textures\CharacterSelection\escapeNote.png">
+      <Name>escapeNote</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

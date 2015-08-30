@@ -25,7 +25,7 @@ namespace WitchMaze.GameStates
         
         Vector2 gameModeIconPosition = new Vector2(20, 10);
 
-        Icon gameModeIcon, spaceNote, keyboard1, keyboard2, gamepad, rushHour, needForIngredients;
+        Icon gameModeIcon, spaceNote, keyboard1, keyboard2, gamepad, rushHour, needForIngredients, escapeNote;
 
         Icon player1Icon, player2Icon, player3Icon, player4Icon;
 
@@ -45,12 +45,13 @@ namespace WitchMaze.GameStates
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
-                rushHour = new Icon(new Vector2(630, 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/RushHourExplanation");
-                needForIngredients = new Icon(new Vector2(630, 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/NeedForIngredientsExplanation");
-                spaceNote = new Icon(new Vector2(645, 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
-                keyboard1 = new Icon(new Vector2(640, 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
-                keyboard2 = new Icon(new Vector2(605, 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
-                gamepad = new Icon(new Vector2(640, 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
+                rushHour = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/RushHourExplanation");
+                needForIngredients = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/NeedForIngredientsExplanation");
+                spaceNote = new Icon(new Vector2(1090 * Settings.getInterfaceScale(), 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
+                escapeNote = new Icon(new Vector2(1125 * Settings.getInterfaceScale(), 950 * Settings.getInterfaceScale()), "Textures/CharacterSelection/escapeNote");
+                keyboard1 = new Icon(new Vector2(1075 * Settings.getInterfaceScale(), 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
+                keyboard2 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
+                gamepad = new Icon(new Vector2(1070 * Settings.getInterfaceScale(), 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
                 player1Icon = new Icon(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
                 player2Icon = new Icon(new Vector2(20, (player1Icon.getPosition().Y + player1Icon.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
                 player3Icon = new Icon(new Vector2(20, (player2Icon.getPosition().Y + player2Icon.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
@@ -106,8 +107,11 @@ namespace WitchMaze.GameStates
 
             if(keyboard.IsKeyDown(Keys.Space))
                 return EGameState.InGame; // GameState InGame braucht übergabeparameter!
-            else 
-                return EGameState.CharacterSelection; 
+            else if (keyboard.IsKeyDown(Keys.Escape))
+                return EGameState.MainMenu; 
+            else
+                return EGameState.CharacterSelection;           
+ 
         }
 
 
@@ -307,6 +311,7 @@ namespace WitchMaze.GameStates
             player3ControllsLRS.draw();
             player4ControllsLRS.draw();
             spaceNote.draw();
+            escapeNote.draw();
             keyboard1.draw();
             keyboard2.draw();
             gamepad.draw();

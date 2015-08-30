@@ -60,7 +60,8 @@
     <XnaCompressContent>true</XnaCompressContent>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86">
@@ -156,7 +157,7 @@
     <Compile Include="MapStuff\Cell.cs" />
     <Compile Include="MapStuff\Map.cs" />
     <Compile Include="MapStuff\MapCreator.cs" />
-    <Compile Include="ownFunctions\ownRandom.cs" />
+    <Compile Include="ownFunctions\Collision.cs" />
     <Compile Include="PlayerStuff\Move.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
     <Compile Include="PlayerStuff\PlayerInterface.cs" />

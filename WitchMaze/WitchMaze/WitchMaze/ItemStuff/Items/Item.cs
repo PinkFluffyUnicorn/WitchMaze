@@ -10,13 +10,33 @@ namespace WitchMaze.ItemStuff.Items
 {
     abstract class Item
     {
+        public enum EItemIndex
+        {
+            Branch,
+            Caterpillar,
+            Crystal,
+            Eye,
+            Frog,
+            Pig,
+            Slime,
+            Spider,
+            UnicornHorn,
+            WingOfABat,
+        }
+        public EItemIndex itemIndex { get; protected set; }
+
         public InterfaceObjects.Icon itemIcon { get; protected set; }
-        public Vector3 position { get; protected set; }
+        public Vector3 position { get; set; }
         public Model model { get; protected set; }
 
-        private Matrix scale = Matrix.CreateScale((float) 0.001);
+        protected Matrix scale = Matrix.CreateScale((float) 0.001);
 
         private float rotation = 0;
+        protected bool rotationOK = true;
+
+        protected Vector3 ambient, emissive, specularColor, directionalDiffuse, directionalDirection, directionalSpecular, directional1Diffuse, directional1Direction, directional1Specular;
+        protected float specularPower, rotate;
+        protected float positionY = 0.2f;
 
         public void draw(Matrix projection, Matrix camera)
         {
@@ -26,20 +46,33 @@ namespace WitchMaze.ItemStuff.Items
                 {
                     effect.LightingEnabled = true;
 
-                    effect.AmbientLightColor = new Vector3(1, 1, 1);
+                    effect.AmbientLightColor = ambient;
 
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f); 
-                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  
-                    effect.DirectionalLight0.SpecularColor = new Vector3(0, 1, 0); 
+                    effect.EmissiveColor = emissive;
 
-                    effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateRotationY(rotation)* Matrix.CreateTranslation(position.X, 0.2f, position.Z);
+                    effect.SpecularColor = specularColor;
+                    effect.SpecularPower = specularPower;
+
+                    effect.DirectionalLight0.Enabled = true;
+                    effect.DirectionalLight0.DiffuseColor = directionalDiffuse; 
+                    effect.DirectionalLight0.Direction = directionalDirection;  
+                    effect.DirectionalLight0.SpecularColor = directionalSpecular;
+
+                    effect.DirectionalLight1.Enabled = true;
+                    effect.DirectionalLight1.DiffuseColor = directional1Diffuse;
+                    effect.DirectionalLight1.Direction = directional1Direction;
+                    effect.DirectionalLight1.SpecularColor = directional1Specular;
+
+
+                    effect.World = mesh.ParentBone.Transform * scale *Matrix.CreateRotationZ(rotate)* Matrix.CreateRotationY(rotation)* Matrix.CreateTranslation(position.X, positionY, position.Z);
                     effect.View = camera;
                     effect.Projection = projection;
                 }
 
                 mesh.Draw();
             }
-            rotation += (float)0.01;
+            if (rotationOK)
+                rotation += (float)0.01;
         }
 
     }

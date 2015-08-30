@@ -60,36 +60,9 @@ namespace WitchMaze.MapStuff.Blocks
             position = _position;
             rotation = _rotation; 
         }
-        /// <summary>
-        /// draw Class same for everx blocktype
-        /// </summary>
-        public void draw(Matrix projection, Matrix camera)
-        {
-            Matrix[] transforms = new Matrix[model.Bones.Count];
-            model.CopyAbsoluteBoneTransformsTo(transforms);
 
-            foreach (ModelMesh mesh in model.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.TextureEnabled = true;
-                    effect.Texture = textur;
-                    //effect.EnableDefaultLighting();
-                    //effect.LightingEnabled = true;
+        public abstract void draw(Matrix projection, Matrix camera);
 
-                    effect.AmbientLightColor = new Vector3(1f, 0.2f, 0.2f);
-
-                    //effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
-                    //effect.DirectionalLight0.DiffuseColor = new Vector3(0, 0, 1);
-                    //effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
-                    //effect.DirectionalLight1.DiffuseColor = new Vector3(0, 1, 0);
-                    effect.View = camera;
-                    effect.Projection = projection;
-                    effect.World = transforms[mesh.ParentBone.Index] *Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);
-                }
-                mesh.Draw();
-            }
-            
-        }
+        
     } 
 }

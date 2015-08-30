@@ -64,12 +64,13 @@ namespace WitchMaze.PlayerStuff
         EPlayerViewportPosition playerViewportPosition;
         Viewport viewport;
         float timeSinceLastMove;
-        float timescale = 900;
+        float timescale = 1200;//more is slower
+        float turningScale = 1;//scale for head turning, more is faster
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
-        Vector2 playerMapPosition;
-        Vector3 newPosition;
+        //Vector2 playerMapPosition;
         Vector3 position;
+        float radius = 0.35f;
         Vector3 lookAt;
         Vector3 upDirection;
         KeyboardState keyboard;
@@ -90,11 +91,14 @@ namespace WitchMaze.PlayerStuff
         float cameraOffset = 0.025f;
         private Vector3 cameraPosition;//should be a little behind the actual position
         private static Matrix projection, camera, world;
-        
+
         //to Draw
         Model model;
         Skybox skybox;
         private Matrix scale = Matrix.CreateScale((float)0.002);
+        double lookatRotation;//radius
+        float movementRotationX;
+        float movementRotationZ;
 
         //other
         List<Item> itemsCollected;
@@ -138,8 +142,7 @@ namespace WitchMaze.PlayerStuff
             playerIcon = new Icon(new Vector2(0, 0), "Textures/playerIcon");
 
             position = spawnPosition;
-            //position = new Vector3(5, 1, 5);
-            lookAt = new Vector3(0, (float)0.2, 1);//sollte neu berechnet werden //immer zur mitte der Map?
+            lookAt = new Vector3(Settings.getMapSizeX() / 2, (float)0.22, Settings.getMapSizeZ() / 2);//sollte neu berechnet werden //immer zur mitte der Map?
             upDirection = new Vector3(0, 1, 0);
 
             //draufsicht
@@ -159,11 +162,13 @@ namespace WitchMaze.PlayerStuff
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
             effect.LightingEnabled = true;
-            
-            //switch()
-            //model = Game1.getContent().Load<Model>("Models/Player/player2");
 
-            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+            movementRotationX = 0;
+            movementRotationZ = 0;
+
+            //lookatRotation = 0;
+
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("Models/skybox"));
         }
 
         /// <summary>
@@ -177,23 +182,27 @@ namespace WitchMaze.PlayerStuff
                 case EPlayerViewportPosition.fullscreen:
                     viewport = defaultViewport;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
+                    lookatRotation = 5* Math.PI/4;//start rotation of the player, needs to be set here for adjustments
                     break;
                 case EPlayerViewportPosition.left:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
+                    lookatRotation = 5 * Math.PI / 4;
                     break;
                 case EPlayerViewportPosition.right:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.X = defaultViewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player2");
+                    lookatRotation = Math.PI / 4;
                     break;
                 case EPlayerViewportPosition.topLeft:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     viewport.Height = viewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
+                    lookatRotation = 5 * Math.PI / 4;
                     break;
                 case EPlayerViewportPosition.botLeft:
                     viewport = defaultViewport;
@@ -201,6 +210,7 @@ namespace WitchMaze.PlayerStuff
                     viewport.Height = viewport.Height / 2;
                     viewport.Y = defaultViewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player2");
+                    lookatRotation = Math.PI / 4;
                     break;
                 case EPlayerViewportPosition.topRight:
                     viewport = defaultViewport;
@@ -208,6 +218,7 @@ namespace WitchMaze.PlayerStuff
                     viewport.Height = viewport.Height / 2;
                     viewport.X = defaultViewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player3");
+                    lookatRotation = 7 * Math.PI / 4;
                     break;
                 case EPlayerViewportPosition.botRight:
                     viewport = defaultViewport;
@@ -216,6 +227,7 @@ namespace WitchMaze.PlayerStuff
                     viewport.X = defaultViewport.Width / 2;
                     viewport.Y = defaultViewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player4");
+                    lookatRotation = 3 * Math.PI / 4;
                     break;
                 default:
                     throw new NotImplementedException();
@@ -226,10 +238,11 @@ namespace WitchMaze.PlayerStuff
         public void update(GameTime gameTime)
         {
             //this.reportStatus();
-
             this.move(gameTime);
 
-            this.itemCollision();
+
+
+            this.itemCollision(position);
         }
 
         private void move(GameTime gameTime)
@@ -272,79 +285,112 @@ namespace WitchMaze.PlayerStuff
         /// <param name="gameTime">GameTime for correct movement dependent on Time not FPS</param>
         private void moveK(GameTime gameTime, Keys moveUp, Keys moveDown, Keys moveLeft, Keys moveRight, Keys lookLeft, Keys lookRight)
         {
+            Vector3 newPosition = position;
             timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
-
-            ///kack steuerung auf mehr hatte ich grad keine lust
-            if (keyboard.IsKeyDown(moveUp) && !keyboard.IsKeyDown(moveDown))
+            bool up = keyboard.IsKeyDown(moveUp) && !keyboard.IsKeyDown(moveDown);
+            bool down = keyboard.IsKeyDown(moveDown) && !keyboard.IsKeyDown(moveUp);
+            bool left = keyboard.IsKeyDown(moveLeft) && !keyboard.IsKeyDown(moveRight);
+            bool right = keyboard.IsKeyDown(moveRight) && !keyboard.IsKeyDown(moveLeft);
+            //compute the "new position" for the player after keyboard inputs
+            if (up)
             {//forward
-                //position.Z = position.Z * (timeSinceLastMove / timescale);
-                newPosition = position + direction * (timeSinceLastMove / timescale);
-                if (!this.mapCollision(newPosition))
-                {
-                    position = newPosition;
-                    lookAt = position + direction;
-                }
+                newPosition = newPosition + direction;// * (timeSinceLastMove / timescale);
             }
-            if (keyboard.IsKeyDown(moveDown) && !keyboard.IsKeyDown(moveUp))
+            if (down)
             {//backward
-                newPosition = position - direction * (timeSinceLastMove / timescale);
-                if (!this.mapCollision(newPosition))
-                {
-                    position = newPosition;
-                    lookAt = position + direction;
-                }
+                newPosition = newPosition - direction;// * (timeSinceLastMove / timescale);
             }
-            if (keyboard.IsKeyDown(moveRight) && !keyboard.IsKeyDown(moveLeft))
+            if (right)
             {//right
-                newPosition = position + ortoDirection * (timeSinceLastMove / timescale);
-                if (!this.mapCollision(newPosition))
-                {
-                    position = newPosition;
-                    lookAt = position + direction;
-                }
+                newPosition = newPosition + ortoDirection;// * (timeSinceLastMove / timescale);
             }
-            if (keyboard.IsKeyDown(moveLeft) && !keyboard.IsKeyDown(moveRight))
+            if (left)
             {//left
-                newPosition = position - ortoDirection * (timeSinceLastMove / timescale);
-                if (!this.mapCollision(newPosition))
-                {
-                    position = newPosition;
-                    lookAt = position + direction;
-                }
+                newPosition = newPosition - ortoDirection;// *(timeSinceLastMove / timescale);
             }
-            if (keyboard.IsKeyDown(lookLeft) && !keyboard.IsKeyDown(lookRight) /*|| keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right)*/)
+
+            //compute the move Vector and ormalize it
+            Vector2 moveVector = new Vector2(newPosition.X - position.X, newPosition.Z - position.Z);//darf nur vector 2 sein, sonst führt die y coordinate beim normalisieren zu problemen
+
+            //normalize the move Vector if needet and add the timeScaling bevore collision
+            if (moveVector.Length() > 1)
+                moveVector.Normalize();
+            moveVector *= (timeSinceLastMove / timescale);
+
+            //Hier nen dicken Player drehen
+            //Roll, Roll, Roll A Witch, Twist It At The End. Light It Up And Take A Puff, And Pass It To Your Friends
+            //The Witch in the Maze goes round and round, round and round, round and round, the Witch in the Maze goes round and round all throung Game
+            if (left)
+                movementRotationX -= moveVector.Length();
+            if (right)
+                movementRotationX += moveVector.Length();
+            if (up)
+                movementRotationZ -= moveVector.Length();
+            if (down)
+                movementRotationZ += moveVector.Length();
+
+
+            //move at the x coordinates and roll the Player
+            if (!this.mapCollision(new Vector3(position.X + moveVector.X, position.Y, position.Z)))
+            {
+                //movementRotationX += moveVector.X;
+                position.X += moveVector.X;
+                lookAt = position + direction;
+            }
+            //move at the z coordinates
+            if (!this.mapCollision(new Vector3(position.X, position.Y, position.Z + moveVector.Y)))
+            {
+                //movementRotationZ += moveVector.Y;
+                position.Z += moveVector.Y;
+                lookAt = position + direction;
+            }
+
+
+            //rotate the player
+            if (keyboard.IsKeyDown(lookLeft) && !keyboard.IsKeyDown(lookRight))
             {//rotate left / look left
-                lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(timeSinceLastMove /  timescale)));
+                Vector3 newLookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(turningScale * timeSinceLastMove / timescale)));
+
+                //inner schön vom player mittelpunkt aus rechnen du pfeife...
+                Vector3 playerToLookAt = lookAt - position;
+                Vector3 playerToNewLookAt = newLookAt - position;
+
+                //lookatRotation += (float)Math.Acos(Math.Abs(Vector3.Dot(playerToNewLookAt, playerToLookAt)) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                lookatRotation += (float)Math.Asin(Math.Abs(Vector3.Cross(playerToNewLookAt, playerToLookAt).Length()) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                lookAt = newLookAt;
             }
-            if (keyboard.IsKeyDown(lookRight) && !keyboard.IsKeyDown(lookLeft) /*|| keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Left)*/)
+            if (keyboard.IsKeyDown(lookRight) && !keyboard.IsKeyDown(lookLeft))
             {//rotate rigth / look right
-                lookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(-timeSinceLastMove /  timescale)));
-            }
+                Vector3 newLookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(turningScale * (-timeSinceLastMove) / timescale)));
 
-            //ToDo:
-            //Springen
-            //Hoch schaun
-            //up direction verschieben...
-            //if (keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
+                //inner schön vom player mittelpunkt aus rechnen du pfeife...
+                Vector3 playerToLookAt = lookAt - position;
+                Vector3 playerToNewLookAt = newLookAt - position;
+
+                //lookatRotation -= (float)Math.Acos(Math.Abs(Vector3.Dot(playerToNewLookAt, playerToLookAt)) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                lookatRotation -= (float)Math.Asin(Math.Abs(Vector3.Cross(playerToNewLookAt, playerToLookAt).Length()) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                lookAt = newLookAt;
+            }
+            //reset if bigger than 2OI or smaller then 0
+            while (lookatRotation > 2 * Math.PI)
+                lookatRotation %= 2 * Math.PI;
+            while (lookatRotation < 0)
+                lookatRotation += 2 * Math.PI;
+
+            ////fliegen
+            //if (!keyboard.IsKeyDown(Keys.LeftControl) && keyboard.IsKeyDown(Keys.LeftShift))
             //{
-            //    upDirection = upDirection + Matrix.CreateRotationX((timeSinceLastMove/timescale));
+            //    position += new Vector3(0,timeSinceLastMove / timescale,0);
+            //    lookAt += new Vector3(0, timeSinceLastMove / timescale, 0);
             //}
-            //Runter schaun
-
-            //fliegen
-            if (!keyboard.IsKeyDown(Keys.LeftControl) && keyboard.IsKeyDown(Keys.LeftShift))
-            {
-                position += new Vector3(0,timeSinceLastMove / timescale,0);
-                lookAt += new Vector3(0, timeSinceLastMove / timescale, 0);
-            }
-            if (keyboard.IsKeyDown(Keys.LeftControl) && !keyboard.IsKeyDown(Keys.LeftShift))
-            {
-                position -= new Vector3(0, timeSinceLastMove / timescale, 0);
-                lookAt -= new Vector3(0, timeSinceLastMove / timescale, 0);
-            }
+            //if (keyboard.IsKeyDown(Keys.LeftControl) && !keyboard.IsKeyDown(Keys.LeftShift))
+            //{
+            //    position -= new Vector3(0, timeSinceLastMove / timescale, 0);
+            //    lookAt -= new Vector3(0, timeSinceLastMove / timescale, 0);
+            //}
 
         }
 
@@ -398,82 +444,90 @@ namespace WitchMaze.PlayerStuff
 
         }
 
-        /// <summary>
-        /// handles the collision for the player by checking if the maptiles near him are walkable
-        /// </summary>
-        /// <param name="p">the position to check</param>
-        /// <returns>Returns if Player will Collide if moved to p</returns>
         public bool mapCollision(Vector3 p)
-        {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
-            playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
-            ////"bonding box" player
-            float radius = 0.5f;
-            
+        {
+            List<MapStuff.Blocks.Block> blocksStandingOn = mapBlocksStandingOn(p);
+            //compute if collision
+            foreach(MapStuff.Blocks.Block block in blocksStandingOn){
+                if (!block.walkable)
+                    return true;
+            }
+            //delete all blocks but black holes
+            List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
+            foreach (MapStuff.Blocks.Block block in blocksStandingOn)
+            {
+                if (block.name == MapStuff.MapCreator.tiles.blackhole)
+                    blackHoles.Add((MapStuff.Blocks.BlackHole)block);
+            }
+            //reset player position for black holes
+            foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
+            {
+                if (blackHole.transportable)
+                    position = new Vector3(blackHole.transportPosition.X, position.Y, blackHole.transportPosition.Z);
+                //return (mapCollision(p));
+            }
+            return false;
+        }
 
+        /// <summary>
+        /// Computes a List of every MapTile the player is standing on
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public List<MapStuff.Blocks.Block> mapBlocksStandingOn(Vector3 p)
+        {//Problem: mittelpunkt in der mitte... daher zurückrechnen...
+            Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));           
+            List<MapStuff.Blocks.Block> collisionList = new List<MapStuff.Blocks.Block>();
             Vector2 toCheck; //the next tile to ckeck
             //Vector2 topLeft; //the top left point of the tie to check
 
             //top left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y + 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                    collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
+
 
             //top middle tile
             toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y + 1);
             if(checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //top right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y + 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //middel left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //middle middle tile //Tile i am standing on
-            if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition))
-                return true;
-            //else
-            //    return true;
-            //toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y);
-            //topLeft = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.X,
-            //                        GameStates.InGameState.getMap().getBlockAt((int)(toCheck.X - Settings.getBlockSizeX() / 2), (int)(toCheck.Y + Settings.getBlockSizeZ() / 2)).position.Z);
-            //if (circleRectangleCollision(toCheck, radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
-            //    return !WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(playerMapPosition);
+            toCheck = playerMapPosition;
+            collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
 
             //middle right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot left tile
             toCheck = new Vector2(playerMapPosition.X - 1, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot middle tile
             toCheck = new Vector2(playerMapPosition.X, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
             //bot right tile
             toCheck = new Vector2(playerMapPosition.X + 1, playerMapPosition.Y - 1);
             if (checkBlockAt(toCheck, p))
-                if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
-                    return true;
+                collisionList.Add(WitchMaze.GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y));
 
-            return false;
+            return collisionList;
         }
 
         /// <summary>
@@ -483,88 +537,34 @@ namespace WitchMaze.PlayerStuff
         /// <returns></returns>
         private bool checkBlockAt(Vector2 toCheck, Vector3 p)
         {
-            float radius = 0.35f;
             Vector2 topLeft = new Vector2(GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y).position.X - Settings.getBlockSizeX() / 2,
                         GameStates.InGameState.getMap().getBlockAt((int)toCheck.X, (int)toCheck.Y).position.Z + Settings.getBlockSizeZ() / 2);
 
-            if (circleRectangleCollision(new Vector2(p.X, p.Z), radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
+            if (ownFunctions.Collision.circleRectangleCollision(new Vector2(p.X, p.Z), radius, topLeft, Settings.getBlockSizeX(), Settings.getBlockSizeZ()))
                 if (!WitchMaze.GameStates.InGameState.getMap().getTileWalkableAt(toCheck))
                     return true;
             return false;
         }
 
-        /// <summary>
-        /// returns if a circle is colliding with a rectangle
-        /// </summary>
-        /// <param name="circleCenter">the center point of the circle</param>
-        /// <param name="r">radius of the circle</param>
-        /// <param name="topLeftRectangle">the top left point of the rectangle</param>
-        /// <param name="w">the width of the rectangle</param>
-        /// <param name="h">the height of the rectangle</param>
-        /// <returns></returns>
-        private bool circleRectangleCollision(Vector2 circleCenter, float r, Vector2 topLeftRectangle, float w, float h)
-        {
-            ////Fall 1: Kreismittelpunkt liegt im rechteck //fall passiert in unserem beispiel quasi immer...
-            //if (circleCenter.X < topLeftRectangle.X //linker rand
-            //    && circleCenter.X > topLeftRectangle.X + w //rechter rand
-            //    && circleCenter.Y > topLeftRectangle.Y //unterer rand
-            //    && circleCenter.Y < topLeftRectangle.Y + h)//oberer rand
-            //    return true;
-
-            //Fall2: ein außenpunkt des rechteckes liegt im kreis
-            Vector2 tl = topLeftRectangle;
-            Vector2 tr = new Vector2(tl.X + w, tl.Y);
-            Vector2 bl = new Vector2(tl.X, tl.Y - h);
-            Vector2 br = new Vector2(tl.X + w, tl.Y - h);
-            float bTL = (float)Math.Sqrt((circleCenter.X - tl.X) * (circleCenter.X - tl.X) + (circleCenter.Y - tl.Y) * (circleCenter.Y - tl.Y));
-            float bTR = (float)Math.Sqrt((circleCenter.X - tr.X) * (circleCenter.X - tr.X) + (circleCenter.Y - tr.Y) * (circleCenter.Y - tr.Y));
-            float bBL = (float)Math.Sqrt((circleCenter.X - bl.X) * (circleCenter.X - bl.X) + (circleCenter.Y - bl.Y) * (circleCenter.Y - bl.Y));
-            float bBR = (float)Math.Sqrt((circleCenter.X - br.X) * (circleCenter.X - br.X) + (circleCenter.Y - br.Y) * (circleCenter.Y - br.Y));
-            if (bTL < r || bTR < r || bBL < r || bBR < r)
-                return true;
-
-            //Fall 3: kreis überschneidet eine kante des rechtecks, ohne einen eckpunkt zu treffen
-            //obere kante
-            //untere kante
-            if (circleCenter.X > topLeftRectangle.X && circleCenter.X < topLeftRectangle.X + w)//prüfen ob es im richtigen x bereich liegt
-            {
-                //oben
-                float dy = Math.Abs(topLeftRectangle.Y - circleCenter.Y);
-                if (dy < r)
-                    return true;
-                //unten
-                dy = Math.Abs(topLeftRectangle.Y - h - circleCenter.Y);
-                if (dy < r)
-                    return true;
-            }
-            //rechte kante
-            //linke kante
-            if (circleCenter.Y < topLeftRectangle.Y && circleCenter.Y > topLeftRectangle.Y - h)//prüfen ob es im richtigen x bereich liegt
-            {
-                //links
-                float dx = Math.Abs(topLeftRectangle.X - circleCenter.X);
-                if (dx < r)
-                    return true;
-                //rechts
-                dx = Math.Abs(topLeftRectangle.X + w - circleCenter.X);//- oder +, das st hier die frage
-                if (dx < r)
-                    return true;
-            }
-
-            return false;
-        }
+        
 
 
         /// <summary>
         /// handles player item collision
         /// </summary>
-        private void itemCollision()
-        {//umrechnen da mittelpunkt in der mitte, führt bein castern zu int zu fehlern
-            if (!GameStates.InGameState.getItemMap().isEmpty((int)(position.X - Settings.getBlockSizeX() / 2), (int)(position.Z - Settings.getBlockSizeZ() / 2)))
+        private void itemCollision(Vector3 p)
+        {
+            List<MapStuff.Blocks.Block> blocksStandingOn = mapBlocksStandingOn(p);
+            foreach (MapStuff.Blocks.Block block in blocksStandingOn)
             {
-                itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)position.X, (int)position.Z));
-                GameStates.InGameState.getItemMap().deleteItem((int)position.X, (int)position.Z);
+                Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
+                if (!GameStates.InGameState.getItemMap().isEmpty((int)playerMapPosition.X, (int)playerMapPosition.Y))
+                {
+                    itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)playerMapPosition.X, (int)playerMapPosition.Y));
+                    GameStates.InGameState.getItemMap().deleteItem((int)playerMapPosition.X, (int)playerMapPosition.Y);
+                }
             }
+
         }
 
 
@@ -576,6 +576,7 @@ namespace WitchMaze.PlayerStuff
             //update camera matrix
             camera = Matrix.CreateLookAt(cameraPosition, lookAt, upDirection);
         }
+
 
         /// <summary>
         /// draws the player
@@ -596,9 +597,13 @@ namespace WitchMaze.PlayerStuff
 
                     _effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); 
                     _effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  
-                    _effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0); 
+                    _effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
 
-                    _effect.World = mesh.ParentBone.Transform * scale * Matrix.CreateTranslation(position);
+                    //Matrix.CreateFromAxisAngle(ortoDirection, blabla); //for player roll try this
+                    //Matrix.CreateRotationZ(movementRotationX) *
+
+                    Matrix rotation = /*Matrix.CreateFromAxisAngle(ortoDirection, movementRotationX)*/Matrix.CreateRotationX(movementRotationX) * Matrix.CreateRotationZ(movementRotationZ) * Matrix.CreateRotationY((float)lookatRotation);
+                    _effect.World = mesh.ParentBone.Transform * rotation *  scale * Matrix.CreateTranslation(position);
                     _effect.View = camera;
                     _effect.Projection = projection;
                 }
