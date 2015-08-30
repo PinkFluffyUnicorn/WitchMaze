@@ -157,7 +157,6 @@
     <Compile Include="MapStuff\Map.cs" />
     <Compile Include="MapStuff\MapCreator.cs" />
     <Compile Include="ownFunctions\Collision.cs" />
-    <Compile Include="ownFunctions\ownRandom.cs" />
     <Compile Include="PlayerStuff\Move.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
     <Compile Include="PlayerStuff\PlayerInterface.cs" />
