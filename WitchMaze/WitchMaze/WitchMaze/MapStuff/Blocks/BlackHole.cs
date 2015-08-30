@@ -19,7 +19,7 @@ namespace WitchMaze.MapStuff.Blocks
         /// <summary>
         /// Position which the blackholetransports to 
         /// </summary>
-        private Vector3 transportPosition;
+        public Vector3 transportPosition{get; private set;}
         
 
         /// <summary>
