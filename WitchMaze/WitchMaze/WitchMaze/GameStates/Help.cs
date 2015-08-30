@@ -15,10 +15,10 @@ namespace WitchMaze.GameStates
 {
     class Help : GameState 
     {
-        public Help() { }
-
+        
         KeyboardState keyboard = Keyboard.GetState();
-        Icon creditsTitel; //nur Titel
+        Icon xboxControl;
+
         public override void initialize()
         {
 
@@ -26,7 +26,7 @@ namespace WitchMaze.GameStates
 
         public override void loadContent()
         {
-            creditsTitel = new Icon(new Vector2(20 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/credits/creditsTitel");// nur Test
+           xboxControl = new Icon(new Vector2(20 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
         }
 
         public override void unloadContent() 
@@ -41,7 +41,6 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
             else
                 return EGameState.Help; 
-
         }
 
         public override void Draw(GameTime gameTime)
@@ -50,7 +49,7 @@ namespace WitchMaze.GameStates
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game1.getGraphics().GraphicsDevice.Clear(Color.DarkGreen);
 
-            creditsTitel.draw(); //nur Test
+            xboxControl.draw(); 
         }
     }
 }
