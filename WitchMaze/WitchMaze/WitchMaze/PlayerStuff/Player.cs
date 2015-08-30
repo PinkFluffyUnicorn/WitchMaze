@@ -181,6 +181,8 @@ namespace WitchMaze.PlayerStuff
             skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("Models/skybox"));
         }
 
+        public void setPosition(Vector3 p) {position = p;}
+
         /// <summary>
         /// this method sets the viewport of the player screen dependent on the ViewportPosition, aswell as the model for the player
         /// </summary>
@@ -316,15 +318,33 @@ namespace WitchMaze.PlayerStuff
             {
                 newPosition += bounceDirection * (timeSinceLastMove / timescale) * bouncingTimeLeft;
 
-                if (mapCollision(newPosition) || bouncingTimeLeft < 0){
+                if (/*mapCollision(newPosition) ||*/ bouncingTimeLeft < 0){
                     isBouncing = false;
                     bouncingTimeLeft = bouncingTime;
                 }    
                 else
                 {
-                    position = newPosition;
+                    movementRotationX -= (position - newPosition).X;
+                    movementRotationZ += (position - newPosition).Z;
+
+                    if (!this.mapCollision(new Vector3(newPosition.X, position.Y, position.Z)))
+                    {
+                        position.X = newPosition.X;
+                    }
+
+                    if (!this.mapCollision(new Vector3(position.X, position.Y, newPosition.Z)))
+                    {
+                        position.Z = newPosition.Z;
+                    }
                     bouncingTimeLeft -= (timeSinceLastMove / timescale);
-                    Console.WriteLine(bouncingTimeLeft);
+
+                    //movementRotationX -= (position - newPosition).X;
+
+                    //movementRotationZ += (position - newPosition).Z;
+                    //position = newPosition;
+                    //bouncingTimeLeft -= (timeSinceLastMove / timescale);
+                    //Console.WriteLine(bouncingTimeLeft);
+
                 }   
             }
             else
@@ -488,20 +508,20 @@ namespace WitchMaze.PlayerStuff
                 if (!block.walkable)
                     return true;
             }
-            //delete all blocks but black holes
-            List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
-            foreach (MapStuff.Blocks.Block block in blocksStandingOn)
-            {
-                if (block.name == MapStuff.MapCreator.tiles.blackhole)
-                    blackHoles.Add((MapStuff.Blocks.BlackHole)block);
-            }
-            //reset player position for black holes
-            foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
-            {
-                if (blackHole.transportable)
-                    position = new Vector3(blackHole.transportPosition.X, position.Y, blackHole.transportPosition.Z);
-                //return (mapCollision(p));
-            }
+            ////delete all blocks but black holes
+            //List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
+            //foreach (MapStuff.Blocks.Block block in blocksStandingOn)
+            //{
+            //    if (block.name == MapStuff.MapCreator.tiles.blackhole)
+            //        blackHoles.Add((MapStuff.Blocks.BlackHole)block);
+            //}
+            ////reset player position for black holes
+            //foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
+            //{
+            //    if (blackHole.transportable)
+            //        position = new Vector3(blackHole.transportPosition.X, position.Y, blackHole.transportPosition.Z);
+            //    //return (mapCollision(p));
+            //}
             return false;
         }
 

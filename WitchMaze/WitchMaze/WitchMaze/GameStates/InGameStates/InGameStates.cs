@@ -79,9 +79,57 @@ namespace WitchMaze.GameStates
                 {
                     if(p != player){
                         if (ownFunctions.Collision.circleCirlceCollision(new Vector2(p.getPosition().X, p.getPosition().Z), p.getRadius(), new Vector2(player.getPosition().X, player.getPosition().Z), player.getRadius()))
+                        {
                             player.bounce(player.getPosition() - p.getPosition());
+                        }     
                     }
                 }
+
+                //delete all blocks but black holes
+                List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
+                List<MapStuff.Blocks.Block> blocksStandingOn = player.mapBlocksStandingOn(player.getPosition());
+                foreach (MapStuff.Blocks.Block block in blocksStandingOn)
+                {
+                    if (block.name == MapStuff.MapCreator.tiles.blackhole)
+                        blackHoles.Add((MapStuff.Blocks.BlackHole)block);
+                }
+                //reset player position for black holes
+                foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
+                {
+                    if (blackHole.transportable)
+                    {
+                        Vector3 transportPosition = blackHole.transportPosition;
+                        player.setPosition(new Vector3(transportPosition.X, player.getPosition().Y, transportPosition.Z));
+                        //check if no other player is on the position, or shift port position
+                        foreach (Player p in playerList)
+                        {  
+                            if (p != player)
+                            {
+                                float i = player.getPosition().X;
+                                float j = player.getPosition().Z;
+                                Vector2 playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
+                                Vector2 playerMapPosition2 = new Vector2((int)Math.Round(p.getPosition().X), (int)Math.Round(p.getPosition().Z));
+                                while (playerMapPosition1 == playerMapPosition2)
+                                {
+                                    if (i > Settings.getMapSizeX())
+                                    {
+                                         i = 1;//1 da 0 eh immer belegt...
+                                        j++;
+                                    }
+                                    if (j > Settings.getMapSizeZ())
+                                        j = 1;
+                                    if(!player.mapCollision(new Vector3(i, player.getPosition().Y, j)))
+                                        player.setPosition(new Vector3(i, player.getPosition().Y, j));
+                                    i++;
+                                    playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
+                                    }
+                            }
+                        }
+                        
+                    }
+                        
+                }
+
             }
             itemSpawner.update(itemMap, gameTime, playerList);
             minimap.update(itemMap, playerList);
