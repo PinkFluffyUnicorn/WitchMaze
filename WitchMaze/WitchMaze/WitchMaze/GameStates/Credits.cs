@@ -17,7 +17,6 @@ namespace WitchMaze.GameStates
     {
         public Credits() { }
 
-        Icon creditsTitel;
         Icon credits;
         KeyboardState keyboard = Keyboard.GetState();
 

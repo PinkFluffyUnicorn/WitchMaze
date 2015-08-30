@@ -18,15 +18,14 @@ namespace WitchMaze.GameStates
 
         Player player1, player2, player3, player4;
         PlayerStuff.Player.EPlayerControlls player1Controlls, player2Controlls, player3Controlls, player4Controlls;
-        
-    
+
         KeyboardState keyboard = Keyboard.GetState();
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
         float offset = 10;//offset zwischen Icons und Switches
         
         Vector2 gameModeIconPosition = new Vector2(20, 10);
 
-        Icon gameModeIcon, spaceNote;
+        Icon gameModeIcon, spaceNote, keyboard1, keyboard2, gamepad, rushHour, needForIngredients;
 
         Icon player1Icon, player2Icon, player3Icon, player4Icon;
 
@@ -46,14 +45,18 @@ namespace WitchMaze.GameStates
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
-                spaceNote = new Icon(new Vector2(600, 400 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
+                rushHour = new Icon(new Vector2(630, 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/RushHourExplanation");
+                needForIngredients = new Icon(new Vector2(630, 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/NeedForIngredientsExplanation");
+                spaceNote = new Icon(new Vector2(645, 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
+                keyboard1 = new Icon(new Vector2(640, 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
+                keyboard2 = new Icon(new Vector2(605, 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
+                gamepad = new Icon(new Vector2(640, 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
                 player1Icon = new Icon(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
                 player2Icon = new Icon(new Vector2(20, (player1Icon.getPosition().Y + player1Icon.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
                 player3Icon = new Icon(new Vector2(20, (player2Icon.getPosition().Y + player2Icon.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
                 player4Icon = new Icon(new Vector2(20, (player3Icon.getPosition().Y + player3Icon.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected");
-
-                
-                String[] gameModes = {"Textures/CharacterSelection/SinglePlayerTestNotSelected", "Textures/CharacterSelection/MultyPlayerTestNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
+                                
+                String[] gameModes = {"Textures/CharacterSelection/NeedForIngredientsNotSelected", "Textures/CharacterSelection/RushHourNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
                 //0 = test;
                 //1 = rushHour;
                 GameModeSelected = new LeftRightSwitch(new Vector2(gameModeIconPosition.X + gameModeIcon.getWidth() + offset, gameModeIconPosition.Y), gameModes);
@@ -304,6 +307,16 @@ namespace WitchMaze.GameStates
             player3ControllsLRS.draw();
             player4ControllsLRS.draw();
             spaceNote.draw();
+            keyboard1.draw();
+            keyboard2.draw();
+            gamepad.draw();
+            
+            if(GameModeSelected.getDisplayedIndex() == 1)
+                rushHour.draw();
+
+            if (GameModeSelected.getDisplayedIndex() == 0)
+                needForIngredients.draw();
+
         }
 
     }

@@ -113,6 +113,7 @@
     <Compile Include="GameStates\GameState.cs" />
     <Compile Include="GameStates\CharacterSelection.cs" />
     <Compile Include="GameStates\Credits.cs" />
+    <Compile Include="GameStates\Help.cs" />
     <Compile Include="GameStates\InGame.cs" />
     <Compile Include="GameStates\InGameStates\GameWon.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
