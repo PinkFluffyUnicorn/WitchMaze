@@ -60,7 +60,7 @@ namespace WitchMaze.MapStuff
         {
             createMaze();
             insertBlackHoles(8);
-            insertRandomFloorTiles(15);
+            insertRandomFloorTiles(10);
             insertWall();
             emptyStartPositions();
         }
@@ -574,7 +574,7 @@ namespace WitchMaze.MapStuff
                 int x = 1;
                 int y = 1;
                 bool swap = true;
-                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) )
+                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) || EndOfWall(x,y)== false)
                 {
                     if (swap)
                     {
@@ -616,6 +616,31 @@ namespace WitchMaze.MapStuff
                 }
             }
             return result;
+        }
+
+        private bool EndOfWall(int x, int y)
+        {
+            int walls = 0;
+
+            if (x - 1 > 0)
+            {
+                if (mapType[x - 1, y] == (int)tiles.wall) walls++;
+            }
+            if (x + 1 < Settings.getMapSizeX())
+            {
+                if (mapType[x + 1, y] == (int)tiles.wall) walls++; ;
+            }
+            if (y - 1 > 0)
+            {
+                if (mapType[x, y - 1] == (int)tiles.wall) walls++;
+            }
+            if (y + 1 < Settings.getMapSizeZ())
+            {
+                if (mapType[x, y + 1] == (int)tiles.wall) walls++;
+            }
+            if (walls > 1) return false;
+            return true;
+
         }
 
 
