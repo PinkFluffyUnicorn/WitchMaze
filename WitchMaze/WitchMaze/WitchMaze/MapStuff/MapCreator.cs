@@ -58,8 +58,18 @@ namespace WitchMaze.MapStuff
         /// </summary>
         public void initialize()
         {
-
             createMaze();
+            insertBlackHoles(8);
+            insertRandomFloorTiles(15);
+            insertWall();
+            emptyStartPositions();
+        }
+
+        /// <summary>
+        /// function which inserts the wall of the maze
+        /// </summary>
+        private void insertWall()
+        {
             for (int i = 0; i < Settings.getMapSizeX(); i++)
             {
                 for (int j = 0; j < Settings.getMapSizeZ(); j++)
@@ -71,8 +81,6 @@ namespace WitchMaze.MapStuff
                     }
                 }
             }
-            insertBlackHoles();
-            emptyStartPositions();
         }
 
         /// <summary>
@@ -272,19 +280,29 @@ namespace WitchMaze.MapStuff
                     
                 }
             }
+            
+
+
+        }
+
+        /// <summary>
+        /// function to insert more floortiles, to make level less schlauchig
+        /// </summary>
+        /// <param name="AnzExtraFloor">how many extra floortiles to insert</param>
+        private void insertRandomFloorTiles(int AnzExtraFloor)
+        {
             // insert random floor tiles, to make it more interesting
-            int AnzExtraFloor = 20;
             int[] arrayX = new int[AnzExtraFloor];
             int[] arrayY = new int[AnzExtraFloor];
             for (int i = 0; i < AnzExtraFloor; i++)
             {
-                    
+
                 int x = rnd.Next(Settings.getMapSizeX() - 1);
                 int y = rnd.Next(Settings.getMapSizeZ() - 1);
                 bool swap = true;
-                while(mapType[x, y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole || distance(arrayX, x,arrayY, y, i) == true || neighboorhoud(x,y) == false)
+                while (mapType[x, y] == (int)tiles.floor || mapType[x, y] == (int)tiles.blackhole || distance(arrayX, x, arrayY, y, i) == true || neighboorhoud(x, y) == false)
                 {
-                    if(swap)
+                    if (swap)
                     {
                         x = rnd.Next(Settings.getMapSizeX() - 1);
                         swap = false;
@@ -298,10 +316,8 @@ namespace WitchMaze.MapStuff
                 mapType[x, y] = (int)tiles.floor;
                 arrayX[i] = x;
                 arrayY[i] = y;
-                
+
             }
-
-
         }
 
         /// <summary>
@@ -315,20 +331,21 @@ namespace WitchMaze.MapStuff
             bool result = false;
             if(x - 1 > 0)
             {
-                if (mapType[x - 1, y] != (int)tiles.wall) result = true;
+                if (mapType[x - 1, y] == (int)tiles.floor ||mapType[x-1, y] == (int)tiles.blackhole) result = true;
             }
             if (x + 1 < Settings.getMapSizeX())
             {
-                if (mapType[x + 1, y] != (int)tiles.wall) result = true;
+                if (mapType[x + 1, y] == (int)tiles.floor || mapType[x + 1, y] == (int)tiles.blackhole) result = true;
             }
             if (y - 1 > 0)
             {
-                if (mapType[x , y - 1] != (int)tiles.wall) result = true;
+                if (mapType[x, y - 1] == (int)tiles.floor || mapType[x, y - 1] == (int)tiles.blackhole) result = true;
             }
             if (y + 1 < Settings.getMapSizeZ())
             {
-                if (mapType[x, y + 1] != (int)tiles.wall) result = true;
+                if (mapType[x, y + 1] == (int)tiles.floor || mapType[x, y + 1] == (int)tiles.blackhole) result = true;
             }
+            
             return result;
         }
 
@@ -550,24 +567,23 @@ namespace WitchMaze.MapStuff
         /// <summary>
         /// function to insert blackholes into the map
         /// </summary>
-        private void insertBlackHoles()
+        private void insertBlackHoles(int anzahl)
         {
-            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 100;
             for ( int i = 0; i < anzahl; i++)
             {
-                int x = 0;
-                int y = 0;
+                int x = 1;
+                int y = 1;
                 bool swap = true;
-                while( mapType[x,y] == (int)tiles.wall || mapType[x,y] == (int)tiles.blackhole || x >= Settings.getMapSizeX() || y >= Settings.getMapSizeZ() || distanceToBlackHole(x,y) ||cutOff(x,y) == true)
+                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) )
                 {
                     if (swap)
                     {
-                        x = rnd.Next(Settings.getMapSizeX());
+                        x = rnd.Next(Settings.getMapSizeX() - 2)+1;
                         swap = false;
                     }
                     else
                     {
-                        y = rnd.Next(Settings.getMapSizeZ());
+                        y = rnd.Next(Settings.getMapSizeZ() - 2) +1;
                         swap = true;
                     }
                 }
@@ -602,18 +618,6 @@ namespace WitchMaze.MapStuff
             return result;
         }
 
-        private bool cutOff(int x, int y)
-        {
-            int floorx = 0;
-            int floory = 0;
-            for (int i = 0; i < Settings.getMapSizeX(); i++ )
-            {
-                if (mapType[i, y] == (int)tiles.floor) floorx++;
-                if (mapType[x, i] == (int)tiles.floor) floory++;
-            }
-            if (floorx > 1 && floory > 1) return false;
-            else return true;
-        }
 
         /// <summary>
         /// function to find the transportpoints for the blackholes
