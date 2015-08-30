@@ -16,11 +16,11 @@ using WitchMaze.ItemStuff;
 
 namespace WitchMaze.GameStates.InGameStates
 {
-    class SingleTime : InGameState
+    class NeedForIngrediance : InGameState
     {
          //Spielmodus in dem man durch ein Labyrinth rennen muss und Items einsammeln kann, siegbedinungen können später so hinzugefügt werden(mach ne eigenne klasse dafür)
 
-        public SingleTime(List<Player> _playerList)
+        public NeedForIngrediance(List<Player> _playerList)
         {
             playerList = _playerList;
         }

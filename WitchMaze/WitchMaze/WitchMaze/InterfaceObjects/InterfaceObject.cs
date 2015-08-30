@@ -13,7 +13,7 @@ namespace WitchMaze.InterfaceObjects
         protected float globalScale = Settings.getInterfaceScale();
         protected float individualScale = 1;
 
-        public void setIndividualScale(float _individualScale) { individualScale = _individualScale; }
+        public virtual void setIndividualScale(float _individualScale) { individualScale = _individualScale; }
 
         public Vector2 getPosition() { return position; }
         public virtual void setPosition(Vector2 p) { position = p; }

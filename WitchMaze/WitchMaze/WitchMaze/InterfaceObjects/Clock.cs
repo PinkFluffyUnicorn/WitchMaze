@@ -25,6 +25,8 @@ namespace WitchMaze.InterfaceObjects
             elapsedTime = 0f;
         }
 
+        public float getTotalMilliseconds() { return elapsedTime; }
+
         public void start()
         {
             running = true;
@@ -45,9 +47,6 @@ namespace WitchMaze.InterfaceObjects
                 elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
                 int hseconds = (int)(elapsedTime / 1000) % 60;
                 int hminutes = ((int)(elapsedTime / 1000) - hseconds) / 60;
-                Console.WriteLine("s:" + hseconds);
-                Console.WriteLine("m:" + hminutes);
-                Console.WriteLine("e" + elapsedTime);
 
                 if (hseconds < 10)
                     seconds.updateText("0" + hseconds.ToString());
@@ -62,22 +61,32 @@ namespace WitchMaze.InterfaceObjects
         }
         public override float getHeight()
         {
-            return minutes.getHeight() + doppelpunkt.getHeight() + seconds.getHeight();
+            return (minutes.getHeight() + doppelpunkt.getHeight() + seconds.getHeight()) / 3;
         }
         public override float getWidth()
         {
-            float max = 0;
-            if(minutes.getWidth() > max)
-                max = minutes.getWidth();
-            if (doppelpunkt.getWidth() > max)
-                max = doppelpunkt.getWidth();
-            if (seconds.getWidth() > max)
-                max = seconds.getWidth();
-            return max;
+            return minutes.getHeight() + doppelpunkt.getHeight() + seconds.getHeight();
+        }
+
+        public override void setPosition(Vector2 p)
+        {
+            minutes.setPosition(p);
+            doppelpunkt.setPosition(new Vector2(p.X + minutes.getWidth(), p.Y));
+            seconds.setPosition(new Vector2(p.X + minutes.getWidth() + doppelpunkt.getWidth(), p.Y));
+            position = p;
+        }
+
+        public override void setIndividualScale(float _individualScale)
+        {
+            individualScale = _individualScale;
+            minutes.setIndividualScale(_individualScale);
+            seconds.setIndividualScale(_individualScale);
+            doppelpunkt.setIndividualScale(_individualScale);
         }
 
         public override void draw()
         {
+
             minutes.draw();
             doppelpunkt.draw();
             seconds.draw();

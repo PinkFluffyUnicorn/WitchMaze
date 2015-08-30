@@ -80,10 +80,10 @@ namespace WitchMaze.GameStates
             switch (currentInGameState)
             {
                 case EInGameState.SingleTime:
-                    inGameState = new InGameStates.SingleTime(newPlayerList);
+                    inGameState = new InGameStates.NeedForIngrediance(newPlayerList);
                     break;
                 case EInGameState.MazeRun:
-                    inGameState = new InGameStates.MazeRun(newPlayerList);
+                    inGameState = new InGameStates.RushHour(newPlayerList);
                     break;
                 case EInGameState.Rumble:
                     throw new NotImplementedException();

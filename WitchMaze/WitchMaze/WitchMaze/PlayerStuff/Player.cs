@@ -122,6 +122,7 @@ namespace WitchMaze.PlayerStuff
         public Vector3 getPosition() { return this.position; }
         //public Vector2[,] getBoundingBox { return null;}
         public Model getModel() { return this.model; }
+        public List<Item> getItemsCollected() { return itemsCollected; }
 
 
         //set

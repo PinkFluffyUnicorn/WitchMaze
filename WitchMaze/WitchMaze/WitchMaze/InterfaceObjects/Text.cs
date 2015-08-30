@@ -24,7 +24,7 @@ namespace WitchMaze.InterfaceObjects
             position = _position;
 
             spriteBatch = new SpriteBatch(Game1.getGraphics().GraphicsDevice);
-            Font1 = Game1.getContent().Load<SpriteFont>("Font/Whimsy TT");
+            Font1 = Game1.getContent().Load<SpriteFont>("Font/Courier New");//"Font/Whimsy TT"
 
             // TODO: Load your game content here            
             //fontPos = new Vector2(Game1.getGraphics().GraphicsDevice.Viewport.Width / 2,
@@ -42,12 +42,12 @@ namespace WitchMaze.InterfaceObjects
 
         public override float getHeight() // could be unscaled
         {
-            return Font1.MeasureString(text).Y;
+            return Font1.MeasureString(text).Y * globalScale * individualScale;
         }
 
         public override float getWidth()
         {
-            return Font1.MeasureString(text).X;
+            return Font1.MeasureString(text).X * globalScale * individualScale;
         }
 
         /// <summary>
@@ -58,9 +58,8 @@ namespace WitchMaze.InterfaceObjects
             spriteBatch.Begin();
 
             //Vector2 FontOrigin = Font1.MeasureString(text) / 2; //punkt in der mitte
-
             spriteBatch.DrawString(Font1, text, position, Settings.acaOrange,
-                0, position, globalScale * individualScale, SpriteEffects.None, 0.5f);
+                0, new Vector2(0,0), globalScale * individualScale, SpriteEffects.None, 0.5f);
 
             spriteBatch.End();
         }
