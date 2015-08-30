@@ -14,12 +14,12 @@ namespace WitchMaze.ItemStuff.Items
         
         public Crystal(Vector3 _position)
         {
-            ambient = new Vector3(1f, 1f, 1f);
+            ambient = new Vector3(0.7f, 0.7f, 0.7f);
             emissive = new Vector3(0f, 0f, 0f);
-            specularColor = new Vector3(1f, 1f, 1f);
-            directionalDiffuse = new Vector3(1f, 1f, 1f);
-            directionalDirection = new Vector3(1f, 1f, 1f);
-            directionalSpecular = new Vector3(1f, 1f, 1f);
+            specularColor = new Vector3(0.4f, 0.6f, 0.6f);
+            directional1Diffuse = new Vector3(1f, 1f, 1f);
+            directional1Direction = new Vector3(0f, 1f, 0f);
+            directional1Specular = new Vector3(1f, 1f, 1f);
             specularPower = 0f;
 
 

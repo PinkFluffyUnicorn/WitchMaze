@@ -552,7 +552,7 @@ namespace WitchMaze.MapStuff
         /// </summary>
         private void insertBlackHoles()
         {
-            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 40;
+            int anzahl = Settings.getMapSizeX() * Settings.getMapSizeZ() / 100;
             for ( int i = 0; i < anzahl; i++)
             {
                 int x = 0;

@@ -168,7 +168,7 @@ namespace WitchMaze.PlayerStuff
 
             //lookatRotation = 0;
 
-            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("cube"));
+            skybox = new Skybox(Game1.getContent().Load<Texture2D>("Models/SkyboxTexture"), Game1.getContent().Load<Model>("Models/skybox"));
         }
 
         /// <summary>

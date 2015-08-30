@@ -13,12 +13,12 @@ namespace WitchMaze.ItemStuff.Items
         {
 
             ambient = new Vector3(1f, 1f, 1f);
-            emissive = new Vector3(1f, 1f, 1f);
+            emissive = new Vector3(0f, 0f, 0f);
             specularColor = new Vector3(1f, 1f, 1f);
-            directionalDiffuse = new Vector3(1f, 1f, 1f);
-            directionalDirection = new Vector3(1f, 1f, 1f);
-            directionalSpecular = new Vector3(1f, 1f, 1f);
-            specularPower = 0f;
+            directionalDiffuse = new Vector3(0.911f, 0.23f, 0.23f);
+            directionalDirection = new Vector3(0f, 1f, 0f);
+            directionalSpecular = new Vector3(0.8f, 0.8f, 0.8f);
+            specularPower = 2f;
 
             itemIndex = EItemIndex.Caterpillar;
             position = _position;
