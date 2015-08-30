@@ -32,5 +32,36 @@ namespace WitchMaze.MapStuff.Blocks
             minimapIcon = new InterfaceObjects.Icon(new Vector2(0, 0), "Textures/MiniMapTextures/minimapWall");
             textur = _texture;
         }
+
+        override public void draw(Matrix projection, Matrix camera)
+        {
+            Matrix[] transforms = new Matrix[model.Bones.Count];
+            model.CopyAbsoluteBoneTransformsTo(transforms);
+
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+
+                    effect.EnableDefaultLighting();
+                    effect.LightingEnabled = true;
+
+                    effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
+                    effect.EmissiveColor = new Vector3(1, 1, 1);
+                    effect.DirectionalLight0.Enabled = true;
+                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
+                    effect.DirectionalLight0.DiffuseColor = new Vector3(1, 0, 0);
+                    //effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
+                    //effect.DirectionalLight1.DiffuseColor = new Vector3(0, 1, 0);
+                    effect.TextureEnabled = true;
+                    effect.Texture = textur;
+                    effect.View = camera;
+                    effect.Projection = projection;
+                    effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);
+                }
+                mesh.Draw();
+            }
+
+        }
     }
 }
