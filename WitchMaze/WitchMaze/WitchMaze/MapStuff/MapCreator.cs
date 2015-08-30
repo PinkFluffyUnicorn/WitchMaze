@@ -331,19 +331,19 @@ namespace WitchMaze.MapStuff
             bool result = false;
             if(x - 1 > 0)
             {
-                if (mapType[x - 1, y] == (int)tiles.floor) result = true;
+                if (mapType[x - 1, y] == (int)tiles.floor ||mapType[x-1, y] == (int)tiles.blackhole) result = true;
             }
             if (x + 1 < Settings.getMapSizeX())
             {
-                if (mapType[x + 1, y] == (int)tiles.floor) result = true;
+                if (mapType[x + 1, y] == (int)tiles.floor || mapType[x + 1, y] == (int)tiles.blackhole) result = true;
             }
             if (y - 1 > 0)
             {
-                if (mapType[x , y - 1] == (int)tiles.floor) result = true;
+                if (mapType[x, y - 1] == (int)tiles.floor || mapType[x, y - 1] == (int)tiles.blackhole) result = true;
             }
             if (y + 1 < Settings.getMapSizeZ())
             {
-                if (mapType[x, y + 1] == (int)tiles.floor) result = true;
+                if (mapType[x, y + 1] == (int)tiles.floor || mapType[x, y + 1] == (int)tiles.blackhole) result = true;
             }
             
             return result;
