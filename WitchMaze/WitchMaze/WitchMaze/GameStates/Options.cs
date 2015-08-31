@@ -40,8 +40,8 @@ namespace WitchMaze.GameStates
                 distY *= Settings.getInterfaceScale();
                 offset *= Settings.getInterfaceScale();
                 optionsTitel = new Icon(optionsTitelPosition * Settings.getInterfaceScale(), "Textures/option/optionsTitel");
-                resolutionButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY), "Textures/option/Resolution", "Textures/option/ResolutionSelected");
-                fullscreenButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (resolutionButton.getPosition().Y + resolutionButton.getHeight()) + distY), "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
+                fullscreenButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY),  "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
+                resolutionButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (fullscreenButton.getPosition().Y + fullscreenButton.getHeight()) + distY),"Textures/option/Resolution", "Textures/option/ResolutionSelected");
 
                 String[] resolutions = { "Textures/option/1080p", "Textures/option/1366p", "Textures/option/720p", "Textures/option/1024p" };
                 String[] fullscreenmode = { "Textures/option/offButton", "Textures/option/onButton" };
@@ -80,16 +80,16 @@ namespace WitchMaze.GameStates
             //update Buttons
             if (count == 0)
             {
-                resolutionButton.setSelected();
-                resolutionLR.setSelected();
-                fullscreenButton.setNotSelected();
+                resolutionButton.setNotSelected();
+                fullscreenButton.setSelected();
+                fullscreenLR.setSelected();
             }
 
             if (count == 1)
             {
-                resolutionButton.setNotSelected();
-                fullscreenButton.setSelected();
-                fullscreenLR.setSelected();
+                resolutionButton.setSelected();
+                resolutionLR.setSelected();
+                fullscreenButton.setNotSelected();
             }
 
 
