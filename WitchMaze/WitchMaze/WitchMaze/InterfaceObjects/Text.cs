@@ -24,7 +24,7 @@ namespace WitchMaze.InterfaceObjects
             position = _position;
 
             spriteBatch = new SpriteBatch(Game1.getGraphics().GraphicsDevice);
-            Font1 = Game1.getContent().Load<SpriteFont>("Font/Courier New");//"Font/Whimsy TT" "Font/Courier New" "Font/SpriteFont1"
+            Font1 = Game1.getContent().Load<SpriteFont>("Font/Whimsy TT");//"Font/Courier New"
 
             // TODO: Load your game content here            
             //fontPos = new Vector2(Game1.getGraphics().GraphicsDevice.Viewport.Width / 2,

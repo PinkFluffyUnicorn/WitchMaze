@@ -107,6 +107,9 @@ namespace WitchMaze.PlayerStuff
         float bouncingTimeLeft;
         float bouncingTime;
 
+        protected Vector3 ambient, emissive, specularColor, directionalDiffuse, directionalDirection, directionalSpecular;
+        protected float specularPower;
+
         //other
         List<Item> itemsCollected;
         public Icon playerIcon { get; protected set; }
@@ -196,12 +199,26 @@ namespace WitchMaze.PlayerStuff
                     viewport = defaultViewport;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
                     lookatRotation = 5* Math.PI/4;//start rotation of the player, needs to be set here for adjustments
+                    emissive = new Vector3(0.2f, 0f, 0f);
+                    ambient = new Vector3(0.7f, 0.7f, 0.7f);
+                    specularColor = new Vector3(0.8f, 0.7f, 0.7f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
                     break;
                 case EPlayerViewportPosition.left:
                     viewport = defaultViewport;
                     viewport.Width = viewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
                     lookatRotation = 5 * Math.PI / 4;
+                    emissive = new Vector3(0.2f, 0f, 0f);
+                    ambient = new Vector3(0.7f, 0.7f, 0.7f);
+                    specularColor = new Vector3(0.8f, 0.7f, 0.7f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
                     break;
                 case EPlayerViewportPosition.right:
                     viewport = defaultViewport;
@@ -209,6 +226,13 @@ namespace WitchMaze.PlayerStuff
                     viewport.X = defaultViewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player2");
                     lookatRotation = Math.PI / 4;
+                    emissive = new Vector3(0.1f, 0f, 0f);
+                    ambient = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularColor = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
                     break;
                 case EPlayerViewportPosition.topLeft:
                     viewport = defaultViewport;
@@ -216,6 +240,13 @@ namespace WitchMaze.PlayerStuff
                     viewport.Height = viewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player1");
                     lookatRotation = 5 * Math.PI / 4;
+                    emissive = new Vector3(0.2f, 0f, 0f);
+                    ambient = new Vector3(0.7f, 0.7f, 0.7f);
+                    specularColor = new Vector3(0.8f, 0.7f, 0.7f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
                     break;
                 case EPlayerViewportPosition.botLeft:
                     viewport = defaultViewport;
@@ -224,6 +255,13 @@ namespace WitchMaze.PlayerStuff
                     viewport.Y = defaultViewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player2");
                     lookatRotation = Math.PI / 4;
+                    emissive = new Vector3(0.1f, 0f, 0f);
+                    ambient = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularColor = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
                     break;
                 case EPlayerViewportPosition.topRight:
                     viewport = defaultViewport;
@@ -232,6 +270,13 @@ namespace WitchMaze.PlayerStuff
                     viewport.X = defaultViewport.Width / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player3");
                     lookatRotation = 7 * Math.PI / 4;
+                    emissive = new Vector3(0.1f, 0f, 0f);
+                    ambient = new Vector3(1f, 0.84f, 0f);
+                    specularColor = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
                     break;
                 case EPlayerViewportPosition.botRight:
                     viewport = defaultViewport;
@@ -241,6 +286,13 @@ namespace WitchMaze.PlayerStuff
                     viewport.Y = defaultViewport.Height / 2;
                     model = Game1.getContent().Load<Model>("Models/Player/player4");
                     lookatRotation = 3 * Math.PI / 4;
+                    emissive = new Vector3(0.1f, 0f, 0.1f);
+                    ambient = new Vector3(1f, 0.51f, 0.99f);
+                    specularColor = new Vector3(0.8f, 0.8f, 0.8f);
+                    specularPower = 0.1f;
+                    directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
+                    directionalDirection = new Vector3(0f, 1f, 0f);
+                    directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
                     break;
                 default:
                     throw new NotImplementedException();
@@ -737,14 +789,16 @@ namespace WitchMaze.PlayerStuff
             {
                 foreach (BasicEffect _effect in mesh.Effects)
                 {
-                    _effect.EnableDefaultLighting();
-                    _effect.LightingEnabled = true; 
+                    _effect.LightingEnabled = true;
 
-                    _effect.AmbientLightColor = new Vector3(1, 0,0);
+                    _effect.AmbientLightColor = ambient;
+                    _effect.EmissiveColor = emissive;
+                    _effect.SpecularColor = specularColor;
+                    _effect.SpecularPower = specularPower;
 
-                    _effect.DirectionalLight0.DiffuseColor = new Vector3(0.6f, 0.6f, 0.6f); 
-                    _effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);  
-                    _effect.DirectionalLight0.SpecularColor = new Vector3(1, 0, 0);
+                    _effect.DirectionalLight0.DiffuseColor = directionalDiffuse; 
+                    _effect.DirectionalLight0.Direction = directionalDirection;  
+                    _effect.DirectionalLight0.SpecularColor = directionalSpecular;
 
                     //Matrix.CreateFromAxisAngle(ortoDirection, blabla); //for player roll try this
                     //Matrix.CreateRotationZ(movementRotationX) *

@@ -34,6 +34,13 @@ namespace WitchMaze.MapStuff.Blocks
 
         override public void draw(Matrix projection, Matrix camera)
         {
+
+            SamplerState samplerState = new SamplerState();
+            samplerState.AddressU = TextureAddressMode.Clamp;
+            samplerState.AddressV = TextureAddressMode.Clamp;
+            Game1.getGraphics().GraphicsDevice.SamplerStates[0] = samplerState;
+
+
             Matrix[] transforms = new Matrix[model.Bones.Count];
             model.CopyAbsoluteBoneTransformsTo(transforms);
 
@@ -44,8 +51,8 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.LightingEnabled = true;
 
                     effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-                    effect.EmissiveColor = new Vector3(1, 1, 1);
-                    effect.DirectionalLight0.Enabled = true;
+                    //effect.EmissiveColor = new Vector3(1, 1, 1);
+                    //effect.DirectionalLight0.Enabled = true;
                     effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
                     effect.DirectionalLight0.DiffuseColor = new Vector3(1, 0, 0);
                     //effect.DirectionalLight1.Direction = new Vector3(1, 1, 0);
