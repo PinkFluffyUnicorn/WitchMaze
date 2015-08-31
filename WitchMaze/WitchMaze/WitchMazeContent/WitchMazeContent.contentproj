@@ -611,8 +611,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Font\Courier New.spritefont">
-      <Name>Courier New</Name>
+    <Compile Include="Font\Whimsy TT.spritefont">
+      <Name>Whimsy TT</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
