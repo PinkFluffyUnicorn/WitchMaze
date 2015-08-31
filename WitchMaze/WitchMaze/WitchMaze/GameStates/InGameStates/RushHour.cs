@@ -57,16 +57,6 @@ namespace WitchMaze.GameStates.InGameStates
 
         
 
-        //public override void loadContent()
-        //{
-
-        //}
-
-        //public override void unloadContent()
-        //{
-
-        //}
-
         public override EInGameState update(GameTime gameTime)
         {
             //Write WinCondition Here

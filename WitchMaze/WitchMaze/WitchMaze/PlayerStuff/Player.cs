@@ -64,7 +64,7 @@ namespace WitchMaze.PlayerStuff
         EPlayerViewportPosition playerViewportPosition;
         Viewport viewport;
         float timeSinceLastMove;
-        float timescale = 1200;//more is slower
+        float timescale = 1000;//more is slower
         float turningScale = 1;//scale for head turning, more is faster
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
@@ -88,7 +88,8 @@ namespace WitchMaze.PlayerStuff
 
         //Shader
         BasicEffect effect = Game1.getEffect();
-        float cameraOffset = 0.025f;
+        float cameraOffset = 0;//0.4f;//0.025f;
+        float camerOffsetY = 0.2f;
         private Vector3 cameraPosition;//should be a little behind the actual position
         private static Matrix projection, camera, world;
 
@@ -102,7 +103,6 @@ namespace WitchMaze.PlayerStuff
 
         //bouncing
         bool isBouncing;
-        float bounceExeleration;
         Vector3 bounceDirection;
         float bouncingTimeLeft;
         float bouncingTime;
@@ -158,14 +158,15 @@ namespace WitchMaze.PlayerStuff
              lookAt = new Vector3(0, 1, 1);
              upDirection = new Vector3(0, 0, 1);*/
 
-            
             GamePadState currentState = GamePad.GetState(PlayerIndex.One); //do we need this and why? :O
 
             //camera = Matrix.CreateLookAt(new Vector3(position.X - Settings.getResolutionX() / 2, position.Y, position.Z), lookAt, upDirection);
-            cameraPosition = new Vector3(position.X, position.Y, position.Z);
-            cameraPosition = cameraPosition - (lookAt - position) * cameraOffset;
+            Vector3 h = (lookAt - position);
+            h.Normalize();
+            cameraPosition = position - (h) * cameraOffset;
+            cameraPosition.Y += camerOffsetY;
             camera = Matrix.CreateWorld(cameraPosition, lookAt, upDirection);
-            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.5f, 1000.0f);
+            projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, aspectRatio, 0.1f, 1000.0f);
             world = Matrix.Identity;
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
@@ -175,7 +176,6 @@ namespace WitchMaze.PlayerStuff
             movementRotationZ = 0;
 
             isBouncing = false;
-            bounceExeleration = 2f;
             bouncingTime = 3;
             bouncingTimeLeft = 0;
 
@@ -458,46 +458,150 @@ namespace WitchMaze.PlayerStuff
                 // Get the current gamepad state.
                 GamePadState currentState = GamePad.GetState(playerIndex);
 
+                Vector3 newPosition = position;
+                timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
+                keyboard = Keyboard.GetState();
+                direction = lookAt - position;
+                ortoDirection = Vector3.Cross(direction, upDirection);
+                bool up = currentState.ThumbSticks.Left.Y > 0.1f;
+                bool down = currentState.ThumbSticks.Left.Y < -0.1f;
+                bool left = currentState.ThumbSticks.Left.X < -0.1f;
+                bool right = currentState.ThumbSticks.Left.X > 0.0f;
+                bool lookLeft = currentState.ThumbSticks.Right.X < -0.1f;
+                bool lookRight = currentState.ThumbSticks.Right.X > 0.1f;
+                float leftMoveScale = 1;
+                float rightMoveScale = 1;
+                if (isBouncing)
+                {
+                    newPosition += bounceDirection * (timeSinceLastMove / timescale) * bouncingTimeLeft;
 
-                if (currentState.ThumbSticks.Left.Y > 0.0f)
-                {// Player one has pressed the left thumbstick up.
+                    if (/*mapCollision(newPosition) ||*/ bouncingTimeLeft < 0)
+                    {
+                        isBouncing = false;
+                        bouncingTimeLeft = bouncingTime;
+                    }
+                    else
+                    {
+                        movementRotationX -= (position - newPosition).X;
+                        movementRotationZ += (position - newPosition).Z;
 
-                    position = position + direction * (currentState.ThumbSticks.Left.Y / 20);
+                        if (!this.mapCollision(new Vector3(newPosition.X, position.Y, position.Z)))
+                        {
+                            position.X = newPosition.X;
+                        }
+
+                        if (!this.mapCollision(new Vector3(position.X, position.Y, newPosition.Z)))
+                        {
+                            position.Z = newPosition.Z;
+                        }
+                        bouncingTimeLeft -= (timeSinceLastMove / timescale);
+
+                    }
+                }
+                else
+                {
+                    //compute the "new position" for the player after keyboard inputs
+                    if (up)
+                    {//forward
+                        newPosition = newPosition + direction;
+                        leftMoveScale = Math.Abs(currentState.ThumbSticks.Left.Y);
+                    }
+                    if (down)
+                    {//backward
+                        newPosition = newPosition - direction;
+                        leftMoveScale = Math.Abs(currentState.ThumbSticks.Left.Y);
+                    }
+                    if (right)
+                    {//right
+                        newPosition = newPosition + ortoDirection;
+                        rightMoveScale = Math.Abs(currentState.ThumbSticks.Left.X);
+                    }
+                    if (left)
+                    {//left
+                        newPosition = newPosition - ortoDirection;
+                        rightMoveScale = Math.Abs(currentState.ThumbSticks.Left.X);
+                    }
+                }
+
+                //compute the move Vector and ormalize it
+                Vector2 moveVector = new Vector2(newPosition.X - position.X, newPosition.Z - position.Z);//darf nur vector 2 sein, sonst führt die y coordinate beim normalisieren zu problemen
+
+                //normalize the move Vector if needet and add the timeScaling bevore collision
+                Console.WriteLine(moveVector);
+                if (moveVector.Length() > 1)
+                    moveVector.Normalize();
+                float h = (leftMoveScale + rightMoveScale);//h scales the movescale back if its too high
+                if(h > 1)
+                    h = 1;
+                moveVector *= (timeSinceLastMove / timescale) * h; 
+                    //moveVector.Y  *= Math.Abs(currentState.ThumbSticks.Left.Y);
+                    //moveVector.X *= Math.Abs(currentState.ThumbSticks.Left.X);
+
+                //Hier nen dicken Player drehen
+                //Roll, Roll, Roll A Witch, Twist It At The End. Light It Up And Take A Puff, And Pass It To Your Friends
+                //The Witch in the Maze goes round and round, round and round, round and round, the Witch in the Maze goes round and round all throung Game
+                if (left)
+                    movementRotationX -= moveVector.Length();
+                if (right)
+                    movementRotationX += moveVector.Length();
+                if (up)
+                    movementRotationZ -= moveVector.Length();
+                if (down)
+                    movementRotationZ += moveVector.Length();
+
+
+                //move at the x coordinates and roll the Player
+                if (!this.mapCollision(new Vector3(position.X + moveVector.X, position.Y, position.Z)))
+                {
+                    //movementRotationX += moveVector.X;
+                    position.X += moveVector.X;
+                    lookAt = position + direction;
+                }
+                //move at the z coordinates
+                if (!this.mapCollision(new Vector3(position.X, position.Y, position.Z + moveVector.Y)))
+                {
+                    //movementRotationZ += moveVector.Y;
+                    position.Z += moveVector.Y;
                     lookAt = position + direction;
                 }
 
-                if (currentState.ThumbSticks.Left.Y < 0.0f)
-                {// gamepadState one has pressed the left thumbstick down.
 
-                    position = position + direction * (currentState.ThumbSticks.Left.Y / 20);
-                    lookAt = position + direction;
+                //rotate the player
+                if (lookLeft)
+                {//rotate left / look left
+                    Vector3 newLookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(turningScale * timeSinceLastMove / timescale)));
+                    Vector3 moveLookAt = newLookAt - lookAt;//to scale toth the controller
+                    moveLookAt *= Math.Abs(currentState.ThumbSticks.Right.X);
+                    newLookAt = lookAt + moveLookAt;
+                    //inner schön vom player mittelpunkt aus rechnen du pfeife...
+                    Vector3 playerToLookAt = lookAt - position;
+                    Vector3 playerToNewLookAt = newLookAt - position;
+
+
+                    //lookatRotation += (float)Math.Acos(Math.Abs(Vector3.Dot(playerToNewLookAt, playerToLookAt)) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                    lookatRotation += (float)Math.Asin(Math.Abs(Vector3.Cross(playerToNewLookAt, playerToLookAt).Length()) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                    lookAt = newLookAt;
                 }
+                if (lookRight)
+                {//rotate rigth / look right
+                    Vector3 newLookAt = position + (Vector3.Transform((lookAt - position), Matrix.CreateRotationY(turningScale * (-timeSinceLastMove) / timescale)));
+                    Vector3 moveLookAt = newLookAt - lookAt;//to scale toth the controller
+                    moveLookAt *= Math.Abs(currentState.ThumbSticks.Right.X);
+                    newLookAt = lookAt + moveLookAt;
+                    //inner schön vom player mittelpunkt aus rechnen du pfeife...
+                    Vector3 playerToLookAt = lookAt - position;
+                    Vector3 playerToNewLookAt = newLookAt - position;
 
-                if (currentState.ThumbSticks.Left.X > 0.0f)
-                {// Player one has pressed the left thumbstick right.
 
-                    position = position + ortoDirection * (currentState.ThumbSticks.Left.X / 20);
-                    lookAt = position + direction;
+                    //lookatRotation -= (float)Math.Acos(Math.Abs(Vector3.Dot(playerToNewLookAt, playerToLookAt)) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                    lookatRotation -= (float)Math.Asin(Math.Abs(Vector3.Cross(playerToNewLookAt, playerToLookAt).Length()) / (playerToNewLookAt.Length() * playerToLookAt.Length()));
+                    lookAt = newLookAt;
                 }
-
-                if (currentState.ThumbSticks.Left.X < 0.0f)
-                {// Player one has pressed the left thumbstick left.
-
-                    position = position + ortoDirection * (currentState.ThumbSticks.Left.X / 20);
-                    lookAt = position + direction;
-                }
-
-                if (currentState.ThumbSticks.Right.X > 0.0f)
-                {// Player one has pressed the right thumbstick right.
-
-                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X *4)));
-                }
-
-                if (currentState.ThumbSticks.Right.X < 0.0f)
-                {// Player one has pressed the right thumbstick left.
-
-                    lookAt = position + (Vector3.Transform((direction), Matrix.CreateRotationY(-currentState.ThumbSticks.Right.X *4)));
-                }
+                //reset if bigger than 2OI or smaller then 0
+                while (lookatRotation > 2 * Math.PI)
+                    lookatRotation %= 2 * Math.PI;
+                while (lookatRotation < 0)
+                    lookatRotation += 2 * Math.PI;
 
         }
 
@@ -509,20 +613,6 @@ namespace WitchMaze.PlayerStuff
                 if (!block.walkable)
                     return true;
             }
-            ////delete all blocks but black holes
-            //List<MapStuff.Blocks.BlackHole> blackHoles = new List<MapStuff.Blocks.BlackHole>();
-            //foreach (MapStuff.Blocks.Block block in blocksStandingOn)
-            //{
-            //    if (block.name == MapStuff.MapCreator.tiles.blackhole)
-            //        blackHoles.Add((MapStuff.Blocks.BlackHole)block);
-            //}
-            ////reset player position for black holes
-            //foreach (MapStuff.Blocks.BlackHole blackHole in blackHoles)
-            //{
-            //    if (blackHole.transportable)
-            //        position = new Vector3(blackHole.transportPosition.X, position.Y, blackHole.transportPosition.Z);
-            //    //return (mapCollision(p));
-            //}
             return false;
         }
 
@@ -625,7 +715,10 @@ namespace WitchMaze.PlayerStuff
         public void updateCamera()
         {
             //update camera position
-            cameraPosition = position - (lookAt - position) * cameraOffset;
+            Vector3 h = (lookAt - position);
+            h.Normalize();
+            cameraPosition = position - (h) * cameraOffset;
+            cameraPosition.Y += camerOffsetY;
 
             //update camera matrix
             camera = Matrix.CreateLookAt(cameraPosition, lookAt, upDirection);

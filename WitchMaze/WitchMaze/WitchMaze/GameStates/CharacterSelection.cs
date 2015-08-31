@@ -114,23 +114,28 @@ namespace WitchMaze.GameStates
  
         }
 
-
+        /// <summary>
+        /// manages the update of the keyboard controlls
+        /// </summary>
+        /// <param name="set">set the keyboard contoll with this key</param>
+        /// <param name="unset">set the keyboard contoll with this ke</param>
+        /// <param name="controllType">the controll type to set</param>
         private void updateColtrolls(Keys set, Keys unset, Player.EPlayerControlls controllType)
         {
             keyboard = Keyboard.GetState();
             if(keyboard.IsKeyDown(set)){
                 //Player setzen
-                if (!player1ControllsLRS.isSelected())
+                if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                 {
                     player1ControllsLRS.setSelected();
                     player1Controlls = controllType;
                 }
-                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType)
+                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                 {
                     player2ControllsLRS.setSelected();
                     player2Controlls = controllType;
                 }
-                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType)
+                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
                 {
                     player3ControllsLRS.setSelected();
                     player3Controlls = controllType;
@@ -167,93 +172,82 @@ namespace WitchMaze.GameStates
             }
         }
 
+        private void updateColtrolls(GamePadState currentState, Player.EPlayerControlls controllType)
+        {
+            //schauen ob das GamePad überhaupt verbunden ist
+            if (currentState.IsConnected)
+            {
+                if (currentState.IsButtonDown(Buttons.A))
+                {
+                    //Player setzen
+                    if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+                    {
+                        player1ControllsLRS.setSelected();
+                        player1Controlls = controllType;
+                    }
+                    if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+                    {
+                        player2ControllsLRS.setSelected();
+                        player2Controlls = controllType;
+                    }
+                    if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
+                    {
+                        player3ControllsLRS.setSelected();
+                        player3Controlls = controllType;
+                    }
+                    if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
+                    {
+                        player4ControllsLRS.setSelected();
+                        player4Controlls = controllType;
+                    }
+                }
+                if (currentState.IsButtonDown(Buttons.B))
+                {
+                    //Player zurück setzen 
+                    if (player1ControllsLRS.isSelected() && player1Controlls == controllType)
+                    {
+                        player1ControllsLRS.setNotSelected();
+                        player1Controlls = Player.EPlayerControlls.none;
+                    }
+                    if (player2ControllsLRS.isSelected() && player2Controlls == controllType)
+                    {
+                        player2ControllsLRS.setNotSelected();
+                        player2Controlls = Player.EPlayerControlls.none;
+                    }
+                    if (player3ControllsLRS.isSelected() && player3Controlls == controllType)
+                    {
+                        player3ControllsLRS.setNotSelected();
+                        player3Controlls = Player.EPlayerControlls.none;
+                    }
+                    if (player4ControllsLRS.isSelected() && player4Controlls == controllType)
+                    {
+                        player4ControllsLRS.setNotSelected();
+                        player4Controlls = Player.EPlayerControlls.none;
+                    }
+                }
+            }   
+        }
+
         /// <summary>
         /// outsources the update process of the player 1 - 4 to prevent spagetti code
         /// </summary>
         private void updatePlayer()
         {
-            //Der erste der eine seiner tasten drückt bekommt Player1, der zweite Player 2 und so weiter...
-            //wird eine taste gedrückt welche schon einen spieler ausgewählt hat so wird er wieder unausgewählt
-
+            //KeyboardControlls
             updateColtrolls(Keys.S, Keys.W, Player.EPlayerControlls.Keyboard1);
             updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
             updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
             updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
-            updateColtrolls(Keys.C, Keys.X, Player.EPlayerControlls.Gamepad1); //zum testen
-            //if (keyboard.IsKeyDown(Keys.NumPad5) || keyboard.IsKeyDown(Keys.NumPad1) || keyboard.IsKeyDown(Keys.NumPad2) || keyboard.IsKeyDown(Keys.NumPad3))
-            //switch (player1ControllsLRS.getDisplayedIndex())
-            //{
-            //    case 0:
-            //        player1Controlls = Player.EPlayerControlls.none;
-            //        break;
-            //    case 1:
-            //        player1Controlls = Player.EPlayerControlls.Keyboard1;
-            //        break;
-            //    case 2:
-            //        player1Controlls = Player.EPlayerControlls.Gamepad1;
-            //        break;
-            //}
-            //switch (player2ControllsLRS.getDisplayedIndex())
-            //{
-            //    case 0:
-            //        player2Controlls = Player.EPlayerControlls.none;
-            //        break;
-            //    case 1:
-            //        if (player1Controlls == Player.EPlayerControlls.Keyboard1)
-            //            player2Controlls = Player.EPlayerControlls.Keyboard2;
-            //        else
-            //            player2Controlls = Player.EPlayerControlls.Keyboard1;
-            //        break;
-            //    case 2:
-            //        if (player1Controlls == Player.EPlayerControlls.Gamepad1)
-            //            player2Controlls = Player.EPlayerControlls.Gamepad2;
-            //        else
-            //            player2Controlls = Player.EPlayerControlls.Gamepad1;
-            //        break;
-            //}//nochmal überarbeiten :/
-            //switch (player3ControllsLRS.getDisplayedIndex())
-            //{
-            //    case 0:
-            //        break;
-            //    case 1:
-            //        break;
-            //    case 2:
-            //        break;
-            //    case 3:
-            //        break;
-            //    case 4:
-            //        break;
-            //    case 5:
-            //        break;
-            //    case 6:
-            //        break;
-            //}
-            //switch (player4ControllsLRS.getDisplayedIndex())
-            //{
-            //    case 0:
-            //        break;
-            //    case 1:
-            //        break;
-            //    case 2:
-            //        break;
-            //    case 3:
-            //        break;
-            //    case 4:
-            //        break;
-            //    case 5:
-            //        break;
-            //    case 6:
-            //        break;
-            //}
 
-            //player1ControllsLRS.setSelected();
-            //player2ControllsLRS.setSelected();
-            //player3ControllsLRS.setSelected();
-            //player4ControllsLRS.setSelected();
-            //player1Controlls = Player.EPlayerControlls.Keyboard1;
-            //player2Controlls = Player.EPlayerControlls.Keyboard2;
-            //player3Controlls = Player.EPlayerControlls.Gamepad1;
-            //player4Controlls = Player.EPlayerControlls.Gamepad2;
+            //gamepad Controlls
+            GamePadState currentState = GamePad.GetState(PlayerIndex.One);
+            updateColtrolls(currentState, Player.EPlayerControlls.Gamepad1);
+            currentState = GamePad.GetState(PlayerIndex.Two);
+            updateColtrolls(currentState, Player.EPlayerControlls.Gamepad2);
+            currentState = GamePad.GetState(PlayerIndex.Three);
+            updateColtrolls(currentState, Player.EPlayerControlls.Gamepad3);
+            currentState = GamePad.GetState(PlayerIndex.Four);
+            updateColtrolls(currentState, Player.EPlayerControlls.Gamepad4);
 
             //delete all player
             playerList.Clear();
