@@ -546,6 +546,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sound\BackgroundMusic\ThemeFromWitchmaze.wav">
+      <Name>ThemeFromWitchmaze</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Textures\option\1366p.png">
       <Name>1366p</Name>
       <Importer>TextureImporter</Importer>
@@ -603,25 +610,31 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Compile Include="Font\Courier New.spritefont">
-      <Name>Courier New</Name>
+    <Compile Include="Textures\help\numpadControl.png">
+      <Name>numpadControl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Textures\help\wasdControl.png">
+      <Name>wasdControl</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Textures\redCross.png">
+      <Name>redCross</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Font\Whimsy TT.spritefont">
+      <Name>Whimsy TT</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sound\BackgroundMusic\ThemeFromWitchmazeInGame.wav">
-      <Name>ThemeFromWitchmazeInGame</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Sound\BackgroundMusic\ThemeFromWitchmazeMenu.wav">
-      <Name>ThemeFromWitchmazeMenu</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

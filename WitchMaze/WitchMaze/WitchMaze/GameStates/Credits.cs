@@ -48,7 +48,7 @@ namespace WitchMaze.GameStates
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
-            Game1.getGraphics().GraphicsDevice.Clear(Color.Black);
+            Game1.getGraphics().GraphicsDevice.Clear(Color.DarkGreen);
             
             credits.draw();
         }

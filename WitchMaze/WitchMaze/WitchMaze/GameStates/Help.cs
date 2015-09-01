@@ -17,7 +17,7 @@ namespace WitchMaze.GameStates
     {
         
         KeyboardState keyboard = Keyboard.GetState();
-        Icon xboxControl;
+        Icon xboxControl, numpadControl, wasdControl;
 
         public override void initialize()
         {
@@ -27,6 +27,8 @@ namespace WitchMaze.GameStates
         public override void loadContent()
         {
            xboxControl = new Icon(new Vector2(20 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
+           numpadControl = new Icon(new Vector2(520 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/numpadControl");
+           wasdControl = new Icon(new Vector2(320 * Settings.getInterfaceScale(), 520 * Settings.getInterfaceScale()), "Textures/help/wasdControl");
         }
 
         public override void unloadContent() 
@@ -49,7 +51,10 @@ namespace WitchMaze.GameStates
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
             Game1.getGraphics().GraphicsDevice.Clear(Color.DarkGreen);
 
-            xboxControl.draw(); 
+            xboxControl.draw();
+            numpadControl.draw();
+            wasdControl.draw();
+                
         }
     }
 }

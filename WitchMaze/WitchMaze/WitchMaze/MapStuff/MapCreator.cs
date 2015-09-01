@@ -59,6 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
             createMaze();
+            insertWall();
             insertBlackHoles(7);
             insertRandomFloorTiles(15);
             insertWall();
