@@ -96,10 +96,10 @@ namespace WitchMaze.GameStates
             switch (GameModeSelected.getDisplayedIndex())
             {
                 case 0:
-                    this.eInGameState = EInGameState.SingleTime;
+                    this.eInGameState = EInGameState.NeedForIngrediance;
                     break;
                 case 1:
-                    this.eInGameState = EInGameState.MazeRun;
+                    this.eInGameState = EInGameState.RushHour;
                     break;
                 default:
                     throw new NotImplementedException();

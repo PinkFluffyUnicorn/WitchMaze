@@ -17,6 +17,9 @@ namespace WitchMaze
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public static SoundEffectInstance soundEffectInstance { get; set; }
+        public static SoundEffect inGameSound;
+
         static GraphicsDeviceManager graphics;
         static ContentManager content;
         SpriteBatch spriteBatch;
@@ -60,7 +63,11 @@ namespace WitchMaze
             
             Content.RootDirectory = "Content";
             content = Content;
-           
+
+            inGameSound = getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeMenu");
+            soundEffectInstance = inGameSound.CreateInstance();
+            soundEffectInstance.IsLooped = true;
+            soundEffectInstance.Play();
         }
 
         /// <summary>

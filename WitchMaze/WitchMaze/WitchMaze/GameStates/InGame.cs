@@ -54,8 +54,10 @@ namespace WitchMaze.GameStates
             if (currentInGameState != prevInGameState)
                 handleInGameState();
             
-            if (keyboard.IsKeyDown(Keys.Escape))
-                return EGameState.MainMenu;
+            //if (keyboard.IsKeyDown(Keys.Escape))
+            //    return EGameState.MainMenu;
+            if (currentInGameState == EInGameState.Exit)
+                return EGameState.CharacterSelection;
             return EGameState.InGame;
             
             //if (currentInGameState == EInGameState.Exit)
@@ -79,23 +81,26 @@ namespace WitchMaze.GameStates
             List<PlayerStuff.Player> newPlayerList = playerList;
             switch (currentInGameState)
             {
-                case EInGameState.SingleTime:
+                case EInGameState.NeedForIngrediance:
                     inGameState = new InGameStates.NeedForIngrediance(newPlayerList);
                     break;
-                case EInGameState.MazeRun:
+                case EInGameState.RushHour:
                     inGameState = new InGameStates.RushHour(newPlayerList);
                     break;
                 case EInGameState.Rumble:
                     throw new NotImplementedException();
                     break;
                 case EInGameState.Exit:
-                    throw new NotImplementedException();
+                    Game1.soundEffectInstance.Stop();
+                    Game1.soundEffectInstance = Game1.inGameSound.CreateInstance();
+                    Game1.soundEffectInstance.IsLooped = true;
+                    Game1.soundEffectInstance.Play();
                     break;
             }
-            Console.WriteLine(inGameState);
-            inGameState.initialize();
+            //Console.WriteLine(inGameState);
+            //inGameState.initialize();
 
-            inGameState.loadContent();
+            //inGameState.loadContent();
 
             prevInGameState = currentInGameState;
         }
