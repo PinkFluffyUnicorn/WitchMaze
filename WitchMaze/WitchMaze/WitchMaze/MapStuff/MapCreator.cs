@@ -59,6 +59,7 @@ namespace WitchMaze.MapStuff
         public void initialize()
         {
             createMaze();
+            insertWall();
             insertBlackHoles(7);
             insertRandomFloorTiles(15);
             insertWall();
@@ -96,7 +97,6 @@ namespace WitchMaze.MapStuff
                     
                     if (mapType[i, j] == (int)tiles.floor)
                     {
-                        Console.Write((int)tiles.floor);
                         float rotation = (float)rnd.Next(3);
                         while (rotateFloor == rotation)//same rotation as before 
                         {
@@ -111,7 +111,6 @@ namespace WitchMaze.MapStuff
                     }
                     else if (mapType[i, j] == (int)tiles.wall)
                     {
-                        Console.Write((int)tiles.wall);
                         float rotation = (float)rnd.Next(3);
                         while (rotateWall == rotation)//same rotation as before 
                         {
@@ -125,13 +124,11 @@ namespace WitchMaze.MapStuff
                     }
                     else
                     {
-                        Console.Write((int)tiles.blackhole);
                         Vector3 position = new Vector3((float)(i * Settings.getBlockSizeX()), 0.0f, (float)(j * Settings.getBlockSizeZ()));
                         BlackHole blackhole = new BlackHole(position, Game1.getContent().Load<Model>("Models/MapStuff/BlackHole"), findTransportPoint(position), Game1.getContent().Load<Texture2D>("Models/MapStuff/BlackHoleTexture"));
                         map.setMap(blackhole, i, j);
                     }
                 }
-                Console.WriteLine();
             }
             return map;
         }
@@ -301,11 +298,11 @@ namespace WitchMaze.MapStuff
             int[] arrayY = new int[AnzExtraFloor];
             for (int i = 0; i < AnzExtraFloor; i++)
             {
-
+                int counter = 0;
                 int x = rnd.Next(Settings.getMapSizeX() - 1);
                 int y = rnd.Next(Settings.getMapSizeZ() - 1);
                 bool swap = true;
-                while (mapType[x, y] == (int)tiles.floor || mapType[x, y] == (int)tiles.blackhole || distance(arrayX, x, arrayY, y, i) == true || neighboorhoud(x, y) == false)
+                while ((mapType[x, y] == (int)tiles.floor || mapType[x, y] == (int)tiles.blackhole || distance(arrayX, x, arrayY, y, i) == true || neighboorhoud(x, y) == false) & counter < 400)
                 {
                     if (swap)
                     {
@@ -317,6 +314,7 @@ namespace WitchMaze.MapStuff
                         y = rnd.Next(Settings.getMapSizeZ() - 1);
                         swap = true;
                     }
+                    counter++;
                 }
                 mapType[x, y] = (int)tiles.floor;
                 arrayX[i] = x;
@@ -579,7 +577,8 @@ namespace WitchMaze.MapStuff
                 int x = 1;
                 int y = 1;
                 bool swap = true;
-                while( mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) || EndOfWall(x,y)== false)
+                int counter = 0;
+                while( (mapType[x,y] == (int)tiles.floor || mapType[x,y] == (int)tiles.blackhole  || x >= Settings.getMapSizeX() - 1 || y >= Settings.getMapSizeZ() - 1|| distanceToBlackHole(x,y) || EndOfWall(x,y)== false) & counter < 400)
                 {
                     if (swap)
                     {
@@ -591,6 +590,7 @@ namespace WitchMaze.MapStuff
                         y = rnd.Next(Settings.getMapSizeZ() - 2) +1;
                         swap = true;
                     }
+                    counter++;
                 }
                 mapType[x, y] = (int)tiles.blackhole;
             }
