@@ -185,6 +185,9 @@ namespace WitchMaze
                 case EGameState.CharacterSelection:
                     gameState = new GameStates.CharacterSelection();
                     break;
+                case EGameState.Help:
+                    gameState = new GameStates.Help();
+                    break;
             }
 
             gameState.initialize();

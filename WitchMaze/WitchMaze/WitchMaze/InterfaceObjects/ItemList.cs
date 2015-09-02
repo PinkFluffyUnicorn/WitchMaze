@@ -15,9 +15,11 @@ namespace WitchMaze.InterfaceObjects
     {
         Item[] itemList;
         bool[] itemCollected;
+        Icon[] redCrossList;
         ItemSpawner itemSpawner;
 
         public ItemList(int count){
+            redCrossList = new Icon[count];
             itemList = new Item[count];
             itemCollected = new bool[count];
             itemSpawner = new ItemSpawner();
@@ -30,6 +32,7 @@ namespace WitchMaze.InterfaceObjects
         {
             for (int i = 0; i < this.itemList.Count(); i++)
             {
+                redCrossList[i] = new Icon(new Vector2(0, 0), "Textures/redCross");
                 Item item = itemSpawner.generateRandomItem();
                 itemList[i] = item;
                 for(int j = 0; j < i; j++){
@@ -98,6 +101,7 @@ namespace WitchMaze.InterfaceObjects
             Vector2 nextPosition = p;
             for (int i = 0; i < this.itemList.Count(); i++)
             {
+                redCrossList[i].setPosition(nextPosition);
                 itemList[i].itemIcon.setPosition(nextPosition);
                 nextPosition = new Vector2(nextPosition.X + itemList[i].itemIcon.getWidth(), nextPosition.Y);
             }
@@ -107,6 +111,7 @@ namespace WitchMaze.InterfaceObjects
         {
             for (int i = 0; i < this.itemList.Count(); i++)
             {
+                redCrossList[i].setIndividualScale(_individualScale);
                 itemList[i].itemIcon.setIndividualScale(_individualScale);
             }
         }
@@ -118,8 +123,9 @@ namespace WitchMaze.InterfaceObjects
         {
             for (int i = 0; i < this.itemList.Count(); i++)
             {
-                if(!itemCollected[i])
-                    itemList[i].itemIcon.draw();
+                itemList[i].itemIcon.draw();
+                if (itemCollected[i])
+                    redCrossList[i].draw();
             }
         }
     }
