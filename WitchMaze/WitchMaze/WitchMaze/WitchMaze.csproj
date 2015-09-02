@@ -158,6 +158,7 @@
     <Compile Include="MapStuff\Map.cs" />
     <Compile Include="MapStuff\MapCreator.cs" />
     <Compile Include="ownFunctions\Collision.cs" />
+    <Compile Include="ownFunctions\ownGameTime.cs" />
     <Compile Include="PlayerStuff\Player.cs" />
     <Compile Include="PlayerStuff\Skybox.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,6 +27,8 @@ namespace WitchMaze.GameStates.InGameStates
 
         public override void initialize()
         {
+            base.initialize();
+
             //anzahl der eingesammelten Items
             numberItemsCollected = new Text[playerList.Count];
             int i = 0;
@@ -48,7 +50,7 @@ namespace WitchMaze.GameStates.InGameStates
             }
 
             currentInGameState = EInGameState.RushHour;
-            base.initialize();
+            
         }
 
         
