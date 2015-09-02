@@ -16,7 +16,8 @@ namespace WitchMaze.GameStates
 {
     abstract class InGameState
     {
-        //Song song = Game1.getContent().Load<Song>("Sound/BackgroundMusic/ThemeFromWitchmaze");  // Put the name of your song here instead of "song_title"
+        static SoundEffect sound = Game1.getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeInGame");
+        //SoundEffectInstance soundInstance = sound.CreateInstance();
 
         protected EInGameState currentInGameState; // has tu de set in the inGameState(MazeRun ect...)
 
@@ -57,10 +58,16 @@ namespace WitchMaze.GameStates
             else
                 minimap.setPosition(new Vector2(Settings.getResolutionX() / 2 - minimap.getWidth() / 2, Settings.getResolutionY() / 2 - minimap.getHeight() / 2));
 
-            //MediaPlayer.Play(song);
+            Game1.soundEffectInstance.Stop();
+            Game1.soundEffectInstance = sound.CreateInstance();
+            Game1.soundEffectInstance.IsLooped = true;
+            Game1.soundEffectInstance.Play();
         }
 
-        public virtual void loadContent() { }
+        public virtual void loadContent()
+        {
+
+        }
 
         public virtual void unloadContent() { }
 
@@ -248,8 +255,8 @@ namespace WitchMaze.GameStates
     }
     public enum EInGameState
     {
-        SingleTime,//test
-        MazeRun,
+        NeedForIngrediance,//test
+        RushHour,
         Rumble,
         Exit,
     }

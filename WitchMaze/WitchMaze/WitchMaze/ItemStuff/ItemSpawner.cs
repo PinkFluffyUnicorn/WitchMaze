@@ -21,7 +21,14 @@ namespace WitchMaze.ItemStuff
 
         Random randomItem;
         Random randomMap;
-
+        public ItemSpawner()
+        {
+            randomMap = new Random();
+            randomItem = new Random();
+            itemsToSpawn = new List<Item>();
+            timeToNewItem = 0;
+            timeForNewItem *= 10000;
+        }
         /// <summary>
         /// Initialli fills ItemMap
         /// </summary>
@@ -37,28 +44,12 @@ namespace WitchMaze.ItemStuff
                 }
             }
 
-            randomMap = new Random();
-            randomItem = new Random();
-            itemsToSpawn = new List<Item>();
-            timeToNewItem = 0;
-            float h = timeForNewItem;//zwischenspeicher
-            timeForNewItem = 0; //DAMIT ERSTE Items GLEICH GESPAWNT WERDEN
             //spawn 5 new Items here
             spawnItem(itemMap);
             spawnItem(itemMap);
             spawnItem(itemMap);
             spawnItem(itemMap);
             spawnItem(itemMap);
-
-            ////spawn Items directly here
-            //spawnItem(itemMap, playerList);
-            //spawnItem(itemMap, playerList);
-            //spawnItem(itemMap, playerList);
-            //spawnItem(itemMap, playerList);
-            //spawnItem(itemMap, playerList);
-
-            timeForNewItem = h;
-            timeForNewItem *= 10000;
 
             //itemMap.insertItem(new WingOfABat(new Vector3(5,1,5)), 5, 5);
         }
@@ -145,6 +136,16 @@ namespace WitchMaze.ItemStuff
             //timeToNewItem = timeToNewItem % timeForNewItem;
         }
 
+        Branch branch = new Branch(new Vector3(0, 0, 0));
+        Caterpillar caterpillar =  new Caterpillar(new Vector3(0, 0, 0));
+        Crystal crystal = new Crystal(new Vector3(0, 0, 0));
+        Eye eye = new Eye(new Vector3(0, 0, 0));
+        Frog frog = new Frog(new Vector3(0, 0, 0));
+        Pig pig = new Pig(new Vector3(0, 0, 0));
+        Slime slime = new Slime(new Vector3(0, 0, 0));
+        Spider spider = new Spider(new Vector3(0, 0, 0));
+        UnicornHorn unicornHorn = new UnicornHorn(new Vector3(0, 0, 0));
+        WingOfABat wingOfABat = new WingOfABat(new Vector3(0, 0, 0));
         /// <summary>
         /// wirites nw Item in the spawn waiting list
         /// </summary>
@@ -157,63 +158,107 @@ namespace WitchMaze.ItemStuff
             Vector3 position = new Vector3(0, 0, 0);//position is addetet afterwarts
             //create random a new Item
             int index = randomItem.Next(1, 11);
+            Item item = generateRandomItem();
             //if itemToSpawn already contains the item to spawn(also check the ItemMap!)
-            if (index == 1 && ( itemMap.contains(new Branch(new Vector3(0, 0, 0))) || this.contains(new Branch(new Vector3(0, 0, 0))) ) ) // && itemsToSpawn.Contains(new Branch(new Vector3(0, 0, 0)))
-                        index++;
-            if (index == 2 && ( itemMap.contains(new Caterpillar(new Vector3(0, 0, 0))) || this.contains(new Caterpillar(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 3 && ( itemMap.contains(new Crystal(new Vector3(0, 0, 0))) || this.contains(new Crystal(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 4 && ( itemMap.contains(new Eye(new Vector3(0, 0, 0))) || this.contains(new Eye(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 5 && ( itemMap.contains(new Frog(new Vector3(0, 0, 0))) || this.contains(new Frog(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 6 && ( itemMap.contains(new Pig(new Vector3(0, 0, 0))) || this.contains(new Pig(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 7 && ( itemMap.contains(new Slime(new Vector3(0, 0, 0))) || this.contains(new Slime(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 8 && ( itemMap.contains(new Spider(new Vector3(0, 0, 0))) || this.contains(new Spider(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 9 && ( itemMap.contains(new UnicornHorn(new Vector3(0, 0, 0))) || this.contains(new UnicornHorn(new Vector3(0, 0, 0))) ) )
-                        index++;
-            if (index == 10 && ( itemMap.contains(new WingOfABat(new Vector3(0, 0, 0))) || this.contains(new WingOfABat(new Vector3(0, 0, 0))) ) )
-                        index = 1;
+            if (item.itemIndex == branch.itemIndex && (itemMap.contains(item) || this.contains(item))) // && itemsToSpawn.Contains(new Branch(new Vector3(0, 0, 0)))
+                item = caterpillar;
+            if (item.itemIndex == caterpillar.itemIndex && (itemMap.contains(caterpillar) || this.contains(caterpillar) ) )
+                item = crystal;
+            if (item.itemIndex == crystal.itemIndex && (itemMap.contains(crystal) || this.contains(crystal)))
+                item = eye;
+            if (item.itemIndex == eye.itemIndex && (itemMap.contains(eye) || this.contains(eye)))
+                item = frog;
+            if (item.itemIndex == frog.itemIndex && (itemMap.contains(frog) || this.contains(frog)))
+                item = pig;
+            if (item.itemIndex == pig.itemIndex && (itemMap.contains(pig) || this.contains(pig)))
+                item = slime;
+            if (item.itemIndex == slime.itemIndex && (itemMap.contains(slime) || this.contains(slime)))
+                item = spider;
+            if (item.itemIndex == spider.itemIndex && (itemMap.contains(spider) || this.contains(spider)))
+                item = unicornHorn;
+            if (item.itemIndex == unicornHorn.itemIndex && (itemMap.contains(unicornHorn) || this.contains(unicornHorn)))
+                item = wingOfABat;
+            if (item.itemIndex == wingOfABat.itemIndex && (itemMap.contains(wingOfABat) || this.contains(wingOfABat)))
+                item = branch;
 
+            itemsToSpawn.Add(item);
 
             //Item Spawnen
+            //switch (index)
+            //{
+            //    case 1:
+            //        itemsToSpawn.Add(new Branch(position));
+            //        break;
+            //    case 2:
+            //        itemsToSpawn.Add(new Caterpillar(position));
+            //        break;
+            //    case 3:
+            //        itemsToSpawn.Add(new Crystal(position));
+            //        break;
+            //    case 4:
+            //        itemsToSpawn.Add(new Eye(position));
+            //        break;
+            //    case 5:
+            //        itemsToSpawn.Add(new Frog(position));
+            //        break;
+            //    case 6:
+            //        itemsToSpawn.Add(new Pig(position));
+            //        break;
+            //    case 7:
+            //        itemsToSpawn.Add(new Slime(position));
+            //        break;
+            //    case 8:
+            //        itemsToSpawn.Add(new Spider(position));
+            //        break;
+            //    case 9:
+            //        itemsToSpawn.Add(new UnicornHorn(position));
+            //        break;
+            //    case 10:
+            //        itemsToSpawn.Add(new WingOfABat(position));
+            //        break;
+            //}
+        }
+
+        public Item generateRandomItem()
+        {
+            int index = randomItem.Next(1, 11);
+            Item item;
             switch (index)
             {
                 case 1:
-                    itemsToSpawn.Add(new Branch(position));
+                    item =  new Branch(new Vector3(0,0,0));
                     break;
                 case 2:
-                    itemsToSpawn.Add(new Caterpillar(position));
+                    item = new Caterpillar(new Vector3(0, 0, 0));
                     break;
                 case 3:
-                    itemsToSpawn.Add(new Crystal(position));
+                    item = new Crystal(new Vector3(0, 0, 0));
                     break;
                 case 4:
-                    itemsToSpawn.Add(new Eye(position));
+                    item = new Eye(new Vector3(0, 0, 0));
                     break;
                 case 5:
-                    itemsToSpawn.Add(new Frog(position));
+                    item = new Frog(new Vector3(0, 0, 0));
                     break;
                 case 6:
-                    itemsToSpawn.Add(new Pig(position));
+                    item = new Pig(new Vector3(0, 0, 0));
                     break;
                 case 7:
-                    itemsToSpawn.Add(new Slime(position));
+                    item = new Slime(new Vector3(0, 0, 0));
                     break;
                 case 8:
-                    itemsToSpawn.Add(new Spider(position));
+                    item = new Spider(new Vector3(0, 0, 0));
                     break;
                 case 9:
-                    itemsToSpawn.Add(new UnicornHorn(position));
+                    item = new UnicornHorn(new Vector3(0, 0, 0));
                     break;
                 case 10:
-                    itemsToSpawn.Add(new WingOfABat(position));
+                    item = new WingOfABat(new Vector3(0, 0, 0));
                     break;
+                default :
+                    throw new NotImplementedException();
             }
+            return item;
         }
     }
 }

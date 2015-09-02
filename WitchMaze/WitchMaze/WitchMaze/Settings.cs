@@ -21,13 +21,19 @@ namespace WitchMaze
         public static void setResolutionX(int x)
         {   interfaceScale = (float)x / (float)resolutionX;
             resolutionX = x;
-            resolutionY = (int)(x / formatX * formatY); 
+            resolutionY = (int)(x / formatX * formatY);
+            Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
+            Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
+            Game1.getGraphics().ApplyChanges();
         }
         public static void setResolutionY(int y) 
         {
             interfaceScale = (float)resolutionY / (float)y;
             resolutionX = (int)((y / formatY) * formatX); 
             resolutionY = y;
+            Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
+            Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
+            Game1.getGraphics().ApplyChanges();
         }
 
         static bool isFullScreen = false; public static bool isFullscreen() { return isFullScreen; }
