@@ -20,6 +20,8 @@ namespace WitchMaze.ItemStuff.Items
             directionalSpecular = new Vector3(0.5f, 0.5f, 0.5f);
             specularPower = 0f;
 
+            scale = Matrix.CreateScale((float)0.0015);
+
 
             itemIndex = EItemIndex.Branch;
             position = _position;

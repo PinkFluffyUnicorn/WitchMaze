@@ -72,7 +72,7 @@ namespace WitchMaze.ItemStuff.Items
                 mesh.Draw();
             }
             if (rotationOK)
-                rotation += (float)0.01;
+                rotation += (float)0.05;
         }
 
     }

@@ -20,6 +20,8 @@ namespace WitchMaze.ItemStuff.Items
             directionalSpecular = new Vector3(0.4f, 0f, 0f);
             specularPower = 10f;
 
+            scale = Matrix.CreateScale((float)0.0007);
+
             itemIndex = EItemIndex.Eye;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/MonsterEye");

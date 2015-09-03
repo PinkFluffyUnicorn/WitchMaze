@@ -24,7 +24,7 @@ namespace WitchMaze.ItemStuff.Items
             specularPower = 20f;
             positionY = 0.05f;
 
-            scale = Matrix.CreateScale(0.0009f);
+            scale = Matrix.CreateScale(0.0015f);
             rotationOK = false;
 
             itemIndex = EItemIndex.Slime;

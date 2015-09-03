@@ -18,7 +18,7 @@ namespace WitchMaze.ItemStuff.Items
             directionalDirection = new Vector3(0f, -1f, 0f);
             directionalSpecular = new Vector3(0.7f, 0.7f, 0.7f);
             specularPower = 2f;
-            scale = Matrix.CreateScale(0.002f);
+            scale = Matrix.CreateScale(0.0025f);
 
             itemIndex = EItemIndex.WingOfABat;
             position = _position;

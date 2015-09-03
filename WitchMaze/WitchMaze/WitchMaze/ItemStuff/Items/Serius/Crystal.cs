@@ -22,6 +22,7 @@ namespace WitchMaze.ItemStuff.Items
             directional1Specular = new Vector3(1f, 1f, 1f);
             specularPower = 0f;
 
+            scale = Matrix.CreateScale((float)0.0014);
 
             itemIndex = EItemIndex.Crystal;
             position = _position;

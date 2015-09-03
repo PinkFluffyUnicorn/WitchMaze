@@ -19,6 +19,8 @@ namespace WitchMaze.ItemStuff.Items
             directionalSpecular = new Vector3(0.5f, 0.5f, 0.5f);
             specularPower = 2f;
 
+            scale = Matrix.CreateScale((float)0.0015);
+
             itemIndex = EItemIndex.Spider;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/Spider");
