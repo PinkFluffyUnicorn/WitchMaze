@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze.InterfaceObjects
 {
@@ -37,14 +38,14 @@ namespace WitchMaze.InterfaceObjects
             running = false;
         }
 
-        public void update(GameTime gameTime)
+        public void update(ownGameTime gameTime)
         {
             //check if clock is started jet
             if (!running)
                 return;
             else
             {
-                elapsedTime += gameTime.ElapsedGameTime.Milliseconds;
+                elapsedTime += gameTime.getElapsedGameTime();
                 int hseconds = (int)(elapsedTime / 1000) % 60;
                 int hminutes = ((int)(elapsedTime / 1000) - hseconds) / 60;
 

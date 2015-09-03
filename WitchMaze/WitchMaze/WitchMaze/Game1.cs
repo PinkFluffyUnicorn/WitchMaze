@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze.ownFunctions;
 
 
 namespace WitchMaze
@@ -17,6 +18,7 @@ namespace WitchMaze
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        ownGameTime ownTime;
         public static SoundEffectInstance soundEffectInstance { get; set; }
         public static SoundEffect inGameSound;
 
@@ -50,6 +52,7 @@ namespace WitchMaze
 
         public Game1()
         {
+            ownTime = new ownGameTime();
             currentGameState = EGameState.MainMenu; //tells GameState where so start //change back to main menu
             handleGameState();
             //graphicsDevice = GraphicsDevice;
@@ -57,7 +60,7 @@ namespace WitchMaze
             //fullscreen
             graphics.IsFullScreen = Settings.isFullscreen();
             //fenstergröße
-            Settings.setResolutionX(1024);// 1024, 1280, 1920
+            Settings.setResolutionX(1920);// 1024, 1280, 1920
             graphics.PreferredBackBufferHeight = Settings.getResolutionY();
             graphics.PreferredBackBufferWidth = Settings.getResolutionX();
             
@@ -66,6 +69,7 @@ namespace WitchMaze
 
             inGameSound = getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeMenu");
             soundEffectInstance = inGameSound.CreateInstance();
+            soundEffectInstance.Volume = Settings.getSoundVolume();
             soundEffectInstance.IsLooped = true;
             soundEffectInstance.Play();
         }
@@ -119,6 +123,7 @@ namespace WitchMaze
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            ownTime.update(gameTime);
             KeyboardState k = Keyboard.GetState();
             // Allows the game to exit
             //if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
@@ -127,11 +132,11 @@ namespace WitchMaze
             //    this.Exit();
 
             // TODO: Add your update logic here
-            currentGameState = gameState.update(gameTime);
+            currentGameState = gameState.update(ownTime);
             if (currentGameState != prevGameState)
                 handleGameState();
 
-            gameState.update(gameTime);
+            //gameState.update(ownTime);
 
             base.Update(gameTime);
         }
@@ -152,7 +157,7 @@ namespace WitchMaze
 
 
             // TODO: Add your drawing code here
-            gameState.Draw(gameTime);
+            gameState.Draw();
 
 
             base.Draw(gameTime);

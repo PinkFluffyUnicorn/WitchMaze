@@ -8,6 +8,7 @@ using WitchMaze.ItemStuff;
 using WitchMaze.MapStuff;
 using WitchMaze.PlayerStuff;
 using WitchMaze.InterfaceObjects;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze.GameStates.InGameStates
 {
@@ -53,9 +54,9 @@ namespace WitchMaze.GameStates.InGameStates
             
         }
 
-        
 
-        public override EInGameState update(GameTime gameTime)
+
+        public override EInGameState update(ownGameTime gameTime)
         {
             //Write WinCondition Here
             int i = 0;
@@ -65,7 +66,12 @@ namespace WitchMaze.GameStates.InGameStates
                 i++;
                 //HashSet sombodey one?
                 if (p.getItemsCollected().Count >= 10)
+                {
+                    p.hasWon = true;
                     return EInGameState.Exit;
+
+                }
+
             }
 
             if (playerList.Count == 1)
@@ -83,9 +89,9 @@ namespace WitchMaze.GameStates.InGameStates
         }
 
 
-        public override void Draw(GameTime gameTime)
+        public override void Draw()
         {
-            base.Draw(gameTime);
+            base.Draw();
 
             int i = 0;
             foreach (Player p in playerList)

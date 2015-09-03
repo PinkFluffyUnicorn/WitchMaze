@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze;
 using WitchMaze.InterfaceObjects;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze.GameStates
 {
@@ -63,7 +64,7 @@ namespace WitchMaze.GameStates
             
         }
 
-        public override EGameState update(Microsoft.Xna.Framework.GameTime gameTime)
+        public override EGameState update(ownGameTime gameTime)
         {
             keyboard = Keyboard.GetState();
             //Input
@@ -141,7 +142,7 @@ namespace WitchMaze.GameStates
                 return EGameState.MainMenu;
         }
 
-        public override void Draw(Microsoft.Xna.Framework.GameTime gameTime)
+        public override void Draw()
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;

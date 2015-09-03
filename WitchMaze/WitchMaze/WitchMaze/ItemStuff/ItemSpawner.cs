@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WitchMaze.ItemStuff.Items;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze.ItemStuff
 {
@@ -27,7 +28,7 @@ namespace WitchMaze.ItemStuff
             randomItem = new Random();
             itemsToSpawn = new List<Item>();
             timeToNewItem = 0;
-            timeForNewItem *= 10000;
+            timeForNewItem *= 1000;
         }
         /// <summary>
         /// Initialli fills ItemMap
@@ -58,12 +59,12 @@ namespace WitchMaze.ItemStuff
         /// Updates Item Map if Changed
         /// </summary>
         /// <param name="itemMap">the ItemMap to update</param>
-        public void update(ItemMap itemMap, GameTime gameTime, List<PlayerStuff.Player> playerList)
+        public void update(ItemMap itemMap, ownGameTime gameTime, List<PlayerStuff.Player> playerList)
         {
             //Console.WriteLine(timeToNewItem);
             //Console.WriteLine(itemsToSpawn.Count());
 
-            timeToNewItem += gameTime.TotalGameTime.Milliseconds;
+            timeToNewItem += gameTime.getElapsedGameTime();
             if (itemsToSpawn.Count == 0)
                 timeToNewItem = 0;
             if (timeToNewItem >= timeForNewItem)

@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.GameStates;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze
 {
@@ -26,9 +27,9 @@ namespace WitchMaze
 
         public abstract void unloadContent();
 
-        public abstract EGameState update(GameTime gameTime);
+        public abstract EGameState update(ownGameTime gameTime);
 
-        public abstract void Draw(GameTime gameTime);
+        public abstract void Draw();
     }
 
     public enum EGameState

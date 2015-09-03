@@ -8,36 +8,68 @@ namespace WitchMaze.ownFunctions
 {
     class ownGameTime
     {
-        GameTime gameTime;
 
         /// <summary>
         /// returns the elapsedGameTime in milliseconds
         /// </summary>
-        public float elapsedGameTime { get; private set; }
+        private float elapsedGameTime;
+        /// <summary>
+        /// returns the ElapsedGameTime in Miliseconds
+        /// </summary>
+        /// <returns></returns>
+        public float getElapsedGameTime() 
+        { 
+            if (!isPaused) 
+                return elapsedGameTime; 
+            else
+                return 0;
+        }
         /// <summary>
         /// returns the totalTime in milliseconds
         /// </summary>
         public float totalTime { get; private set; }
 
-        bool pause;
+        bool isPaused;
+        float pauseStartTime;
         private float pauseTime;
 
-        public ownGameTime(GameTime gameTime)
+        public ownGameTime()
         {
-            pause = false;
+            isPaused = false;
             pauseTime = 0;
-            this.gameTime = gameTime;
+        }
+
+        /// <summary>
+        /// pauses the GameTime
+        /// </summary>
+        public void pause()
+        {
+            isPaused = true;
+            pauseStartTime = totalTime - pauseTime;
+        }
+
+        /// <summary>
+        /// resumes the Paused GameTime
+        /// </summary>
+        public void resume()
+        {
+            isPaused = false;
         }
 
         /// <summary>
         /// updates the GameTime
         /// </summary>
-        public void update()
+        public void update(GameTime gameTime)
         {
-            if (!pause)
+            if (!isPaused)
             {
                 elapsedGameTime = gameTime.ElapsedGameTime.Milliseconds;
-                totalTime = gameTime.TotalGameTime.Milliseconds; 
+                totalTime = gameTime.TotalGameTime.Milliseconds - pauseTime; 
+            }
+            else
+            {
+                pauseTime = totalTime - pauseStartTime;
+                float trashBin = gameTime.ElapsedGameTime.Milliseconds;//throws away the elapsed time so that no big number is reached
             }
 
         }

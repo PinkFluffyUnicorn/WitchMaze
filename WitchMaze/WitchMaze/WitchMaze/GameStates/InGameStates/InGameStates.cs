@@ -11,11 +11,14 @@ using WitchMaze.ItemStuff;
 using WitchMaze.InterfaceObjects;
 using WitchMaze.PlayerStuff;
 using Microsoft.Xna.Framework.Media;
+using WitchMaze.ownFunctions;
+using Microsoft.Xna.Framework.Input;
 
 namespace WitchMaze.GameStates
 {
     abstract class InGameState
     {
+        KeyboardState keyboard;
         static SoundEffect sound = Game1.getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeInGame");
         //SoundEffectInstance soundInstance = sound.CreateInstance();
 
@@ -35,7 +38,6 @@ namespace WitchMaze.GameStates
         public static Map getMap() { return map; }
         public static ItemMap getItemMap() { return itemMap; }
         public static ItemSpawner getItemSpawner() { return itemSpawner; }
-        //vllt ItemSpawner, Map, ect schon hier Updaten und Initialisieren, einfacher für folgende GameStates
 
         /// <summary>
         /// Initializes the Map, Items, the Player, the PlayerInterface and the Minimap
@@ -60,6 +62,7 @@ namespace WitchMaze.GameStates
 
             Game1.soundEffectInstance.Stop();
             Game1.soundEffectInstance = sound.CreateInstance();
+            Game1.soundEffectInstance.Volume = Settings.getSoundVolume();
             Game1.soundEffectInstance.IsLooped = true;
             Game1.soundEffectInstance.Play();
         }
@@ -76,8 +79,9 @@ namespace WitchMaze.GameStates
         /// </summary>
         /// <param name="gameTime">GameTime</param>
         /// <returns>State of the Game</returns>
-        public virtual EInGameState update(GameTime gameTime) 
+        public virtual EInGameState update(ownGameTime gameTime) 
         {
+            keyboard = Keyboard.GetState();
             foreach (Player player in playerList)
             {
                 player.update(gameTime);
@@ -141,7 +145,6 @@ namespace WitchMaze.GameStates
             itemSpawner.update(itemMap, gameTime, playerList);
             minimap.update(itemMap, playerList);
 
-            //fails if not set jet
             if (currentInGameState == null)
                 throw new IndexOutOfRangeException();
             return currentInGameState; 
@@ -151,7 +154,7 @@ namespace WitchMaze.GameStates
         /// Draws Player, Map, Items and Interface
         /// </summary>
         /// <param name="gameTime"></param>
-        public virtual void Draw(GameTime gameTime) 
+        public virtual void Draw() 
         {           
 
             Viewport defaultViewport = Game1.getGraphics().GraphicsDevice.Viewport;

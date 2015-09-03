@@ -118,8 +118,10 @@
     <Compile Include="GameStates\InGame.cs" />
     <Compile Include="GameStates\InGameStates\GameWon.cs" />
     <Compile Include="GameStates\InGameStates\InGameStates.cs" />
+    <Compile Include="GameStates\InGameStates\Pause.cs" />
     <Compile Include="GameStates\InGameStates\RushHour.cs" />
     <Compile Include="GameStates\InGameStates\NeedForIngrediance.cs" />
+    <Compile Include="GameStates\InGameStates\Won.cs" />
     <Compile Include="GameStates\MainMenu.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>

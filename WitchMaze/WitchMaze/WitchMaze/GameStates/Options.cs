@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.InterfaceObjects;
+using WitchMaze.ownFunctions;
 
 
 namespace WitchMaze.GameStates
@@ -17,7 +18,7 @@ namespace WitchMaze.GameStates
     class Options : GameState 
     {
         int count = 0;
-        bool isPressed = false;
+        bool isPressed = true;
         KeyboardState keyboard = Keyboard.GetState();
 
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
@@ -25,8 +26,12 @@ namespace WitchMaze.GameStates
 
         Vector2 optionsTitelPosition = new Vector2(710, 100);
         Icon optionsTitel;
-        Button resolutionButton, fullscreenButton;
-        LeftRightSwitch resolutionLR, fullscreenLR;
+        Button resolutionButton, fullscreenButton, volumeButton;
+        LeftRightSwitch resolutionLR, fullscreenLR, volumeLR;
+
+        int resolutionX = Settings.getResolutionX();
+        bool fullScreen = Settings.isFullscreen();
+        float Volume = Settings.getSoundVolume();
         
         public override void initialize()
         {
@@ -42,12 +47,25 @@ namespace WitchMaze.GameStates
                 optionsTitel = new Icon(optionsTitelPosition * Settings.getInterfaceScale(), "Textures/option/optionsTitel");
                 fullscreenButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY),  "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
                 resolutionButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (fullscreenButton.getPosition().Y + fullscreenButton.getHeight()) + distY),"Textures/option/Resolution", "Textures/option/ResolutionSelected");
-
-                String[] resolutions = { "Textures/option/1080p", "Textures/option/1366p", "Textures/option/720p", "Textures/option/1024p" };
+                volumeButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (resolutionButton.getPosition().Y + resolutionButton.getHeight()) + distY), "Textures/option/Volume", "Textures/option/VolumeSelected");
+                String[] resolutions = { "Textures/option/720p", "Textures/option/1366p", "Textures/option/1080p" };//, "Textures/option/1024p" 
                 String[] fullscreenmode = { "Textures/option/offButton", "Textures/option/onButton" };
+                String[] volumtmodes = { "Textures/option/100Prozent", "Textures/option/90Prozent", "Textures/option/80Prozent", "Textures/option/70Prozent", "Textures/option/60Prozent", "Textures/option/50Prozent", "Textures/option/40Prozent", "Textures/option/30Prozent", "Textures/option/20Prozent", "Textures/option/10Prozent", "Textures/option/offButton" };
 
                 resolutionLR = new LeftRightSwitch(new Vector2(resolutionButton.getPosition().X + resolutionButton.getWidth() + offset, resolutionButton.getPosition().Y), resolutions);
                 fullscreenLR = new LeftRightSwitch(new Vector2(fullscreenButton.getPosition().X + fullscreenButton.getWidth() + offset, fullscreenButton.getPosition().Y), fullscreenmode);
+                volumeLR = new LeftRightSwitch(new Vector2(volumeButton.getPosition().X + volumeButton.getWidth() + offset, volumeButton.getPosition().Y), volumtmodes);
+
+                //always show the actual settings selected first
+                if (Settings.isFullscreen())
+                    fullscreenLR.switchLeft();
+                if (Settings.getResolutionX() == 1366)
+                    resolutionLR.switchRight();
+                if (Settings.getResolutionX() == 1920)
+                    resolutionLR.switchLeft();
+                int h = 10 - (int)(Settings.getSoundVolume() * 10);
+                while (volumeLR.getDisplayedIndex() != h)
+                    volumeLR.switchLeft();
                 
             }
         }
@@ -57,7 +75,7 @@ namespace WitchMaze.GameStates
 
         }
 
-        public override EGameState update(GameTime gameTime) 
+        public override EGameState update(ownGameTime gameTime) 
         {
             keyboard = Keyboard.GetState();
             if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Down) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Enter))
@@ -67,123 +85,127 @@ namespace WitchMaze.GameStates
             if ((keyboard.IsKeyDown(Keys.Down)) && isPressed == false)
             {
                 count++;
-                count = count % 2;
+                count = count % 3;
                 isPressed = true;
             }
             if ((keyboard.IsKeyDown(Keys.Up)) && isPressed == false)
             {
-                count += 1;
-                count = count % 2;
+                count += 2;
+                count = count % 3;
                 isPressed = true;
             }
 
             //update Buttons
             if (count == 0)
             {
+                volumeButton.setNotSelected();
+                volumeLR.setNotSelected();
                 resolutionButton.setNotSelected();
+                resolutionLR.setNotSelected();
                 fullscreenButton.setSelected();
                 fullscreenLR.setSelected();
             }
 
             if (count == 1)
             {
+                volumeButton.setNotSelected();
+                volumeLR.setNotSelected();
                 resolutionButton.setSelected();
                 resolutionLR.setSelected();
                 fullscreenButton.setNotSelected();
+                fullscreenLR.setNotSelected();
             }
 
-
-            if (resolutionLR.isSelected())
+            if (count == 2)
             {
-                if (keyboard.IsKeyDown(Keys.Right) && resolutionButton.isSelected() && isPressed == false)
+
+                resolutionButton.setNotSelected();
+                fullscreenButton.setNotSelected();
+                volumeButton.setSelected();
+                volumeLR.setSelected();
+            }
+
+            if (resolutionButton.isSelected())//resolutionLR.isSelected()
+            {
+                if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
                 {
                     resolutionLR.switchRight();
                     isPressed = true;
                 }
 
-                if (keyboard.IsKeyDown(Keys.Left) && resolutionButton.isSelected() && isPressed == false)
+                if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
                 {
                     resolutionLR.switchLeft();
                     isPressed = true;
                 }
 
-                if (resolutionLR.getDisplayedIndex() == 0 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
+                if (resolutionLR.getDisplayedIndex() == 2)
                 {
-                    Settings.setResolutionX(1920);
-                    Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
-                    Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
-                    isPressed = true;
+                    resolutionX = 1920;
                 }
-                if (resolutionLR.getDisplayedIndex() == 1 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
+                if (resolutionLR.getDisplayedIndex() == 1)
                 {
-                    Settings.setResolutionX(1366);
-                    Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
-                    Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
-                    isPressed = true;
+                    resolutionX = 1366;
                 }
-                if (resolutionLR.getDisplayedIndex() == 2 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
+                if (resolutionLR.getDisplayedIndex() == 0)
                 {
-                    Settings.setResolutionX(1280);
-                    Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
-                    Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
-                    isPressed = true;
-                }
-                if (resolutionLR.getDisplayedIndex() == 3 && resolutionButton.isSelected() && keyboard.IsKeyDown(Keys.Enter) && isPressed == false)
-                {
-                    Settings.setResolutionX(1024);
-                    Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
-                    Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
-                    isPressed = true;
+                    resolutionX = 1280;
                 }
 
             }
 
-            if (fullscreenLR.isSelected())
+            if (fullscreenButton.isSelected())//fullscreenLR.isSelected()
             {
-                if (keyboard.IsKeyDown(Keys.Right) && fullscreenButton.isSelected() && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
+                if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
                     fullscreenLR.switchRight();
-                    Game1.getGraphics().IsFullScreen = true;
-                    Game1.getGraphics().ApplyChanges();
+                    fullScreen = true;
                     isPressed = true;
                 }
-
-                if (keyboard.IsKeyDown(Keys.Left) && fullscreenButton.isSelected() && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
+                if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
                     fullscreenLR.switchLeft();
-                    Game1.getGraphics().IsFullScreen = true;
-                    Game1.getGraphics().ApplyChanges();
+                    fullScreen = true;
                     isPressed = true;
                 }
 
-                if (keyboard.IsKeyDown(Keys.Right) && fullscreenButton.isSelected() && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
+                if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
                     fullscreenLR.switchRight();
-                    Game1.getGraphics().IsFullScreen = false;
-                    Game1.getGraphics().ApplyChanges();
+                    fullScreen = false;
                     isPressed = true;
                 }
-
-                if (keyboard.IsKeyDown(Keys.Left) && fullscreenButton.isSelected() && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
+                if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
                     fullscreenLR.switchLeft();
-                    Game1.getGraphics().IsFullScreen = false;
-                    Game1.getGraphics().ApplyChanges();
+                    fullScreen = false;
                     isPressed = true;
                 }
-
-                //if (fullscreenLR.getDisplayedIndex() == 0 && fullscreenButton.isSelected())
-                //{
-                //    Game1.getGraphics().IsFullScreen = false;
-                //    Game1.getGraphics().ApplyChanges();
-                //}
-
-                //if (fullscreenLR.getDisplayedIndex() == 1 && fullscreenButton.isSelected())
-                //{
-                                               
-                //}
             }
- 
+
+            if (volumeButton.isSelected())
+            {
+                if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
+                {
+                    volumeLR.switchRight();
+                    Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
+                    isPressed = true;
+                }
+                if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
+                {
+                    volumeLR.switchLeft();
+                    Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
+                    isPressed = true;
+                }
+                //Console.WriteLine(volumeLR.getDisplayedIndex());
+            }
+
+            if (keyboard.IsKeyDown(Keys.Enter) && !isPressed)
+            {
+                apply();
+                return EGameState.MainMenu;
+            }
+                
 
             if (keyboard.IsKeyDown(Keys.Escape))
                 return EGameState.MainMenu;
@@ -191,8 +213,22 @@ namespace WitchMaze.GameStates
                 return EGameState.Options;
         }
 
+        public void apply()
+        {
+            if (fullScreen)
+                Settings.setFullscreen( true);
+            else
+                Settings.setFullscreen(false);
 
-        public override void Draw(GameTime gameTime) 
+            Settings.setResolutionX(resolutionX);
+
+            Settings.setSoundVolume(Volume);
+            initialize();
+            loadContent();
+        }
+
+
+        public override void Draw() 
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;
@@ -201,16 +237,16 @@ namespace WitchMaze.GameStates
             optionsTitel.draw();
 
             resolutionButton.draw();
-            if (resolutionButton.isSelected())
-            {
                 resolutionLR.draw();
-            }
+
             
             fullscreenButton.draw();
-            if (fullscreenButton.isSelected())
-            {
                 fullscreenLR.draw();
-            }
+
+
+            volumeButton.draw();
+                volumeLR.draw();
+
 
         }
 

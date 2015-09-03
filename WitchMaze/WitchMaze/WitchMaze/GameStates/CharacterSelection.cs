@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using WitchMaze.InterfaceObjects;
+using WitchMaze.ownFunctions;
 using WitchMaze.PlayerStuff;
 
 
@@ -75,7 +76,7 @@ namespace WitchMaze.GameStates
 
         public override void unloadContent() { /*throw new NotImplementedException();*/ }
 
-        public override EGameState update(GameTime gameTime) 
+        public override EGameState update(ownGameTime gameTime) 
         {
             updatePlayer();
             if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
@@ -287,7 +288,7 @@ namespace WitchMaze.GameStates
 
         }
 
-        public override void Draw(GameTime gameTime) 
+        public override void Draw() 
         {
             Game1.getGraphics().GraphicsDevice.BlendState = BlendState.Opaque;
             Game1.getGraphics().GraphicsDevice.DepthStencilState = DepthStencilState.Default;

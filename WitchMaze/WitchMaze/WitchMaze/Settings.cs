@@ -16,10 +16,26 @@ namespace WitchMaze
         static int resolutionY = 1080; public static int getResolutionY() { return resolutionY; }
         static float interfaceScale = 1f; public static float getInterfaceScale() { return interfaceScale; }
 
-        
-       
+        static float soundVolume = 1;
+        public static float getSoundVolume() { return soundVolume; }
+        public static void setSoundVolume(float volume) {
+            //if (volume < 0 || volume > 1)
+            //    throw new IndexOutOfRangeException();
+            if (Game1.soundEffectInstance.IsDisposed)
+                return;
+            Game1.soundEffectInstance.Stop();
+            soundVolume = volume;
+            Game1.soundEffectInstance.Dispose();
+            Game1.soundEffectInstance = Game1.inGameSound.CreateInstance();
+            Game1.soundEffectInstance.Volume = soundVolume;
+            Game1.soundEffectInstance.IsLooped = true;
+            Game1.soundEffectInstance.Play();
+
+        }
         public static void setResolutionX(int x)
-        {   interfaceScale = (float)x / (float)resolutionX;
+        {
+            interfaceScale = (float)x / 1920;//(float)resolutionX; //problem ist hier
+        Console.WriteLine(interfaceScale);
             resolutionX = x;
             resolutionY = (int)(x / formatX * formatY);
             Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
@@ -28,7 +44,7 @@ namespace WitchMaze
         }
         public static void setResolutionY(int y) 
         {
-            interfaceScale = (float)resolutionY / (float)y;
+            interfaceScale = 1080 / (float)y;
             resolutionX = (int)((y / formatY) * formatX); 
             resolutionY = y;
             Game1.getGraphics().PreferredBackBufferHeight = Settings.getResolutionY();
@@ -36,7 +52,14 @@ namespace WitchMaze
             Game1.getGraphics().ApplyChanges();
         }
 
-        static bool isFullScreen = false; public static bool isFullscreen() { return isFullScreen; }
+        static bool isFullScreen = false;
+        public static void setFullscreen(bool fullscreen)
+        {
+            isFullScreen = fullscreen;
+            Game1.getGraphics().IsFullScreen = fullscreen;
+            Game1.getGraphics().ApplyChanges();
+        }
+        public static bool isFullscreen() { return isFullScreen; }
         
         /// <summary>
         /// float how big a block(Wall, Floor, Blackhole) in x- Direction is

@@ -3,9 +3,6 @@ using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using System;
 using System.Collections.Generic;
@@ -13,6 +10,8 @@ using System.Linq;
 using System.Text;
 using WitchMaze.ItemStuff.Items;
 using WitchMaze.InterfaceObjects;
+using WitchMaze.ownFunctions;
+using Microsoft.Xna.Framework.Input;
 
 namespace WitchMaze.PlayerStuff
 {
@@ -64,7 +63,7 @@ namespace WitchMaze.PlayerStuff
         EPlayerViewportPosition playerViewportPosition;
         Viewport viewport;
         float timeSinceLastMove;
-        float timescale = 1000;//more is slower
+        float timescale = 500;//more is slower
         float turningScale = 1;//scale for head turning, more is faster
         Vector3 direction; //für bewegung vorne hinten
         Vector3 ortoDirection; //für bewegung links rechts
@@ -75,7 +74,7 @@ namespace WitchMaze.PlayerStuff
         KeyboardState keyboard;
         float aspectRatio;
 
-        
+        public bool hasWon = false;
 
         //Move
         //Move movePlayer;
@@ -300,7 +299,7 @@ namespace WitchMaze.PlayerStuff
         }
 
         //update
-        public void update(GameTime gameTime)
+        public void update(ownGameTime gameTime)
         {
             //this.reportStatus();
             this.move(gameTime);
@@ -318,7 +317,7 @@ namespace WitchMaze.PlayerStuff
             bounceDirection.Normalize();
         }
 
-        private void move(GameTime gameTime)
+        private void move(ownGameTime gameTime)
         {
             //ToDo kollieion dierekt hier einbauen...
             switch (playerControlls)
@@ -356,10 +355,10 @@ namespace WitchMaze.PlayerStuff
         /// Keyboard Movement
         /// </summary>
         /// <param name="gameTime">GameTime for correct movement dependent on Time not FPS</param>
-        private void moveK(GameTime gameTime, Keys moveUp, Keys moveDown, Keys moveLeft, Keys moveRight, Keys lookLeft, Keys lookRight)
+        private void moveK(ownGameTime gameTime, Keys moveUp, Keys moveDown, Keys moveLeft, Keys moveRight, Keys lookLeft, Keys lookRight)
         {
             Vector3 newPosition = position;
-            timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
+            timeSinceLastMove = gameTime.getElapsedGameTime();
             keyboard = Keyboard.GetState();
             direction = lookAt - position;
             ortoDirection = Vector3.Cross(direction, upDirection);
@@ -504,14 +503,14 @@ namespace WitchMaze.PlayerStuff
         }
 
         //GamePad
-        private void moveG(GameTime gameTime, PlayerIndex playerIndex)
+        private void moveG(ownGameTime gameTime, PlayerIndex playerIndex)
         {
 
                 // Get the current gamepad state.
                 GamePadState currentState = GamePad.GetState(playerIndex);
 
                 Vector3 newPosition = position;
-                timeSinceLastMove = gameTime.ElapsedGameTime.Milliseconds;
+                timeSinceLastMove = gameTime.getElapsedGameTime();
                 keyboard = Keyboard.GetState();
                 direction = lookAt - position;
                 ortoDirection = Vector3.Cross(direction, upDirection);
