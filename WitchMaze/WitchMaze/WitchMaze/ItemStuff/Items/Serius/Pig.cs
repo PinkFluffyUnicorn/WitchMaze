@@ -22,6 +22,8 @@ namespace WitchMaze.ItemStuff.Items
             directional1Specular = new Vector3(0.88f, 0.093f, 0.591f);
             specularPower = 2f;
 
+            scale = Matrix.CreateScale((float)0.0015);
+
             itemIndex = EItemIndex.Pig;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/Pig");

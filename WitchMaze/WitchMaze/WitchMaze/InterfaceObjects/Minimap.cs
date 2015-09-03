@@ -117,10 +117,10 @@ namespace WitchMaze.InterfaceObjects
                 item.draw();
                 
             }
-            foreach (Icon p in playerList)
-            {
-                p.draw();
-            }
+            //foreach (Icon p in playerList)
+            //{
+            //    p.draw();
+            //}
         }
     }
 }

@@ -20,6 +20,8 @@ namespace WitchMaze.ItemStuff.Items
             specularPower = 2f;
             rotate = 0.785f;
 
+            scale = Matrix.CreateScale((float)0.0013);
+
             itemIndex = EItemIndex.UnicornHorn;
             position = _position;
             model = Game1.getContent().Load<Model>("Models/Items/UnicornHorn");
