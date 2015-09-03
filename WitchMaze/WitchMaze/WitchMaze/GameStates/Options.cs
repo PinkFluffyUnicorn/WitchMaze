@@ -25,7 +25,7 @@ namespace WitchMaze.GameStates
         float offset = 10;//offset zwischen Icons und Switches
 
         Vector2 optionsTitelPosition = new Vector2(710, 100);
-        Icon optionsTitel;
+        Icon optionsTitel, enterEscNote;
         Button resolutionButton, fullscreenButton, volumeButton;
         LeftRightSwitch resolutionLR, fullscreenLR, volumeLR;
 
@@ -48,6 +48,7 @@ namespace WitchMaze.GameStates
                 fullscreenButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (optionsTitel.getPosition().Y + optionsTitel.getHeight()) + distY),  "Textures/option/Fullscreen", "Textures/option/FullscreenSelected");
                 resolutionButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (fullscreenButton.getPosition().Y + fullscreenButton.getHeight()) + distY),"Textures/option/Resolution", "Textures/option/ResolutionSelected");
                 volumeButton = new Button(new Vector2(560 * Settings.getInterfaceScale(), (resolutionButton.getPosition().Y + resolutionButton.getHeight()) + distY), "Textures/option/Volume", "Textures/option/VolumeSelected");
+                enterEscNote = new Icon(new Vector2(660 * Settings.getInterfaceScale(), (volumeButton.getPosition().Y + volumeButton.getHeight()) + distY), "Textures/EnterEscNote");
                 String[] resolutions = { "Textures/option/720p", "Textures/option/1366p", "Textures/option/1080p" };//, "Textures/option/1024p" 
                 String[] fullscreenmode = { "Textures/option/offButton", "Textures/option/onButton" };
                 String[] volumtmodes = { "Textures/option/100Prozent", "Textures/option/90Prozent", "Textures/option/80Prozent", "Textures/option/70Prozent", "Textures/option/60Prozent", "Textures/option/50Prozent", "Textures/option/40Prozent", "Textures/option/30Prozent", "Textures/option/20Prozent", "Textures/option/10Prozent", "Textures/option/offButton" };
@@ -256,6 +257,8 @@ namespace WitchMaze.GameStates
 
             volumeButton.draw();
                 volumeLR.draw();
+
+            enterEscNote.draw();
 
 
         }
