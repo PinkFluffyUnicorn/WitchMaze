@@ -128,15 +128,15 @@ namespace WitchMaze.GameStates
             }
 
             //switch the GameState
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 0)
+            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 0)
                 return EGameState.CharacterSelection;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 1)
+            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 1)
                 return EGameState.Help;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 2)
+            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 2)
                 return EGameState.Options;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 3)
+            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 3)
                 return EGameState.Credits;
-            if ((keyboard.IsKeyDown(Keys.Space) || keyboard.IsKeyDown(Keys.Enter)) && count == 4)
+            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 4)
                 return EGameState.Exit;
             else
                 return EGameState.MainMenu;

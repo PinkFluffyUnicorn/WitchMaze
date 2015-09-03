@@ -27,8 +27,8 @@ namespace WitchMaze.GameStates
 
         public override void loadContent()
         {
-           xboxControl = new Icon(new Vector2(20 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
-           numpadControl = new Icon(new Vector2(520 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/numpadControl");
+           xboxControl = new Icon(new Vector2(320 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
+           numpadControl = new Icon(new Vector2(1000 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/numpadControl");
            wasdControl = new Icon(new Vector2(320 * Settings.getInterfaceScale(), 520 * Settings.getInterfaceScale()), "Textures/help/wasdControl");
         }
 
