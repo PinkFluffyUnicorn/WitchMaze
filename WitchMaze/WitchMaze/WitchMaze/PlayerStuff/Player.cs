@@ -111,6 +111,7 @@ namespace WitchMaze.PlayerStuff
 
         //other
         List<Item> itemsCollected;
+        public float pan{get; protected set;}//gibt an wo der PlayerViewpoet ist
         public Icon playerIcon { get; protected set; }
         
 
@@ -205,6 +206,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
+                    pan = 0;
                     break;
                 case EPlayerViewportPosition.left:
                     viewport = defaultViewport;
@@ -218,6 +220,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
+                    pan = -1;
                     break;
                 case EPlayerViewportPosition.right:
                     viewport = defaultViewport;
@@ -232,6 +235,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
+                    pan = 1;
                     break;
                 case EPlayerViewportPosition.topLeft:
                     viewport = defaultViewport;
@@ -246,6 +250,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.15f, 0.15f, 0.15f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.15f, 0.15f);
+                    pan = -1;
                     break;
                 case EPlayerViewportPosition.botLeft:
                     viewport = defaultViewport;
@@ -261,6 +266,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
+                    pan = -1;
                     break;
                 case EPlayerViewportPosition.topRight:
                     viewport = defaultViewport;
@@ -276,6 +282,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
+                    pan = 1;
                     break;
                 case EPlayerViewportPosition.botRight:
                     viewport = defaultViewport;
@@ -292,6 +299,7 @@ namespace WitchMaze.PlayerStuff
                     directionalDiffuse = new Vector3(0.2f, 0.2f, 0.2f);
                     directionalDirection = new Vector3(0f, 1f, 0f);
                     directionalSpecular = new Vector3(0.2f, 0.2f, 0.2f);
+                    pan = 1;
                     break;
                 default:
                     throw new NotImplementedException();
@@ -755,6 +763,7 @@ namespace WitchMaze.PlayerStuff
                 Vector2 playerMapPosition = new Vector2((int)Math.Round(p.X), (int)Math.Round(p.Z));
                 if (!GameStates.InGameState.getItemMap().isEmpty((int)playerMapPosition.X, (int)playerMapPosition.Y))
                 {
+                    Game1.sounds.itemCollected.Play(Settings.getSoundVolume(), 0, pan);
                     itemsCollected.Add(GameStates.InGameState.getItemMap().getItem((int)playerMapPosition.X, (int)playerMapPosition.Y));
                     GameStates.InGameState.getItemMap().deleteItem((int)playerMapPosition.X, (int)playerMapPosition.Y);
                 }

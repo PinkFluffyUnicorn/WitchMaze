@@ -21,7 +21,7 @@ namespace WitchMaze.GameStates
         //GraphicsDeviceManager graphics;
         //GraphicsDevice graphicsDevice;
              
-        int count = 0;
+        int count;
         bool isPressed = false;
 
         KeyboardState keyboard = Keyboard.GetState();
@@ -56,6 +56,13 @@ namespace WitchMaze.GameStates
                 exit = new Button(new Vector2(distX, credits.getPosition().Y + credits.getHeight() + distY), "Textures/mainmenu/exit", "Textures/mainmenu/exitIsPressed");
 
                 titel = new Icon(new Vector2(0.5f* start.getPosition().X + start.getWidth() + distX, start.getPosition().Y + start.getHeight() + distY), "Textures/mainmenu/titel");
+
+                count = 0;
+                start.setSelected();
+                help.setNotSelected();
+                option.setNotSelected();
+                credits.setNotSelected();
+                exit.setNotSelected();
             }
         }
 
@@ -83,7 +90,7 @@ namespace WitchMaze.GameStates
             //update Buttons
             if (count == 0)
             {
-                start.setSelected();
+                start.setSelectedKlicked();
                 help.setNotSelected();
                 option.setNotSelected();
                 credits.setNotSelected();
@@ -93,7 +100,7 @@ namespace WitchMaze.GameStates
             if (count == 1)
             {
                 start.setNotSelected();
-                help.setSelected();
+                help.setSelectedKlicked();
                 option.setNotSelected();
                 credits.setNotSelected();
                 exit.setNotSelected();
@@ -103,7 +110,7 @@ namespace WitchMaze.GameStates
             {
                 start.setNotSelected();
                 help.setNotSelected();
-                option.setSelected();
+                option.setSelectedKlicked();
                 credits.setNotSelected();
                 exit.setNotSelected();
             }
@@ -113,7 +120,7 @@ namespace WitchMaze.GameStates
                 start.setNotSelected();
                 help.setNotSelected();
                 option.setNotSelected();
-                credits.setSelected();
+                credits.setSelectedKlicked();
                 exit.setNotSelected();
             }
 
@@ -124,7 +131,7 @@ namespace WitchMaze.GameStates
                 help.setNotSelected();
                 option.setNotSelected();
                 credits.setNotSelected();
-                exit.setSelected();
+                exit.setSelectedKlicked();
             }
 
             //switch the GameState

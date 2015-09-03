@@ -19,6 +19,11 @@ namespace WitchMaze.GameStates
     class InGame : GameState
     {
         KeyboardState keyboard = Keyboard.GetState();
+        GamePadState gamePad1 = GamePad.GetState(PlayerIndex.One);
+        GamePadState gamePad2 = GamePad.GetState(PlayerIndex.Two);
+        GamePadState gamePad3 = GamePad.GetState(PlayerIndex.Three);
+        GamePadState gamePad4 = GamePad.GetState(PlayerIndex.Four);
+
         EInGameState currentInGameState; //change back to character selection
         EInGameState prevInGameState;
 
@@ -65,6 +70,11 @@ namespace WitchMaze.GameStates
             }
             else
             {
+                gamePad1 = GamePad.GetState(PlayerIndex.One);
+                gamePad2 = GamePad.GetState(PlayerIndex.Two);
+                gamePad3 = GamePad.GetState(PlayerIndex.Three);
+                gamePad4 = GamePad.GetState(PlayerIndex.Four);
+
                 keyboard = Keyboard.GetState();
                 prevInGameState = currentInGameState;
                 currentInGameState = inGameState.update(gameTime);
@@ -86,11 +96,8 @@ namespace WitchMaze.GameStates
                     {
                         gameTime.resume();
                         //wird sonst nicht vorher aufgerufen
-                        Game1.soundEffectInstance.Stop();
-                        Game1.soundEffectInstance = Game1.inGameSound.CreateInstance();
-                        Game1.soundEffectInstance.Volume = Settings.getSoundVolume();
-                        Game1.soundEffectInstance.IsLooped = true;
-                        Game1.soundEffectInstance.Play();
+                        Game1.sounds.inGameSound.Stop();
+                        Game1.sounds.menuSound.Play();
                         //currentInGameState = EInGameState.Exit;
                         return EGameState.MainMenu;
                     }
@@ -99,12 +106,36 @@ namespace WitchMaze.GameStates
                 //if (currentInGameState == EInGameState.Exit)
                 //    return EGameState.CharacterSelection;
 
-                //activate pause
+                //activate pause Keyboard
                 if (keyboard.IsKeyDown(Keys.Escape) && !isPaused)
                 {
                     isPaused = true;
                     gameTime.pause();
                     pause = new Pause(PlayerStuff.Player.EPlayerControlls.Keyboard1);
+                }
+                if (gamePad1.IsButtonDown(Buttons.Back) && !isPaused)
+                {
+                    isPaused = true;
+                    gameTime.pause();
+                    pause = new Pause(PlayerStuff.Player.EPlayerControlls.Gamepad1);
+                }
+                if (gamePad2.IsButtonDown(Buttons.Back) && !isPaused)
+                {
+                    isPaused = true;
+                    gameTime.pause();
+                    pause = new Pause(PlayerStuff.Player.EPlayerControlls.Gamepad2);
+                }
+                if (gamePad3.IsButtonDown(Buttons.Back) && !isPaused)
+                {
+                    isPaused = true;
+                    gameTime.pause();
+                    pause = new Pause(PlayerStuff.Player.EPlayerControlls.Gamepad3);
+                }
+                if (gamePad4.IsButtonDown(Buttons.Back) && !isPaused)
+                {
+                    isPaused = true;
+                    gameTime.pause();
+                    pause = new Pause(PlayerStuff.Player.EPlayerControlls.Gamepad4);
                 }
             }
             
@@ -157,11 +188,8 @@ namespace WitchMaze.GameStates
                         }
 
                     }
-                    Game1.soundEffectInstance.Stop();
-                    Game1.soundEffectInstance = Game1.inGameSound.CreateInstance();
-                    Game1.soundEffectInstance.Volume = Settings.getSoundVolume();
-                    Game1.soundEffectInstance.IsLooped = true;
-                    Game1.soundEffectInstance.Play();
+                        Game1.sounds.inGameSound.Stop();
+                        Game1.sounds.menuSound.Play();
                     break;
             }
 

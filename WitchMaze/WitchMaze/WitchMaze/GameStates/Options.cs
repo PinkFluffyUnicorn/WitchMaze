@@ -66,6 +66,14 @@ namespace WitchMaze.GameStates
                 int h = 10 - (int)(Settings.getSoundVolume() * 10);
                 while (volumeLR.getDisplayedIndex() != h)
                     volumeLR.switchLeft();
+
+                //initially set the buttons
+                volumeButton.setNotSelected();
+                volumeLR.setNotSelected();
+                resolutionButton.setNotSelected();
+                resolutionLR.setNotSelected();
+                fullscreenButton.setSelected();
+                fullscreenLR.setSelected();
                 
             }
         }
@@ -102,7 +110,7 @@ namespace WitchMaze.GameStates
                 volumeLR.setNotSelected();
                 resolutionButton.setNotSelected();
                 resolutionLR.setNotSelected();
-                fullscreenButton.setSelected();
+                fullscreenButton.setSelectedKlicked();
                 fullscreenLR.setSelected();
             }
 
@@ -110,7 +118,7 @@ namespace WitchMaze.GameStates
             {
                 volumeButton.setNotSelected();
                 volumeLR.setNotSelected();
-                resolutionButton.setSelected();
+                resolutionButton.setSelectedKlicked();
                 resolutionLR.setSelected();
                 fullscreenButton.setNotSelected();
                 fullscreenLR.setNotSelected();
@@ -120,8 +128,10 @@ namespace WitchMaze.GameStates
             {
 
                 resolutionButton.setNotSelected();
+                resolutionLR.setNotSelected();
                 fullscreenButton.setNotSelected();
-                volumeButton.setSelected();
+                fullscreenLR.setNotSelected();
+                volumeButton.setSelectedKlicked();
                 volumeLR.setSelected();
             }
 
@@ -129,13 +139,13 @@ namespace WitchMaze.GameStates
             {
                 if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
                 {
-                    resolutionLR.switchRight();
+                    resolutionLR.switchRightKlicked();
                     isPressed = true;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
                 {
-                    resolutionLR.switchLeft();
+                    resolutionLR.switchLeftKlicked();
                     isPressed = true;
                 }
 
@@ -158,26 +168,26 @@ namespace WitchMaze.GameStates
             {
                 if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
-                    fullscreenLR.switchRight();
+                    fullscreenLR.switchRightKlicked();
                     fullScreen = true;
                     isPressed = true;
                 }
                 if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
-                    fullscreenLR.switchLeft();
+                    fullscreenLR.switchLeftKlicked();
                     fullScreen = true;
                     isPressed = true;
                 }
 
                 if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
-                    fullscreenLR.switchRight();
+                    fullscreenLR.switchRightKlicked();
                     fullScreen = false;
                     isPressed = true;
                 }
                 if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
-                    fullscreenLR.switchLeft();
+                    fullscreenLR.switchLeftKlicked();
                     fullScreen = false;
                     isPressed = true;
                 }
@@ -187,13 +197,13 @@ namespace WitchMaze.GameStates
             {
                 if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
                 {
-                    volumeLR.switchRight();
+                    volumeLR.switchRightKlicked();
                     Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
                     isPressed = true;
                 }
                 if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
                 {
-                    volumeLR.switchLeft();
+                    volumeLR.switchLeftKlicked();
                     Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
                     isPressed = true;
                 }

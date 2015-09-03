@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,22 @@ namespace WitchMaze.InterfaceObjects
             buttonTextureSelected = Game1.getContent().Load<Texture2D>(texturePathSelected);
             spriteBatch = new SpriteBatch(Game1.getGraphics().GraphicsDevice);
             selected = false;
+       }
+
+        /// <summary>
+        /// sets the Button to Selected with a klick if it was not selected bevore
+        /// </summary>
+        public void setSelectedKlicked() 
+        {
+            if(!selected)
+                Game1.sounds.klick.Play(Settings.getSoundVolume(), 0, 0);
+            selected = true;
         }
 
         /// <summary>
-        /// sets the Button to Selected
+        /// sets a button silently to selected
         /// </summary>
-        public void setSelected() 
+        public void setSelected()
         {
             selected = true;
         }

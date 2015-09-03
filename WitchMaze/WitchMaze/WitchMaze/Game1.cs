@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.ownFunctions;
+using WitchMaze.Sound;
 
 
 namespace WitchMaze
@@ -19,8 +20,7 @@ namespace WitchMaze
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         ownGameTime ownTime;
-        public static SoundEffectInstance soundEffectInstance { get; set; }
-        public static SoundEffect inGameSound;
+        public static SoundCollection sounds;
 
         static GraphicsDeviceManager graphics;
         static ContentManager content;
@@ -52,9 +52,17 @@ namespace WitchMaze
 
         public Game1()
         {
+            Content.RootDirectory = "Content";
+            content = Content;
+
+            sounds = new SoundCollection();
+            sounds.menuSound.Play();
+
             ownTime = new ownGameTime();
+
             currentGameState = EGameState.MainMenu; //tells GameState where so start //change back to main menu
             handleGameState();
+
             //graphicsDevice = GraphicsDevice;
             graphics = new GraphicsDeviceManager(this);
             //fullscreen
@@ -64,14 +72,8 @@ namespace WitchMaze
             graphics.PreferredBackBufferHeight = Settings.getResolutionY();
             graphics.PreferredBackBufferWidth = Settings.getResolutionX();
             
-            Content.RootDirectory = "Content";
-            content = Content;
 
-            inGameSound = getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeMenu");
-            soundEffectInstance = inGameSound.CreateInstance();
-            soundEffectInstance.Volume = Settings.getSoundVolume();
-            soundEffectInstance.IsLooped = true;
-            soundEffectInstance.Play();
+
         }
 
         /// <summary>
@@ -200,6 +202,8 @@ namespace WitchMaze
             gameState.loadContent();
 
             prevGameState = currentGameState;
+
+            sounds.gameStateChange.Play(Settings.getSoundVolume(), 0, 0);
         }
 
     }

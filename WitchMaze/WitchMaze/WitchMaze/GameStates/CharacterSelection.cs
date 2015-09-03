@@ -84,13 +84,13 @@ namespace WitchMaze.GameStates
 
             if (keyboard.IsKeyDown(Keys.Left) && !isPressed)
             {
-                GameModeSelected.switchLeft();
+                GameModeSelected.switchLeftKlicked();
                 isPressed = true;
             }
 
             if (keyboard.IsKeyDown(Keys.Right) && !isPressed)
             {
-                GameModeSelected.switchRight();
+                GameModeSelected.switchRightKlicked();
                 isPressed = true;
             }
             //set selected GameMode
@@ -128,22 +128,22 @@ namespace WitchMaze.GameStates
                 //Player setzen
                 if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                 {
-                    player1ControllsLRS.setSelected();
+                    player1ControllsLRS.setSelectedKlick();
                     player1Controlls = controllType;
                 }
                 if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                 {
-                    player2ControllsLRS.setSelected();
+                    player2ControllsLRS.setSelectedKlick();
                     player2Controlls = controllType;
                 }
                 if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
                 {
-                    player3ControllsLRS.setSelected();
+                    player3ControllsLRS.setSelectedKlick();
                     player3Controlls = controllType;
                 }
                 if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
                 {
-                    player4ControllsLRS.setSelected();
+                    player4ControllsLRS.setSelectedKlick();
                     player4Controlls = controllType;
                 }
             }
@@ -183,22 +183,22 @@ namespace WitchMaze.GameStates
                     //Player setzen
                     if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                     {
-                        player1ControllsLRS.setSelected();
+                        player1ControllsLRS.setSelectedKlick();
                         player1Controlls = controllType;
                     }
                     if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                     {
-                        player2ControllsLRS.setSelected();
+                        player2ControllsLRS.setSelectedKlick();
                         player2Controlls = controllType;
                     }
                     if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
                     {
-                        player3ControllsLRS.setSelected();
+                        player3ControllsLRS.setSelectedKlick();
                         player3Controlls = controllType;
                     }
                     if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
                     {
-                        player4ControllsLRS.setSelected();
+                        player4ControllsLRS.setSelectedKlick();
                         player4Controlls = controllType;
                     }
                 }

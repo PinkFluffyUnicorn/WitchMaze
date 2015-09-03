@@ -27,9 +27,9 @@ namespace WitchMaze.GameStates.InGameStates
             {
                 case PlayerStuff.Player.EPlayerViewportPosition.fullscreen:
                     if(won)
-                        background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youLose");
-                    else
                         background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youWin");
+                    else
+                        background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youLose");
                     break;
                 case PlayerStuff.Player.EPlayerViewportPosition.left:
                     background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player1Win");

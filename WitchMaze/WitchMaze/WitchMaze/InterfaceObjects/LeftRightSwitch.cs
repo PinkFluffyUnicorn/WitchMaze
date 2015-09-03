@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -35,10 +36,11 @@ namespace WitchMaze.InterfaceObjects
         }
 
         /// <summary>
-        /// switches the element inside one to the right
+        /// switches the element inside one to the right with a Klick
         /// </summary>
-        public void switchRight()
+        public void switchRightKlicked()
         {
+            Game1.sounds.klick.Play(Settings.getSoundVolume(), 0, 1);
             pointer++;
             if (pointer >= iconsInside.Length)
                 pointer = 0;
@@ -51,9 +53,36 @@ namespace WitchMaze.InterfaceObjects
             pointer--;
             if (pointer < 0)
                 pointer = iconsInside.Length - 1;
+        } /// <summary>
+        /// switches the element inside one to the right
+        /// </summary>
+        public void switchRight()
+        {
+            pointer++;
+            if (pointer >= iconsInside.Length)
+                pointer = 0;
         }
         /// <summary>
-        /// sets the Switch to Selected
+        /// switches the element inside one to the left with a Klick
+        /// </summary>
+        public void switchLeftKlicked()
+        {
+            Game1.sounds.klick.Play(Settings.getSoundVolume(), 0, -1);
+            pointer--;
+            if (pointer < 0)
+                pointer = iconsInside.Length - 1;
+        }
+        /// <summary>
+        /// sets the Switch to Selected with a klick
+        /// </summary>
+        public void setSelectedKlick()
+        {
+            selected = true;
+            Left.setSelectedKlicked();
+            Right.setSelected();
+        }
+        /// <summary>
+        /// sets the Switch to Selected without a klick
         /// </summary>
         public void setSelected()
         {
