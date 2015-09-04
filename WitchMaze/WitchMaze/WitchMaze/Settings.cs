@@ -21,16 +21,9 @@ namespace WitchMaze
         public static void setSoundVolume(float volume) {
             //if (volume < 0 || volume > 1)
             //    throw new IndexOutOfRangeException();
-            if (Game1.soundEffectInstance.IsDisposed)
-                return;
-            Game1.soundEffectInstance.Stop();
-            soundVolume = volume;
-            Game1.soundEffectInstance.Dispose();
-            Game1.soundEffectInstance = Game1.inGameSound.CreateInstance();
-            Game1.soundEffectInstance.Volume = soundVolume;
-            Game1.soundEffectInstance.IsLooped = true;
-            Game1.soundEffectInstance.Play();
 
+            soundVolume = volume;
+            Game1.sounds.setVolume(volume);
         }
         public static void setResolutionX(int x)
         {

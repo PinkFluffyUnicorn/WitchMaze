@@ -19,6 +19,7 @@ namespace WitchMaze.GameStates
         
         KeyboardState keyboard = Keyboard.GetState();
         Icon xboxControl, numpadControl, wasdControl;
+        GamePadState gamePad;
 
         public override void initialize()
         {
@@ -27,9 +28,9 @@ namespace WitchMaze.GameStates
 
         public override void loadContent()
         {
-           xboxControl = new Icon(new Vector2(320 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
-           numpadControl = new Icon(new Vector2(1000 * Settings.getInterfaceScale(), 20 * Settings.getInterfaceScale()), "Textures/help/numpadControl");
-           wasdControl = new Icon(new Vector2(320 * Settings.getInterfaceScale(), 520 * Settings.getInterfaceScale()), "Textures/help/wasdControl");
+           xboxControl = new Icon(new Vector2(120 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/help/xboxControl");
+           numpadControl = new Icon(new Vector2(1320 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/help/numpadControl");
+           wasdControl = new Icon(new Vector2(720 * Settings.getInterfaceScale(), 200 * Settings.getInterfaceScale()), "Textures/help/wasdControl");
         }
 
         public override void unloadContent() 
@@ -39,8 +40,17 @@ namespace WitchMaze.GameStates
 
         public override EGameState update(ownGameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.One);
+            else if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Two);
+            else if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Three);
+            else if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Four);
+
             keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if (keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.B) || gamePad.IsButtonDown(Buttons.Back))
                 return EGameState.MainMenu;
             else
                 return EGameState.Help; 

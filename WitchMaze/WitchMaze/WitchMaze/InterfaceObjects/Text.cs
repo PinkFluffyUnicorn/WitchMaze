@@ -12,6 +12,11 @@ namespace WitchMaze.InterfaceObjects
         SpriteBatch spriteBatch;
         SpriteFont Font1;
         string text;
+        Color color = Settings.acaOrange;
+
+        public void setColor(Color color){
+            this.color = color;
+        }
 
         /// <summary>
         /// creates a Text displayed on the screen
@@ -58,7 +63,7 @@ namespace WitchMaze.InterfaceObjects
             spriteBatch.Begin();
 
             //Vector2 FontOrigin = Font1.MeasureString(text) / 2; //punkt in der mitte
-            spriteBatch.DrawString(Font1, text, position, Settings.acaOrange,
+            spriteBatch.DrawString(Font1, text, position, color,
                 0, new Vector2(0,0), globalScale * individualScale, SpriteEffects.None, 0.5f);
 
             spriteBatch.End();

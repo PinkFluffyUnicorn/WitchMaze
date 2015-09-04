@@ -23,37 +23,51 @@ namespace WitchMaze.GameStates.InGameStates
 
         public Won(PlayerStuff.Player.EPlayerViewportPosition playerIndex, bool won)
         {
-            switch (playerIndex)
-            {
-                case PlayerStuff.Player.EPlayerViewportPosition.fullscreen:
-                    if(won)
-                        background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youLose");
-                    else
-                        background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youWin");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.left:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player1Win");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.right:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player2Win");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.topLeft:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player1Win");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.botLeft:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player2Win");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.topRight:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player3Win");
-                    break;
-                case PlayerStuff.Player.EPlayerViewportPosition.botRight:
-                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player4Win");
-                    break;
-            }
-            infoText = new Text("03", new Vector2(0,0));
+            infoText = new Text("03", new Vector2(0, 0));
             infoText.setIndividualScale(2);
             infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY() - infoText.getHeight()));
             elapsedTime = 0;
+
+            switch (playerIndex)
+            {
+
+                case PlayerStuff.Player.EPlayerViewportPosition.fullscreen:
+                    if(won)
+                       {
+                           infoText.setColor(Color.Black);
+                         background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youWin");
+                       }
+                    else
+                    {
+                        infoText.setColor(Color.White);
+                        background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/youLose");
+                    }
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.left:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player1Win");
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.right:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player2Win");
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.topLeft:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player1Win");
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.botLeft:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player2Win");
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.topRight:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player3Win");
+                    break;
+                case PlayerStuff.Player.EPlayerViewportPosition.botRight:
+                    infoText.setColor(Color.White);
+                    background = new Icon(new Microsoft.Xna.Framework.Vector2(0, 0), "Textures/WinScreens/player4Win");
+                    break;
+            }
         }
         /// <summary>
         /// updates the won state

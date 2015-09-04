@@ -97,10 +97,10 @@ namespace WitchMaze.GameStates.InGameStates
             {
                 case 0:
                     exit.setNotSelected();
-                    resume.setSelected();
+                    resume.setSelectedKlicked();
                     break;
                 case 1:
-                    exit.setSelected();
+                    exit.setSelectedKlicked();
                     resume.setNotSelected();
                     break;
             }
@@ -142,10 +142,10 @@ namespace WitchMaze.GameStates.InGameStates
             {
                 case 0:
                     exit.setNotSelected();
-                    resume.setSelected();
+                    resume.setSelectedKlicked();
                     break;
                 case 1:
-                    exit.setSelected();
+                    exit.setSelectedKlicked();
                     resume.setNotSelected();
                     break;
             }

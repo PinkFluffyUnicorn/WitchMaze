@@ -21,11 +21,11 @@ namespace WitchMaze.GameStates
         //GraphicsDeviceManager graphics;
         //GraphicsDevice graphicsDevice;
              
-        int count = 0;
-        bool isPressed = false;
+        int count;
+        bool isPressed = true;
 
         KeyboardState keyboard = Keyboard.GetState();
-
+        GamePadState gamePad = GamePad.GetState(PlayerIndex.One);
         Icon titel;
 
         Button start;
@@ -56,6 +56,13 @@ namespace WitchMaze.GameStates
                 exit = new Button(new Vector2(distX, credits.getPosition().Y + credits.getHeight() + distY), "Textures/mainmenu/exit", "Textures/mainmenu/exitIsPressed");
 
                 titel = new Icon(new Vector2(0.5f* start.getPosition().X + start.getWidth() + distX, start.getPosition().Y + start.getHeight() + distY), "Textures/mainmenu/titel");
+
+                count = 0;
+                start.setSelected();
+                help.setNotSelected();
+                option.setNotSelected();
+                credits.setNotSelected();
+                exit.setNotSelected();
             }
         }
 
@@ -67,14 +74,32 @@ namespace WitchMaze.GameStates
         public override EGameState update(ownGameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+            if(GamePad.GetState(PlayerIndex.One).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.One);
+            else if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Two);
+            else if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Three);
+            else if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Four);
+
+            if (!keyboard.IsKeyDown(Keys.W) 
+                && !keyboard.IsKeyDown(Keys.S) 
+                && !keyboard.IsKeyDown(Keys.Up) 
+                && !keyboard.IsKeyDown(Keys.Down) 
+                && !keyboard.IsKeyDown(Keys.Enter)
+                && !gamePad.IsButtonDown(Buttons.DPadUp) 
+                && !gamePad.IsButtonDown(Buttons.DPadDown) 
+                && !gamePad.IsButtonDown(Buttons.A))
+                isPressed = false;
             //Input
-            if ((keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down)) && isPressed == false)
+            if ((keyboard.IsKeyDown(Keys.S) || keyboard.IsKeyDown(Keys.Down) || gamePad.IsButtonDown(Buttons.DPadDown)) && isPressed == false)
             {
                 count++;
                 count = count % 5;
                 isPressed = true;
             }
-            if ((keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up)) && isPressed == false)
+            if ((keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up) || gamePad.IsButtonDown(Buttons.DPadUp)) && isPressed == false)
             {
                     count += 4;
                     count = count % 5;
@@ -83,7 +108,7 @@ namespace WitchMaze.GameStates
             //update Buttons
             if (count == 0)
             {
-                start.setSelected();
+                start.setSelectedKlicked();
                 help.setNotSelected();
                 option.setNotSelected();
                 credits.setNotSelected();
@@ -93,7 +118,7 @@ namespace WitchMaze.GameStates
             if (count == 1)
             {
                 start.setNotSelected();
-                help.setSelected();
+                help.setSelectedKlicked();
                 option.setNotSelected();
                 credits.setNotSelected();
                 exit.setNotSelected();
@@ -103,7 +128,7 @@ namespace WitchMaze.GameStates
             {
                 start.setNotSelected();
                 help.setNotSelected();
-                option.setSelected();
+                option.setSelectedKlicked();
                 credits.setNotSelected();
                 exit.setNotSelected();
             }
@@ -113,7 +138,7 @@ namespace WitchMaze.GameStates
                 start.setNotSelected();
                 help.setNotSelected();
                 option.setNotSelected();
-                credits.setSelected();
+                credits.setSelectedKlicked();
                 exit.setNotSelected();
             }
 
@@ -124,19 +149,19 @@ namespace WitchMaze.GameStates
                 help.setNotSelected();
                 option.setNotSelected();
                 credits.setNotSelected();
-                exit.setSelected();
+                exit.setSelectedKlicked();
             }
 
             //switch the GameState
-            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 0)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && count == 0 && !isPressed)
                 return EGameState.CharacterSelection;
-            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 1)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && count == 1 && !isPressed)
                 return EGameState.Help;
-            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 2)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && count == 2 && !isPressed)
                 return EGameState.Options;
-            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 3)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && count == 3 && !isPressed)
                 return EGameState.Credits;
-            if ((keyboard.IsKeyDown(Keys.Enter)) && count == 4)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && count == 4 && !isPressed)
                 return EGameState.Exit;
             else
                 return EGameState.MainMenu;
@@ -151,9 +176,6 @@ namespace WitchMaze.GameStates
             // Draw the sprite.
             //spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             //spriteBatch.Draw(myTexture, spritePosition, Color.White);
-
-            if (!keyboard.IsKeyDown(Keys.W) && !keyboard.IsKeyDown(Keys.S) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Down))
-                isPressed = false;
 
             start.draw();
             help.draw();

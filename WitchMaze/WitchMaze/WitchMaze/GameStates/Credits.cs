@@ -20,6 +20,7 @@ namespace WitchMaze.GameStates
 
         Icon credits;
         KeyboardState keyboard = Keyboard.GetState();
+        GamePadState gamePad;
 
         public override void initialize()
         {
@@ -38,8 +39,19 @@ namespace WitchMaze.GameStates
 
         public override EGameState update(ownGameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.One);
+            else if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Two);
+            else if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Three);
+            else if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Four);
+
+
             keyboard = Keyboard.GetState();
-            if (keyboard.IsKeyDown(Keys.Escape))
+
+            if (keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.B) || gamePad.IsButtonDown(Buttons.Back))
                 return EGameState.MainMenu;
             else
                 return EGameState.Credits; 

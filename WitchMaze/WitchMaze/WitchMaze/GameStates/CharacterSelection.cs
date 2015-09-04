@@ -15,8 +15,14 @@ namespace WitchMaze.GameStates
 {
     class CharacterSelection : GameState
     {
-        bool isPressed;
+        static bool isPressed, isPressedP1 = true, isPressedP2 = true, isPressedP3 = true, isPressedP4 = true;
 
+        GamePadState gamePad;
+
+        float elapsedTime;
+        Text infoText;
+
+        bool startGame;
         Player player1, player2, player3, player4;
         PlayerStuff.Player.EPlayerControlls player1Controlls, player2Controlls, player3Controlls, player4Controlls;
 
@@ -28,14 +34,14 @@ namespace WitchMaze.GameStates
 
         Icon gameModeIcon, spaceNote, keyboard1, keyboard2, gamepad, rushHour, needForIngredients, escapeNote;
 
-        Icon player1Icon, player2Icon, player3Icon, player4Icon;
+        Button player1Icon, player2Icon, player3Icon, player4Icon;
 
         LeftRightSwitch GameModeSelected;
         LeftRightSwitch player1ControllsLRS, player2ControllsLRS, player3ControllsLRS, player4ControllsLRS;//LRS for LeftRightSwitch
 
         public override void initialize() 
         {
-            
+            elapsedTime = 0;
         }
 
         public override void loadContent() 
@@ -53,17 +59,19 @@ namespace WitchMaze.GameStates
                 keyboard1 = new Icon(new Vector2(1075 * Settings.getInterfaceScale(), 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
                 keyboard2 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
                 gamepad = new Icon(new Vector2(1070 * Settings.getInterfaceScale(), 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
-                player1Icon = new Icon(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected");
-                player2Icon = new Icon(new Vector2(20, (player1Icon.getPosition().Y + player1Icon.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected");
-                player3Icon = new Icon(new Vector2(20, (player2Icon.getPosition().Y + player2Icon.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected");
-                player4Icon = new Icon(new Vector2(20, (player3Icon.getPosition().Y + player3Icon.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected");
+                player1Icon = new Button(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected", "Textures/CharacterSelection/Player1Selected");
+                player2Icon = new Button(new Vector2(20, (player1Icon.getPosition().Y + player1Icon.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected", "Textures/CharacterSelection/Player2Selected");
+                player3Icon = new Button(new Vector2(20, (player2Icon.getPosition().Y + player2Icon.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected", "Textures/CharacterSelection/Player3Selected");
+                player4Icon = new Button(new Vector2(20, (player3Icon.getPosition().Y + player3Icon.getHeight()) + distY), "Textures/CharacterSelection/Player4NotSelected", "Textures/CharacterSelection/Player4Selected");
                                 
                 String[] gameModes = {"Textures/CharacterSelection/NeedForIngredientsNotSelected", "Textures/CharacterSelection/RushHourNotSelected"};//GameModeIdeen: RushHour, Need for Ingrediance, SpeedRun, NeedForItems
                 //0 = test;
                 //1 = rushHour;
                 GameModeSelected = new LeftRightSwitch(new Vector2(gameModeIconPosition.X + gameModeIcon.getWidth() + offset, gameModeIconPosition.Y), gameModes);
                 GameModeSelected.setSelected();
-                String[] playerControlls = { "Textures/CharacterSelection/Join", "Textures/CharacterSelection/Keyboard", "Textures/CharacterSelection/Gamepad" };
+                String[] playerControlls = { "Textures/CharacterSelection/Join", 
+                                               "Textures/CharacterSelection/Keyboard","Textures/CharacterSelection/KeyboardNumPad", 
+                                               "Textures/CharacterSelection/GamepadNr1", "Textures/CharacterSelection/GamepadNr2", "Textures/CharacterSelection/GamepadNr3", "Textures/CharacterSelection/GamepadNr4"  };
                 // 1 := join
                 // 2 := Keyboard
                 // 3 := Gamepad
@@ -71,6 +79,11 @@ namespace WitchMaze.GameStates
                 player2ControllsLRS = new LeftRightSwitch(new Vector2(player2Icon.getPosition().X + player2Icon.getWidth() + offset, player2Icon.getPosition().Y), playerControlls);
                 player3ControllsLRS = new LeftRightSwitch(new Vector2(player3Icon.getPosition().X + player3Icon.getWidth() + offset, player3Icon.getPosition().Y), playerControlls);
                 player4ControllsLRS = new LeftRightSwitch(new Vector2(player4Icon.getPosition().X + player4Icon.getWidth() + offset, player4Icon.getPosition().Y), playerControlls);
+
+                infoText = new Text("Game starts in 03!", new Vector2(0, 0));
+                infoText.setIndividualScale(3);
+                infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY() / 2 - infoText.getHeight() / 2));
+                infoText.setColor(Color.White);
             }
         }
 
@@ -78,20 +91,69 @@ namespace WitchMaze.GameStates
 
         public override EGameState update(ownGameTime gameTime) 
         {
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.One);
+            else if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Two);
+            else if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Three);
+            else if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Four);
+
             updatePlayer();
-            if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right))
+            if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right) && !gamePad.IsButtonDown(Buttons.DPadLeft) && !gamePad.IsButtonDown(Buttons.DPadRight) && !gamePad.IsButtonDown(Buttons.A) && !gamePad.IsButtonDown(Buttons.B))
                 isPressed = false;
 
-            if (keyboard.IsKeyDown(Keys.Left) && !isPressed)
+            if ((keyboard.IsKeyDown(Keys.Left) || gamePad.IsButtonDown(Buttons.DPadLeft)) && !isPressed)
             {
-                GameModeSelected.switchLeft();
+                GameModeSelected.switchLeftKlicked();
                 isPressed = true;
             }
 
-            if (keyboard.IsKeyDown(Keys.Right) && !isPressed)
+            if ((keyboard.IsKeyDown(Keys.Right) || gamePad.IsButtonDown(Buttons.DPadRight)) && !isPressed)
             {
-                GameModeSelected.switchRight();
+                GameModeSelected.switchRightKlicked();
                 isPressed = true;
+            }
+
+            //start?
+            if ((player1Controlls == Player.EPlayerControlls.none || player1Icon.isSelected())
+                && (player2Controlls == Player.EPlayerControlls.none || player2Icon.isSelected())
+                && (player3Controlls == Player.EPlayerControlls.none || player3Icon.isSelected())
+                && (player4Controlls == Player.EPlayerControlls.none || player4Icon.isSelected())
+                && !(player1Controlls == Player.EPlayerControlls.none && player2Controlls == Player.EPlayerControlls.none && player3Controlls == Player.EPlayerControlls.none && player4Controlls == Player.EPlayerControlls.none))
+                startGame = true;
+            else
+                startGame = false;
+
+            if (startGame)
+            {
+                elapsedTime += gameTime.getElapsedGameTime();
+                if (elapsedTime > 1000)
+                {
+                    infoText.updateText("Game starts in 02!");
+                    infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY()/2 - infoText.getHeight()/2));
+                }
+                if (elapsedTime > 2000)
+                {
+                    infoText.updateText("Game starts in 01!");
+                    infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY() / 2 - infoText.getHeight() / 2));
+                }
+                if (elapsedTime > 3000)
+                {
+                    infoText.updateText("Start!");
+                    infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY() / 2 - infoText.getHeight() / 2));
+                }
+                if (elapsedTime > 3200)
+                {
+                    return EGameState.InGame; // GameState InGame braucht übergabeparameter!
+                }
+            }
+            else
+            {
+                elapsedTime = 0;
+                infoText.updateText("Game starts in 03!");
+                infoText.setPosition(new Vector2(Settings.getResolutionX() / 2 - infoText.getWidth() / 2, Settings.getResolutionY() / 2 - infoText.getHeight() / 2));
             }
             //set selected GameMode
             switch (GameModeSelected.getDisplayedIndex())
@@ -106,9 +168,9 @@ namespace WitchMaze.GameStates
                     throw new NotImplementedException();
             }
 
-            if(keyboard.IsKeyDown(Keys.Space))
-                return EGameState.InGame; // GameState InGame braucht übergabeparameter!
-            else if (keyboard.IsKeyDown(Keys.Escape))
+            //if(keyboard.IsKeyDown(Keys.Space))
+            //    return EGameState.InGame; // GameState InGame braucht übergabeparameter!
+            if (keyboard.IsKeyDown(Keys.Escape) /*|| gamePad.IsButtonDown(Buttons.B)*/ || gamePad.IsButtonDown(Buttons.Back))
                 return EGameState.MainMenu; 
             else
                 return EGameState.CharacterSelection;           
@@ -124,53 +186,139 @@ namespace WitchMaze.GameStates
         private void updateColtrolls(Keys set, Keys unset, Player.EPlayerControlls controllType)
         {
             keyboard = Keyboard.GetState();
-            if(keyboard.IsKeyDown(set)){
-                //Player setzen
-                if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+
+            //set isPressed = false
+            if (!keyboard.IsKeyDown(set) && !keyboard.IsKeyDown(unset) && player1Controlls == controllType || (player1Controlls == Player.EPlayerControlls.none))
+                isPressedP1 = false;
+            if (!keyboard.IsKeyDown(set) && !keyboard.IsKeyDown(unset) && player2Controlls == controllType || (player2Controlls == Player.EPlayerControlls.none))
+                isPressedP2 = false;
+            if (!keyboard.IsKeyDown(set) && !keyboard.IsKeyDown(unset) && player3Controlls == controllType || (player3Controlls == Player.EPlayerControlls.none))
+                isPressedP3 = false;
+            if (!keyboard.IsKeyDown(set) && !keyboard.IsKeyDown(unset) && player4Controlls == controllType || (player4Controlls == Player.EPlayerControlls.none))
+                isPressedP4 = false;
+
+            if (keyboard.IsKeyDown(set) && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+            {
+                //Player setzen falls noch kein Player ControlType besitzt
+                if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType && !isPressedP1)
                 {
-                    player1ControllsLRS.setSelected();
+                    player1ControllsLRS.setSelectedKlick();
+                    while(player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player1ControllsLRS.switchRight();
                     player1Controlls = controllType;
+                    isPressedP1 = true;
                 }
-                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+                if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType && !isPressedP2)
                 {
-                    player2ControllsLRS.setSelected();
+                    player2ControllsLRS.setSelectedKlick();
+                    while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player2ControllsLRS.switchRight();
                     player2Controlls = controllType;
+                    isPressedP2 = true;
                 }
-                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
+                if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType && !isPressedP3)
                 {
-                    player3ControllsLRS.setSelected();
+                    player3ControllsLRS.setSelectedKlick();
+                    while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player3ControllsLRS.switchRight();
                     player3Controlls = controllType;
+                    isPressedP3 = true;
                 }
-                if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
+                if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType && !isPressedP4)
                 {
-                    player4ControllsLRS.setSelected();
+                    player4ControllsLRS.setSelectedKlick();
+                    while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player4ControllsLRS.switchRight();
                     player4Controlls = controllType;
+                    isPressedP4 = true;
                 }
             }
-            if (keyboard.IsKeyDown(unset))
+            //player ready setzen
+            if (keyboard.IsKeyDown(set) && player1Controlls == controllType && !isPressedP1)
+            {
+                isPressedP1 = true;
+                player1Icon.setSelected();
+            }
+            if (keyboard.IsKeyDown(set) && player2Controlls == controllType && !isPressedP2)
+            {
+                isPressedP2 = true;
+                player2Icon.setSelected();
+            }
+            if (keyboard.IsKeyDown(set) && player3Controlls == controllType && !isPressedP3)
+            {
+                isPressedP3 = true;
+                player3Icon.setSelected();
+            }
+            if (keyboard.IsKeyDown(set) && player4Controlls == controllType && !isPressedP4)
+            {
+                isPressedP4 = true;
+                player4Icon.setSelected();
+            }
+
+
+            if (keyboard.IsKeyDown(unset) &&
+                ((!player1Icon.isSelected() && player1Controlls == controllType)
+                || (!player2Icon.isSelected() && player2Controlls == controllType)
+                || (!player3Icon.isSelected() && player3Controlls == controllType)
+                || (!player4Icon.isSelected() && player4Controlls == controllType)))
             {
                 //Player zurück setzen 
-                if (player1ControllsLRS.isSelected() && player1Controlls == controllType)
+                if (player1ControllsLRS.isSelected() && player1Controlls == controllType && !isPressedP1)
                 {
                     player1ControllsLRS.setNotSelected();
                     player1Controlls = Player.EPlayerControlls.none;
+                    while (player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player1ControllsLRS.switchLeft();
+                    isPressedP1 = true;
                 }
-                if (player2ControllsLRS.isSelected() && player2Controlls == controllType)
+                if (player2ControllsLRS.isSelected() && player2Controlls == controllType && !isPressedP2)
                 {
                     player2ControllsLRS.setNotSelected();
                     player2Controlls = Player.EPlayerControlls.none;
+                    while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player2ControllsLRS.switchLeft();
+                    isPressedP2 = true;
                 }
-                if (player3ControllsLRS.isSelected() && player3Controlls == controllType)
+                if (player3ControllsLRS.isSelected() && player3Controlls == controllType && !isPressedP3)
                 {
                     player3ControllsLRS.setNotSelected();
                     player3Controlls = Player.EPlayerControlls.none;
+                    while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player3ControllsLRS.switchLeft();
+                    isPressedP3 = true;
                 }
-                if (player4ControllsLRS.isSelected() && player4Controlls == controllType)
+                if (player4ControllsLRS.isSelected() && player4Controlls == controllType && !isPressedP4)
                 {
                     player4ControllsLRS.setNotSelected();
                     player4Controlls = Player.EPlayerControlls.none;
+                    while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        player4ControllsLRS.switchLeft();
+                    isPressedP4 = true;
                 }
             }
+
+            //alle player auf unready setzen
+            if (keyboard.IsKeyDown(unset) && player1Controlls == controllType && !isPressedP1)
+            {
+                isPressedP1 = true;
+                player1Icon.setNotSelected();
+            }
+            if (keyboard.IsKeyDown(unset) && player2Controlls == controllType && !isPressedP2)
+            {
+              isPressedP2 = true;
+              player2Icon.setNotSelected();
+            }
+            if (keyboard.IsKeyDown(unset) && player3Controlls == controllType && !isPressedP3)
+            {
+                isPressedP3 = true;
+                player3Icon.setNotSelected();
+            }
+            if (keyboard.IsKeyDown(unset) && player4Controlls == controllType && !isPressedP4)
+            {
+                isPressedP4 = true;
+                player4Icon.setNotSelected();
+            }
+
         }
 
         private void updateColtrolls(GamePadState currentState, Player.EPlayerControlls controllType)
@@ -178,53 +326,136 @@ namespace WitchMaze.GameStates
             //schauen ob das GamePad überhaupt verbunden ist
             if (currentState.IsConnected)
             {
-                if (currentState.IsButtonDown(Buttons.A))
+                //set isPressed = false
+                if (!currentState.IsButtonDown(Buttons.A) && !currentState.IsButtonDown(Buttons.B) && (player1Controlls == controllType || player1Controlls == Player.EPlayerControlls.none))
+                    isPressedP1 = false;
+                if (!currentState.IsButtonDown(Buttons.A) && !currentState.IsButtonDown(Buttons.B) && (player2Controlls == controllType || player2Controlls == Player.EPlayerControlls.none))
+                    isPressedP2 = false;
+                if (!currentState.IsButtonDown(Buttons.A) && !currentState.IsButtonDown(Buttons.B) && (player3Controlls == controllType || player3Controlls == Player.EPlayerControlls.none))
+                    isPressedP3 = false;
+                if (!currentState.IsButtonDown(Buttons.A) && !currentState.IsButtonDown(Buttons.B) && (player4Controlls == controllType || player4Controlls == Player.EPlayerControlls.none))
+                    isPressedP4 = false;
+
+                if (currentState.IsButtonDown(Buttons.A) && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
                 {
-                    //Player setzen
-                    if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+                    //Player setzen falls noch kein Player ControlType besitzt
+                    if (!player1ControllsLRS.isSelected() && player2Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType && !isPressedP1)
                     {
-                        player1ControllsLRS.setSelected();
+                        player1ControllsLRS.setSelectedKlick();
+                        while (player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player1ControllsLRS.switchRight();
                         player1Controlls = controllType;
+                        isPressedP1 = true;
                     }
-                    if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType)
+                    if (!player2ControllsLRS.isSelected() && player1Controlls != controllType && player3Controlls != controllType && player4Controlls != controllType && !isPressedP2)
                     {
-                        player2ControllsLRS.setSelected();
+                        player2ControllsLRS.setSelectedKlick();
+                        while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player2ControllsLRS.switchRight();
                         player2Controlls = controllType;
+                        isPressedP2 = true;
                     }
-                    if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType)
+                    if (!player3ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player4Controlls != controllType && !isPressedP3)
                     {
-                        player3ControllsLRS.setSelected();
+                        player3ControllsLRS.setSelectedKlick();
+                        while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player3ControllsLRS.switchRight();
                         player3Controlls = controllType;
+                        isPressedP3 = true;
                     }
-                    if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType)
+                    if (!player4ControllsLRS.isSelected() && player1Controlls != controllType && player2Controlls != controllType && player3Controlls != controllType && !isPressedP4)
                     {
-                        player4ControllsLRS.setSelected();
+                        player4ControllsLRS.setSelectedKlick();
+                        while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player4ControllsLRS.switchRight();
                         player4Controlls = controllType;
+                        isPressedP4 = true;
                     }
                 }
-                if (currentState.IsButtonDown(Buttons.B))
+                //player ready setzen
+                if (currentState.IsButtonDown(Buttons.A) && player1Controlls == controllType && !isPressedP1)
+                {
+                    isPressedP1 = true;
+                    player1Icon.setSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.A) && player2Controlls == controllType && !isPressedP2)
+                {
+                    isPressedP2 = true;
+                    player2Icon.setSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.A) && player3Controlls == controllType && !isPressedP3)
+                {
+                    isPressedP3 = true;
+                    player3Icon.setSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.A) && player4Controlls == controllType && !isPressedP4)
+                {
+                    isPressedP4 = true;
+                    player4Icon.setSelected();
+                }
+
+
+                if (currentState.IsButtonDown(Buttons.B) &&
+                    ((!player1Icon.isSelected() && player1Controlls == controllType)
+                    || (!player2Icon.isSelected() && player2Controlls == controllType)
+                    || (!player3Icon.isSelected() && player3Controlls == controllType)
+                    || (!player4Icon.isSelected() && player4Controlls == controllType)))
                 {
                     //Player zurück setzen 
-                    if (player1ControllsLRS.isSelected() && player1Controlls == controllType)
+                    if (player1ControllsLRS.isSelected() && player1Controlls == controllType && !isPressedP1)
                     {
                         player1ControllsLRS.setNotSelected();
                         player1Controlls = Player.EPlayerControlls.none;
+                        while (player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player1ControllsLRS.switchLeft();
+                        isPressedP1 = true;
                     }
-                    if (player2ControllsLRS.isSelected() && player2Controlls == controllType)
+                    if (player2ControllsLRS.isSelected() && player2Controlls == controllType && !isPressedP2)
                     {
                         player2ControllsLRS.setNotSelected();
                         player2Controlls = Player.EPlayerControlls.none;
+                        while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player2ControllsLRS.switchLeft();
+                        isPressedP2 = true;
                     }
-                    if (player3ControllsLRS.isSelected() && player3Controlls == controllType)
+                    if (player3ControllsLRS.isSelected() && player3Controlls == controllType && !isPressedP3)
                     {
                         player3ControllsLRS.setNotSelected();
                         player3Controlls = Player.EPlayerControlls.none;
+                        while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player3ControllsLRS.switchLeft();
+                        isPressedP3 = true;
                     }
-                    if (player4ControllsLRS.isSelected() && player4Controlls == controllType)
+                    if (player4ControllsLRS.isSelected() && player4Controlls == controllType && !isPressedP4)
                     {
                         player4ControllsLRS.setNotSelected();
                         player4Controlls = Player.EPlayerControlls.none;
+                        while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                            player4ControllsLRS.switchLeft();
+                        isPressedP4 = true;
                     }
+                }
+
+                //alle player auf unready setzen
+                if (currentState.IsButtonDown(Buttons.B) && player1Controlls == controllType && !isPressedP1)
+                {
+                    isPressedP1 = true;
+                    player1Icon.setNotSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.B) && player2Controlls == controllType && !isPressedP2)
+                {
+                    isPressedP2 = true;
+                    player2Icon.setNotSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.B) && player3Controlls == controllType && !isPressedP3)
+                {
+                    isPressedP3 = true;
+                    player3Icon.setNotSelected();
+                }
+                if (currentState.IsButtonDown(Buttons.B) && player4Controlls == controllType && !isPressedP4)
+                {
+                    isPressedP4 = true;
+                    player4Icon.setNotSelected();
                 }
             }   
         }
@@ -236,9 +467,10 @@ namespace WitchMaze.GameStates
         {
             //KeyboardControlls
             updateColtrolls(Keys.S, Keys.W, Player.EPlayerControlls.Keyboard1);
-            updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
-            updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
-            updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
+            //updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
+            //updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
+            //updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
+            updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.KeyboardNumPad);
 
             //gamepad Controlls
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);
@@ -317,7 +549,12 @@ namespace WitchMaze.GameStates
             if (GameModeSelected.getDisplayedIndex() == 0)
                 needForIngredients.draw();
 
+            if (startGame)
+                infoText.draw();
+
         }
+
+
 
     }
 }

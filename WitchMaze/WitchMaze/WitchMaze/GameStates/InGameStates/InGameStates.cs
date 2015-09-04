@@ -19,8 +19,6 @@ namespace WitchMaze.GameStates
     abstract class InGameState
     {
         KeyboardState keyboard;
-        static SoundEffect sound = Game1.getContent().Load<SoundEffect>("Sound/BackgroundMusic/ThemeFromWitchmazeInGame");
-        //SoundEffectInstance soundInstance = sound.CreateInstance();
 
         protected EInGameState currentInGameState; // has tu de set in the inGameState(MazeRun ect...)
 
@@ -60,11 +58,8 @@ namespace WitchMaze.GameStates
             else
                 minimap.setPosition(new Vector2(Settings.getResolutionX() / 2 - minimap.getWidth() / 2, Settings.getResolutionY() / 2 - minimap.getHeight() / 2));
 
-            Game1.soundEffectInstance.Stop();
-            Game1.soundEffectInstance = sound.CreateInstance();
-            Game1.soundEffectInstance.Volume = Settings.getSoundVolume();
-            Game1.soundEffectInstance.IsLooped = true;
-            Game1.soundEffectInstance.Play();
+            Game1.sounds.menuSound.Stop();
+            Game1.sounds.inGameSound.Play();
         }
 
         public virtual void loadContent()
@@ -92,6 +87,7 @@ namespace WitchMaze.GameStates
                         if (ownFunctions.Collision.circleCirlceCollision(new Vector2(p.getPosition().X, p.getPosition().Z), p.getRadius(), new Vector2(player.getPosition().X, player.getPosition().Z), player.getRadius()))
                         {
                             player.bounce(player.getPosition() - p.getPosition());
+                            Game1.sounds.bounce.Play(Settings.getSoundVolume(), -1f, p.pan);
                         }     
                     }
                 }
@@ -111,31 +107,9 @@ namespace WitchMaze.GameStates
                     {
                         Vector3 transportPosition = blackHole.transportPosition;
                         player.setPosition(new Vector3(transportPosition.X, player.getPosition().Y, transportPosition.Z));
-                        //check if no other player is on the position, or shift port position
-                        foreach (Player p in playerList)
-                        {  
-                            if (p != player)
-                            {
-                                float i = player.getPosition().X;
-                                float j = player.getPosition().Z;
-                                Vector2 playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
-                                Vector2 playerMapPosition2 = new Vector2((int)Math.Round(p.getPosition().X), (int)Math.Round(p.getPosition().Z));
-                                while (playerMapPosition1 == playerMapPosition2)
-                                {
-                                    if (i > Settings.getMapSizeX())
-                                    {
-                                         i = 1;//1 da 0 eh immer belegt...
-                                        j++;
-                                    }
-                                    if (j > Settings.getMapSizeZ())
-                                        j = 1;
-                                    if(!player.mapCollision(new Vector3(i, player.getPosition().Y, j)))
-                                        player.setPosition(new Vector3(i, player.getPosition().Y, j));
-                                    i++;
-                                    playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
-                                    }
-                            }
-                        }
+                        bool canPort = true;
+                        Game1.sounds.teleport.Play(Settings.getSoundVolume(), 0, player.pan);
+                        //festbuggen ist grad möglich...
                         
                     }
                         
