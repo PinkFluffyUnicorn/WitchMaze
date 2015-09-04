@@ -55,7 +55,7 @@ namespace WitchMaze.GameStates
                 rushHour = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/RushHourExplanation");
                 needForIngredients = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/NeedForIngredientsExplanation");
                 //spaceNote = new Icon(new Vector2(1090 * Settings.getInterfaceScale(), 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
-                escapeNote = new Icon(new Vector2(1125 * Settings.getInterfaceScale(), 950 * Settings.getInterfaceScale()), "Textures/CharacterSelection/escapeNote");
+                escapeNote = new Icon(new Vector2(1080 * Settings.getInterfaceScale(), 950 * Settings.getInterfaceScale()), "Textures/CharacterSelection/escapeNote");
                 keyboard1 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
                 keyboard2 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
                 gamepad = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
