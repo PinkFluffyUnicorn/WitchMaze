@@ -54,11 +54,11 @@ namespace WitchMaze.GameStates
                 gameModeIcon = new Icon(gameModeIconPosition, "Textures/CharacterSelection/GameMode");
                 rushHour = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/RushHourExplanation");
                 needForIngredients = new Icon(new Vector2(1200 * Settings.getInterfaceScale(), 45 * Settings.getInterfaceScale()), "Textures/CharacterSelection/NeedForIngredientsExplanation");
-                spaceNote = new Icon(new Vector2(1090 * Settings.getInterfaceScale(), 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
+                //spaceNote = new Icon(new Vector2(1090 * Settings.getInterfaceScale(), 900 * Settings.getInterfaceScale()), "Textures/CharacterSelection/SpaceHinweis");
                 escapeNote = new Icon(new Vector2(1125 * Settings.getInterfaceScale(), 950 * Settings.getInterfaceScale()), "Textures/CharacterSelection/escapeNote");
-                keyboard1 = new Icon(new Vector2(1075 * Settings.getInterfaceScale(), 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
+                keyboard1 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 300 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard1");
                 keyboard2 = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 510 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Keyboard2");
-                gamepad = new Icon(new Vector2(1070 * Settings.getInterfaceScale(), 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
+                gamepad = new Icon(new Vector2(1005 * Settings.getInterfaceScale(), 725 * Settings.getInterfaceScale()), "Textures/CharacterSelection/Gamepad1");
                 player1Icon = new Button(new Vector2(20, (gameModeIcon.getPosition().Y + gameModeIcon.getHeight()) + distY), "Textures/CharacterSelection/Player1NotSelected", "Textures/CharacterSelection/Player1Selected");
                 player2Icon = new Button(new Vector2(20, (player1Icon.getPosition().Y + player1Icon.getHeight()) + distY), "Textures/CharacterSelection/Player2NotSelected", "Textures/CharacterSelection/Player2Selected");
                 player3Icon = new Button(new Vector2(20, (player2Icon.getPosition().Y + player2Icon.getHeight()) + distY), "Textures/CharacterSelection/Player3NotSelected", "Textures/CharacterSelection/Player3Selected");
@@ -537,7 +537,7 @@ namespace WitchMaze.GameStates
             player2ControllsLRS.draw();
             player3ControllsLRS.draw();
             player4ControllsLRS.draw();
-            spaceNote.draw();
+           // spaceNote.draw();
             escapeNote.draw();
             keyboard1.draw();
             keyboard2.draw();
