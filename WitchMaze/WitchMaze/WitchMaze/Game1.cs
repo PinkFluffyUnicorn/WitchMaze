@@ -68,7 +68,7 @@ namespace WitchMaze
             //fullscreen
             graphics.IsFullScreen = Settings.isFullscreen();
             //fenstergröße
-            Settings.setResolutionX(1920);// 1024, 1280, 1920
+            Settings.setResolutionX(1280);// 1366, 1280, 1920
             graphics.PreferredBackBufferHeight = Settings.getResolutionY();
             graphics.PreferredBackBufferWidth = Settings.getResolutionX();
             

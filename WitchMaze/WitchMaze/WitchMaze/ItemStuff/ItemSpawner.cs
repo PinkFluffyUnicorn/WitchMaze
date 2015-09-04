@@ -160,64 +160,32 @@ namespace WitchMaze.ItemStuff
             //create random a new Item
             int index = randomItem.Next(1, 11);
             Item item = generateRandomItem();
-            //if itemToSpawn already contains the item to spawn(also check the ItemMap!)
-            if (item.itemIndex == branch.itemIndex && (itemMap.contains(item) || this.contains(item))) // && itemsToSpawn.Contains(new Branch(new Vector3(0, 0, 0)))
-                item = caterpillar;
-            if (item.itemIndex == caterpillar.itemIndex && (itemMap.contains(caterpillar) || this.contains(caterpillar) ) )
-                item = crystal;
-            if (item.itemIndex == crystal.itemIndex && (itemMap.contains(crystal) || this.contains(crystal)))
-                item = eye;
-            if (item.itemIndex == eye.itemIndex && (itemMap.contains(eye) || this.contains(eye)))
-                item = frog;
-            if (item.itemIndex == frog.itemIndex && (itemMap.contains(frog) || this.contains(frog)))
-                item = pig;
-            if (item.itemIndex == pig.itemIndex && (itemMap.contains(pig) || this.contains(pig)))
-                item = slime;
-            if (item.itemIndex == slime.itemIndex && (itemMap.contains(slime) || this.contains(slime)))
-                item = spider;
-            if (item.itemIndex == spider.itemIndex && (itemMap.contains(spider) || this.contains(spider)))
-                item = unicornHorn;
-            if (item.itemIndex == unicornHorn.itemIndex && (itemMap.contains(unicornHorn) || this.contains(unicornHorn)))
-                item = wingOfABat;
-            if (item.itemIndex == wingOfABat.itemIndex && (itemMap.contains(wingOfABat) || this.contains(wingOfABat)))
-                item = branch;
+            //if itemToSpawn already contains the item to spawn(also check the ItemMap!), needs to ron 2 times to check the end
+            for (int i = 0; i < 2; i++)
+            {
+                if (item.itemIndex == branch.itemIndex && (itemMap.contains(item) || this.contains(item))) // && itemsToSpawn.Contains(new Branch(new Vector3(0, 0, 0)))
+                    item = caterpillar;
+                if (item.itemIndex == caterpillar.itemIndex && (itemMap.contains(caterpillar) || this.contains(caterpillar)))
+                    item = crystal;
+                if (item.itemIndex == crystal.itemIndex && (itemMap.contains(crystal) || this.contains(crystal)))
+                    item = eye;
+                if (item.itemIndex == eye.itemIndex && (itemMap.contains(eye) || this.contains(eye)))
+                    item = frog;
+                if (item.itemIndex == frog.itemIndex && (itemMap.contains(frog) || this.contains(frog)))
+                    item = pig;
+                if (item.itemIndex == pig.itemIndex && (itemMap.contains(pig) || this.contains(pig)))
+                    item = slime;
+                if (item.itemIndex == slime.itemIndex && (itemMap.contains(slime) || this.contains(slime)))
+                    item = spider;
+                if (item.itemIndex == spider.itemIndex && (itemMap.contains(spider) || this.contains(spider)))
+                    item = unicornHorn;
+                if (item.itemIndex == unicornHorn.itemIndex && (itemMap.contains(unicornHorn) || this.contains(unicornHorn)))
+                    item = wingOfABat;
+                if (item.itemIndex == wingOfABat.itemIndex && (itemMap.contains(wingOfABat) || this.contains(wingOfABat)))
+                    item = branch;
+            }
 
             itemsToSpawn.Add(item);
-
-            //Item Spawnen
-            //switch (index)
-            //{
-            //    case 1:
-            //        itemsToSpawn.Add(new Branch(position));
-            //        break;
-            //    case 2:
-            //        itemsToSpawn.Add(new Caterpillar(position));
-            //        break;
-            //    case 3:
-            //        itemsToSpawn.Add(new Crystal(position));
-            //        break;
-            //    case 4:
-            //        itemsToSpawn.Add(new Eye(position));
-            //        break;
-            //    case 5:
-            //        itemsToSpawn.Add(new Frog(position));
-            //        break;
-            //    case 6:
-            //        itemsToSpawn.Add(new Pig(position));
-            //        break;
-            //    case 7:
-            //        itemsToSpawn.Add(new Slime(position));
-            //        break;
-            //    case 8:
-            //        itemsToSpawn.Add(new Spider(position));
-            //        break;
-            //    case 9:
-            //        itemsToSpawn.Add(new UnicornHorn(position));
-            //        break;
-            //    case 10:
-            //        itemsToSpawn.Add(new WingOfABat(position));
-            //        break;
-            //}
         }
 
         public Item generateRandomItem()

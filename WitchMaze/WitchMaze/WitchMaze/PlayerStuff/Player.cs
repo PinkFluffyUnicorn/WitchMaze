@@ -35,8 +35,8 @@ namespace WitchMaze.PlayerStuff
             none,
 
             Keyboard1,
-            Keyboard2,
-            Keyboard3,
+            //Keyboard2,
+            //Keyboard3,
             KeyboardNumPad,
 
             Gamepad1,
@@ -333,14 +333,15 @@ namespace WitchMaze.PlayerStuff
                 case EPlayerControlls.Keyboard1:
                     this.moveK(gameTime, Keys.W, Keys.S, Keys.A, Keys.D, Keys.Q, Keys.E);
                     break;
-                case EPlayerControlls.Keyboard2:
-                    this.moveK(gameTime, Keys.T, Keys.F, Keys.G, Keys.H, Keys.R, Keys.Z);
-                    break;
-                case EPlayerControlls.Keyboard3:
-                    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
+                //case EPlayerControlls.Keyboard2:
+                //    this.moveK(gameTime, Keys.T, Keys.F, Keys.G, Keys.H, Keys.R, Keys.Z);
+                //    break;
+                //case EPlayerControlls.Keyboard3:
+                //    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
                     break;
                 case EPlayerControlls.KeyboardNumPad:
-                    this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
+                    //this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
+                    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
                     break;
                 case EPlayerControlls.Gamepad1:
                     moveG(gameTime, PlayerIndex.One);

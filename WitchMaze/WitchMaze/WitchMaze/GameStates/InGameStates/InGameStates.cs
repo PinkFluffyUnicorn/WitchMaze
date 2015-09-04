@@ -107,32 +107,9 @@ namespace WitchMaze.GameStates
                     {
                         Vector3 transportPosition = blackHole.transportPosition;
                         player.setPosition(new Vector3(transportPosition.X, player.getPosition().Y, transportPosition.Z));
+                        bool canPort = true;
                         Game1.sounds.teleport.Play(Settings.getSoundVolume(), 0, player.pan);
-                        //check if no other player is on the position, or shift port position
-                        foreach (Player p in playerList)
-                        {  
-                            if (p != player)
-                            {
-                                float i = player.getPosition().X;
-                                float j = player.getPosition().Z;
-                                Vector2 playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
-                                Vector2 playerMapPosition2 = new Vector2((int)Math.Round(p.getPosition().X), (int)Math.Round(p.getPosition().Z));
-                                while (playerMapPosition1 == playerMapPosition2)
-                                {
-                                    if (i > Settings.getMapSizeX())
-                                    {
-                                         i = 1;//1 da 0 eh immer belegt...
-                                        j++;
-                                    }
-                                    if (j > Settings.getMapSizeZ())
-                                        j = 1;
-                                    if(!player.mapCollision(new Vector3(i, player.getPosition().Y, j)))
-                                        player.setPosition(new Vector3(i, player.getPosition().Y, j));
-                                    i++;
-                                    playerMapPosition1 = new Vector2((int)Math.Round(player.getPosition().X), (int)Math.Round(player.getPosition().Z));
-                                }
-                            }
-                        }
+                        //festbuggen ist grad möglich...
                         
                     }
                         

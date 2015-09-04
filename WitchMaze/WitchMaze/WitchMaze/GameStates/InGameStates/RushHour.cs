@@ -78,7 +78,7 @@ namespace WitchMaze.GameStates.InGameStates
             {
                 clock.update(gameTime);
                 //solo verloren?
-                if (clock.getTotalMilliseconds() > 100 * 1000)
+                if (clock.getTotalMilliseconds() > 120 * 1000)
                     return EInGameState.Exit;
             }
 

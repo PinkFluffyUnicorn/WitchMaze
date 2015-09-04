@@ -40,8 +40,10 @@ namespace WitchMaze.Sound
         }
 
         public void setVolume(float volume){
-            menuSound.Volume = volume;
-            inGameSound.Volume = volume;
+            if(!menuSound.IsDisposed)
+                menuSound.Volume = volume;
+            if (!inGameSound.IsDisposed)
+                inGameSound.Volume = volume;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace WitchMaze.GameStates
         int count = 0;
         bool isPressed = true;
         KeyboardState keyboard = Keyboard.GetState();
-
+        GamePadState gamePad;
         float distY = 96;//die abstände zwischen den Texturen in y-richtung ist 96 bei 1080p, ergibt sich aus button höhe und so...
         float offset = 10;//offset zwischen Icons und Switches
 
@@ -86,17 +86,26 @@ namespace WitchMaze.GameStates
         public override EGameState update(ownGameTime gameTime) 
         {
             keyboard = Keyboard.GetState();
-            if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Down) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Enter))
+            if (GamePad.GetState(PlayerIndex.One).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.One);
+            else if (GamePad.GetState(PlayerIndex.Two).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Two);
+            else if (GamePad.GetState(PlayerIndex.Three).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Three);
+            else if (GamePad.GetState(PlayerIndex.Four).IsConnected)
+                gamePad = GamePad.GetState(PlayerIndex.Four);
+
+            if (!keyboard.IsKeyDown(Keys.Left) && !keyboard.IsKeyDown(Keys.Right) && !keyboard.IsKeyDown(Keys.Down) && !keyboard.IsKeyDown(Keys.Up) && !keyboard.IsKeyDown(Keys.Enter) && !gamePad.IsButtonDown(Buttons.A) && !gamePad.IsButtonDown(Buttons.DPadUp) && !gamePad.IsButtonDown(Buttons.DPadRight) && !gamePad.IsButtonDown(Buttons.DPadLeft) && !gamePad.IsButtonDown(Buttons.DPadDown))
                 isPressed = false;
 
             //Input
-            if ((keyboard.IsKeyDown(Keys.Down)) && isPressed == false)
+            if ((keyboard.IsKeyDown(Keys.Down) || gamePad.IsButtonDown(Buttons.DPadDown)) && isPressed == false)
             {
                 count++;
                 count = count % 3;
                 isPressed = true;
             }
-            if ((keyboard.IsKeyDown(Keys.Up)) && isPressed == false)
+            if ((keyboard.IsKeyDown(Keys.Up) || gamePad.IsButtonDown(Buttons.DPadUp)) && isPressed == false)
             {
                 count += 2;
                 count = count % 3;
@@ -137,13 +146,13 @@ namespace WitchMaze.GameStates
 
             if (resolutionButton.isSelected())//resolutionLR.isSelected()
             {
-                if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Right) || gamePad.IsButtonDown(Buttons.DPadRight)) && isPressed == false)
                 {
                     resolutionLR.switchRightKlicked();
                     isPressed = true;
                 }
 
-                if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Left) || gamePad.IsButtonDown(Buttons.DPadLeft)) && isPressed == false)
                 {
                     resolutionLR.switchLeftKlicked();
                     isPressed = true;
@@ -166,26 +175,26 @@ namespace WitchMaze.GameStates
 
             if (fullscreenButton.isSelected())//fullscreenLR.isSelected()
             {
-                if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Right) || gamePad.IsButtonDown(Buttons.DPadRight)) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
                     fullscreenLR.switchRightKlicked();
                     fullScreen = true;
                     isPressed = true;
                 }
-                if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Left)|| gamePad.IsButtonDown(Buttons.DPadLeft)) && fullscreenLR.getDisplayedIndex() == 0 && isPressed == false)
                 {
                     fullscreenLR.switchLeftKlicked();
                     fullScreen = true;
                     isPressed = true;
                 }
 
-                if (keyboard.IsKeyDown(Keys.Right) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Right) || gamePad.IsButtonDown(Buttons.DPadRight)) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
                     fullscreenLR.switchRightKlicked();
                     fullScreen = false;
                     isPressed = true;
                 }
-                if (keyboard.IsKeyDown(Keys.Left) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Left) || gamePad.IsButtonDown(Buttons.DPadLeft)) && fullscreenLR.getDisplayedIndex() == 1 && isPressed == false)
                 {
                     fullscreenLR.switchLeftKlicked();
                     fullScreen = false;
@@ -195,13 +204,13 @@ namespace WitchMaze.GameStates
 
             if (volumeButton.isSelected())
             {
-                if (keyboard.IsKeyDown(Keys.Right) && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Right) || gamePad.IsButtonDown(Buttons.DPadRight)) && isPressed == false)
                 {
                     volumeLR.switchRightKlicked();
                     Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
                     isPressed = true;
                 }
-                if (keyboard.IsKeyDown(Keys.Left) && isPressed == false)
+                if ((keyboard.IsKeyDown(Keys.Left) || gamePad.IsButtonDown(Buttons.DPadLeft)) && isPressed == false)
                 {
                     volumeLR.switchLeftKlicked();
                     Volume = (10 - (float)volumeLR.getDisplayedIndex()) / 10;
@@ -210,14 +219,14 @@ namespace WitchMaze.GameStates
                 //Console.WriteLine(volumeLR.getDisplayedIndex());
             }
 
-            if (keyboard.IsKeyDown(Keys.Enter) && !isPressed)
+            if ((keyboard.IsKeyDown(Keys.Enter) || gamePad.IsButtonDown(Buttons.A)) && !isPressed)
             {
                 apply();
                 return EGameState.MainMenu;
             }
                 
 
-            if (keyboard.IsKeyDown(Keys.Escape))
+            if (keyboard.IsKeyDown(Keys.Escape) || gamePad.IsButtonDown(Buttons.B) || gamePad.IsButtonDown(Buttons.Back))
                 return EGameState.MainMenu;
             else
                 return EGameState.Options;
