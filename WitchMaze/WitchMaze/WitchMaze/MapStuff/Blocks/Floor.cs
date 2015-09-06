@@ -51,7 +51,7 @@ namespace WitchMaze.MapStuff.Blocks
                     effect.LightingEnabled = true;
 
                     effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-                    //effect.EmissiveColor = new Vector3(1, 1, 1);
+                    effect.EmissiveColor = new Vector3(1, 1, 1);
                     //effect.DirectionalLight0.Enabled = true;
                     effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
                     effect.DirectionalLight0.DiffuseColor = new Vector3(1, 0, 0);
