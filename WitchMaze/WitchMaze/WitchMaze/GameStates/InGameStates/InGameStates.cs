@@ -13,6 +13,7 @@ using WitchMaze.PlayerStuff;
 using Microsoft.Xna.Framework.Media;
 using WitchMaze.ownFunctions;
 using Microsoft.Xna.Framework.Input;
+using WitchMaze.PlayerStuff;
 
 namespace WitchMaze.GameStates
 {
@@ -88,7 +89,12 @@ namespace WitchMaze.GameStates
                         {
                             player.bounce(player.getPosition() - p.getPosition());
                             Game1.sounds.bounce.Play(Settings.getSoundVolume(), -1f, p.pan);
-                        }     
+
+                        }
+                        else
+                        {
+
+                        }
                     }
                 }
 

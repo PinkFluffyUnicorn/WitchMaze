@@ -52,6 +52,8 @@ namespace WitchMaze
 
         public Game1()
         {
+
+
             Content.RootDirectory = "Content";
             content = Content;
 
@@ -68,7 +70,9 @@ namespace WitchMaze
             //fullscreen
             graphics.IsFullScreen = Settings.isFullscreen();
             //fenstergröße
-            Settings.setResolutionX(1280);// 1366, 1280, 1920
+            Settings.writeSettings(false, 1280, 1);
+            Settings.readSettings();
+
             graphics.PreferredBackBufferHeight = Settings.getResolutionY();
             graphics.PreferredBackBufferWidth = Settings.getResolutionX();
             

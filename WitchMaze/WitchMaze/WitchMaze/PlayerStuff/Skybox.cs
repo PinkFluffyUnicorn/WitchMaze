@@ -42,7 +42,7 @@ namespace WitchMaze.PlayerStuff
                     //effect.CurrentTechnique = effect.Techniques["Textured"];
                     effect.LightingEnabled = true;
                     effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-                    effect.EmissiveColor = new Vector3(0.4f, 0.4f, 0.4f);
+                    effect.EmissiveColor = new Vector3(0.7f, 0.7f, 0.7f);
                     effect.TextureEnabled = true;
                     effect.Texture = skyboxTextures;
                     effect.World = worldMatrix;

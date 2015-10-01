@@ -267,7 +267,7 @@ namespace WitchMaze.GameStates
                 {
                     player1ControllsLRS.setNotSelected();
                     player1Controlls = Player.EPlayerControlls.none;
-                    while (player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                    while (player1ControllsLRS.getDisplayedIndex() != (int)player1Controlls)
                         player1ControllsLRS.switchLeft();
                     isPressedP1 = true;
                 }
@@ -275,7 +275,7 @@ namespace WitchMaze.GameStates
                 {
                     player2ControllsLRS.setNotSelected();
                     player2Controlls = Player.EPlayerControlls.none;
-                    while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                    while (player2ControllsLRS.getDisplayedIndex() != (int)player2Controlls)
                         player2ControllsLRS.switchLeft();
                     isPressedP2 = true;
                 }
@@ -283,7 +283,7 @@ namespace WitchMaze.GameStates
                 {
                     player3ControllsLRS.setNotSelected();
                     player3Controlls = Player.EPlayerControlls.none;
-                    while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                    while (player3ControllsLRS.getDisplayedIndex() != (int)player3Controlls)
                         player3ControllsLRS.switchLeft();
                     isPressedP3 = true;
                 }
@@ -291,7 +291,7 @@ namespace WitchMaze.GameStates
                 {
                     player4ControllsLRS.setNotSelected();
                     player4Controlls = Player.EPlayerControlls.none;
-                    while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                    while (player4ControllsLRS.getDisplayedIndex() != (int)player4Controlls)
                         player4ControllsLRS.switchLeft();
                     isPressedP4 = true;
                 }
@@ -406,7 +406,7 @@ namespace WitchMaze.GameStates
                     {
                         player1ControllsLRS.setNotSelected();
                         player1Controlls = Player.EPlayerControlls.none;
-                        while (player1ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        while (player1ControllsLRS.getDisplayedIndex() != (int)player1Controlls)//player1Controlls == controllType && !isPressedP1
                             player1ControllsLRS.switchLeft();
                         isPressedP1 = true;
                     }
@@ -414,7 +414,7 @@ namespace WitchMaze.GameStates
                     {
                         player2ControllsLRS.setNotSelected();
                         player2Controlls = Player.EPlayerControlls.none;
-                        while (player2ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        while (player2ControllsLRS.getDisplayedIndex() != (int)player2Controlls)
                             player2ControllsLRS.switchLeft();
                         isPressedP2 = true;
                     }
@@ -422,7 +422,7 @@ namespace WitchMaze.GameStates
                     {
                         player3ControllsLRS.setNotSelected();
                         player3Controlls = Player.EPlayerControlls.none;
-                        while (player3ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        while (player3ControllsLRS.getDisplayedIndex() != (int)player3Controlls)
                             player3ControllsLRS.switchLeft();
                         isPressedP3 = true;
                     }
@@ -430,7 +430,7 @@ namespace WitchMaze.GameStates
                     {
                         player4ControllsLRS.setNotSelected();
                         player4Controlls = Player.EPlayerControlls.none;
-                        while (player4ControllsLRS.getDisplayedIndex() != (int)controllType)
+                        while (player4ControllsLRS.getDisplayedIndex() != (int)player4Controlls)
                             player4ControllsLRS.switchLeft();
                         isPressedP4 = true;
                     }
@@ -469,8 +469,8 @@ namespace WitchMaze.GameStates
             updateColtrolls(Keys.S, Keys.W, Player.EPlayerControlls.Keyboard1);
             //updateColtrolls(Keys.G, Keys.T, Player.EPlayerControlls.Keyboard2);
             //updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.Keyboard3);
-            //updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
-            updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.KeyboardNumPad);
+            updateColtrolls(Keys.NumPad2, Keys.NumPad5, Player.EPlayerControlls.KeyboardNumPad);
+            //updateColtrolls(Keys.K, Keys.I, Player.EPlayerControlls.KeyboardNumPad);
 
             //gamepad Controlls
             GamePadState currentState = GamePad.GetState(PlayerIndex.One);

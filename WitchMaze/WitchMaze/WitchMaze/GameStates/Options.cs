@@ -236,13 +236,10 @@ namespace WitchMaze.GameStates
         public void apply()
         {
             if (fullScreen)
-                Settings.setFullscreen( true);
+                Settings.writeSettings(true, resolutionX, Volume);
             else
-                Settings.setFullscreen(false);
+                Settings.writeSettings(false, resolutionX, Volume);
 
-            Settings.setResolutionX(resolutionX);
-
-            Settings.setSoundVolume(Volume);
             initialize();
             loadContent();
         }

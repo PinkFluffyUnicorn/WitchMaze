@@ -66,16 +66,19 @@ namespace WitchMaze.MapStuff.Blocks
             {
                 foreach (BasicEffect effect in mesh.Effects)
                 {
-                    effect.TextureEnabled = true;
-                    effect.Texture = Game1.getContent().Load<Texture2D>("Models/MapStuff/BlackHoleTexture");
-                    //effect.EnableDefaultLighting();
+
+
                     effect.LightingEnabled = true;
 
-                    effect.AmbientLightColor = new Vector3(1f, 1f, 1f);
-                    effect.EmissiveColor = new Vector3(1f, 1f, 1f);
-                    effect.DirectionalLight0.Direction = new Vector3(0, 1, 0);
-                    effect.DirectionalLight0.DiffuseColor = new Vector3(1, 0, 0);
-                    
+                    effect.AmbientLightColor = ambientColor;
+                    effect.EmissiveColor = emissiveColor;
+                    effect.DirectionalLight0.Enabled = true;
+                    effect.DirectionalLight0.Direction = light0Direction;
+                    effect.DirectionalLight0.DiffuseColor = light0Color;
+
+                    effect.TextureEnabled = true;
+                    effect.Texture = textur;// Game1.getContent().Load<Texture2D>("Models/MapStuff/BlackHoleTexture");
+
                     effect.View = camera;
                     effect.Projection = projection;
                     effect.World = transforms[mesh.ParentBone.Index] * Matrix.CreateRotationY((float)rotation) * Matrix.CreateScale((float)0.5) * Matrix.CreateTranslation(position);

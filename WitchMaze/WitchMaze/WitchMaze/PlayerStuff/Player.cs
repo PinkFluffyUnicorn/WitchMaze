@@ -57,7 +57,7 @@ namespace WitchMaze.PlayerStuff
         //<- for debugging
 
         //Player Variablen
-        EPlayerControlls playerControlls;
+        public EPlayerControlls playerControlls { get; protected set; }
 
         //Zeichnen
         EPlayerViewportPosition playerViewportPosition;
@@ -150,7 +150,7 @@ namespace WitchMaze.PlayerStuff
 
             //werte sollten später für jeden Spieler einzeln angepasst werden
 
-            playerIcon = new Icon(new Vector2(0, 0), "Textures/playerIcon");
+            playerIcon = new Icon(new Vector2(0, 0), "witchIcon");
 
             position = spawnPosition;
             lookAt = new Vector3(Settings.getMapSizeX() / 2, (float)0.22, Settings.getMapSizeZ() / 2);//sollte neu berechnet werden //immer zur mitte der Map?
@@ -340,8 +340,8 @@ namespace WitchMaze.PlayerStuff
                 //    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
                     break;
                 case EPlayerControlls.KeyboardNumPad:
-                    //this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
-                    this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
+                    this.moveK(gameTime, Keys.NumPad5, Keys.NumPad2, Keys.NumPad1, Keys.NumPad3, Keys.NumPad4, Keys.NumPad6);
+                    //this.moveK(gameTime, Keys.I, Keys.J, Keys.K, Keys.L, Keys.U, Keys.O);
                     break;
                 case EPlayerControlls.Gamepad1:
                     moveG(gameTime, PlayerIndex.One);
@@ -539,6 +539,14 @@ namespace WitchMaze.PlayerStuff
                     {
                         isBouncing = false;
                         bouncingTimeLeft = bouncingTime;
+                        if (playerControlls == EPlayerControlls.Gamepad1)
+                            GamePad.SetVibration(PlayerIndex.One, 0,0);
+                        if (playerControlls == EPlayerControlls.Gamepad2)
+                            GamePad.SetVibration(PlayerIndex.Two, 0, 0);
+                        if (playerControlls == EPlayerControlls.Gamepad3)
+                            GamePad.SetVibration(PlayerIndex.Three, 0, 0);
+                        if (playerControlls == EPlayerControlls.Gamepad4)
+                            GamePad.SetVibration(PlayerIndex.Four, 0, 0);
                     }
                     else
                     {
@@ -554,6 +562,16 @@ namespace WitchMaze.PlayerStuff
                         {
                             position.Z = newPosition.Z;
                         }
+
+                        if (playerControlls == EPlayerControlls.Gamepad1)
+                            GamePad.SetVibration(PlayerIndex.One, bouncingTimeLeft / bouncingTime, bouncingTimeLeft / bouncingTime);
+                        if (playerControlls == EPlayerControlls.Gamepad2)
+                            GamePad.SetVibration(PlayerIndex.Two, bouncingTimeLeft / bouncingTime, bouncingTimeLeft / bouncingTime);
+                        if (playerControlls == EPlayerControlls.Gamepad3)
+                            GamePad.SetVibration(PlayerIndex.Three, bouncingTimeLeft / bouncingTime, bouncingTimeLeft / bouncingTime);
+                        if (playerControlls == EPlayerControlls.Gamepad4)
+                            GamePad.SetVibration(PlayerIndex.Four, bouncingTimeLeft / bouncingTime, bouncingTimeLeft / bouncingTime);
+
                         bouncingTimeLeft -= (timeSinceLastMove / timescale);
 
                     }

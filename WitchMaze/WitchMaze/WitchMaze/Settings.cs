@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using WitchMaze.ownFunctions;
 
 namespace WitchMaze
 {
@@ -18,14 +19,15 @@ namespace WitchMaze
 
         static float soundVolume = 1;
         public static float getSoundVolume() { return soundVolume; }
-        public static void setSoundVolume(float volume) {
+        private static void setSoundVolume(float volume)
+        {
             //if (volume < 0 || volume > 1)
             //    throw new IndexOutOfRangeException();
 
             soundVolume = volume;
             Game1.sounds.setVolume(volume);
         }
-        public static void setResolutionX(int x)
+        private static void setResolutionX(int x)
         {
             interfaceScale = (float)x / 1920;//(float)resolutionX; //problem ist hier
         Console.WriteLine(interfaceScale);
@@ -35,7 +37,7 @@ namespace WitchMaze
             Game1.getGraphics().PreferredBackBufferWidth = Settings.getResolutionX();
             Game1.getGraphics().ApplyChanges();
         }
-        public static void setResolutionY(int y) 
+        private static void setResolutionY(int y) 
         {
             interfaceScale = 1080 / (float)y;
             resolutionX = (int)((y / formatY) * formatX); 
@@ -46,7 +48,7 @@ namespace WitchMaze
         }
 
         static bool isFullScreen = false;
-        public static void setFullscreen(bool fullscreen)
+        private static void setFullscreen(bool fullscreen)
         {
             isFullScreen = fullscreen;
             Game1.getGraphics().IsFullScreen = fullscreen;
@@ -107,13 +109,60 @@ namespace WitchMaze
         public static Color acaOrange = new Color(255, 144, 1);
 
 
-        
+        static Document docunemt = new Document("Settings.txt");
+        public static void writeSettings(bool f, int res, float v)
+        {
+            setSoundVolume(v);
+            setResolutionX(res);
+            setFullscreen(f);
+            docunemt.write(f + "" + res + "" + v+"          ");
+        }
 
-        
+        public static void readSettings()
+        {
+            //kein dokument
+            //nicht lesar
+            //lesen
 
-// if changing GraphicsDeviceManager properties outside 
-// your game constructor also call:
-// graphics.ApplyChanges();
+
+            //String h = docunemt.read();
+            //Console.WriteLine(h);
+
+            //if (h.Substring(0, 4).Equals("true"))
+            //    isFullScreen = true;
+            //if (h.Substring(0, 5).Equals("false"))
+            //    isFullScreen = false;
+
+            //if (h.Substring(5, 4).Equals("1920"))
+            //    resolutionX = 1920;
+            //if (h.Substring(5, 4).Equals("1366"))
+            //    resolutionX = 1366;
+            //if (h.Substring(5, 4).Equals("1280"))
+            //    resolutionX = 1280;
+
+            //if (h.Substring(9, 1).Equals("1"))
+            //    soundVolume = 100;
+            //if (h.Substring(9, 3).Equals("0.9"))
+            //    soundVolume = 90;
+            //if (h.Substring(9, 3).Equals("0.8"))
+            //    soundVolume = 80;
+            //if (h.Substring(9, 3).Equals("0.7"))
+            //    soundVolume = 70;
+            //if (h.Substring(9, 3).Equals("0.6"))
+            //    soundVolume = 60;
+            //if (h.Substring(9, 3).Equals("0.5"))
+            //    soundVolume = 50;
+            //if (h.Substring(9, 3).Equals("0.4"))
+            //    soundVolume = 40;
+            //if (h.Substring(9, 3).Equals("0.3"))
+            //    soundVolume = 30;
+            //if (h.Substring(9, 3).Equals("0.2"))
+            //    soundVolume = 20;
+            //if (h.Substring(9, 3).Equals("0.1"))
+            //    soundVolume = 10;
+            //if (h.Substring(9, 3).Equals("0"))
+            //    soundVolume = 0;
+        }
 
     }
 }

@@ -15,6 +15,11 @@ namespace WitchMaze.MapStuff.Blocks
 {
     abstract class Block
     {
+        protected Vector3 ambientColor = new Vector3(0.75f, 0.75f, 0.75f);
+        protected Vector3 emissiveColor = new Vector3(0, 0, 0);
+        protected Vector3 light0Direction = new Vector3(1, 1, 1);
+        protected Vector3 light0Color = new Vector3(0.75f, 0.75f, 0.75f);
+
         public Icon minimapIcon { get; protected set; }
         /// <summary>
         /// Position of a Block
